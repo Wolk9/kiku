@@ -1,5 +1,4 @@
 import React from "react";
-import LogoutButton from "./LogoutButton";
 import { NavBar } from "./NavBar";
 
 const BasePage = (props) => {
@@ -9,7 +8,6 @@ const BasePage = (props) => {
       <NavBar admin={admin} />
       <h1>Welcome to the Base Page</h1>
       <p>This page is accessible to all users.</p>
-      <LogoutButton />
     </div>
   );
 };

@@ -1,5 +1,4 @@
-import React from "react";
-import LogoutButton from "./LogoutButton";
+import React, { useEffect, useState } from "react";
 import {
   MDBBtn,
   MDBContainer,
@@ -10,9 +9,20 @@ import {
   MDBNavbarNav,
 } from "mdb-react-ui-kit";
 import { auth } from "./config/firebase";
+import { storage } from "./config/firebase";
+import { ref, getDownloadURL } from "firebase/storage";
 
 export const NavBar = (props) => {
   const { admin } = props;
+  const [logoURL, setLogoURL] = useState("");
+
+  useEffect(() => {
+    const logoRef = ref(storage, "images/CICO_Logo.png");
+    const logoURL = getDownloadURL(logoRef).then((result) =>
+      setLogoURL(result)
+    );
+  }, []);
+
   const handleLogout = async () => {
     try {
       await auth.signOut();
@@ -22,6 +32,7 @@ export const NavBar = (props) => {
       console.log("Error occurred while logging out:", error);
     }
   };
+
   return (
     <div>
       <MDBNavbar
@@ -32,12 +43,7 @@ export const NavBar = (props) => {
       >
         <MDBContainer fluid>
           <MDBNavbarBrand href="#" className="mb-0 h1">
-            <img
-              src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.webp"
-              height="40"
-              alt=""
-              loading="lazy"
-            />
+            <img src={logoURL} height="60" alt="" loading="lazy" />
           </MDBNavbarBrand>
           <MDBNavbarNav className="mr-auto mb-2 mb-md-0">
             <MDBNavbarItem>
@@ -45,7 +51,7 @@ export const NavBar = (props) => {
                 Home
               </MDBNavbarLink>
             </MDBNavbarItem>
-            {admin == true ? (
+            {admin === true ? (
               <MDBNavbarItem>
                 <MDBNavbarLink href="users">Users</MDBNavbarLink>
               </MDBNavbarItem>
