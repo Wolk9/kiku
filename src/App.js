@@ -5,11 +5,10 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import LoginPage from "./LoginPage";
-import BasePage from "./BasePage";
-import AdminPage from "./AdminPage";
-import UsersPage from "./UsersPage";
-
+import LoginPage from "./pages/LoginPage";
+import BasePage from "./pages/BasePage";
+import AdminPage from "./pages/AdminPage";
+import UsersPage from "./pages/UsersPage";
 import { auth } from "./config/firebase";
 
 const App = () => {
@@ -25,7 +24,7 @@ const App = () => {
     return () => unsubscribe();
   }, []);
 
-  const isAdmin = user && user.email === "martin.de.bes@me.com";
+  const isAdmin = user && user.email === "martin.de.bes@me.cm";
 
   console.log(isAdmin);
 
@@ -52,10 +51,7 @@ const App = () => {
             isAdmin ? <AdminPage admin={isAdmin} /> : <Navigate to="/" />
           }
         />
-        <Route
-          path="/users"
-          element={<UsersPage admin={isAdmin}/> }
-        />
+        <Route path="/users" element={<UsersPage admin={isAdmin} />} />
       </Routes>
     </Router>
   );

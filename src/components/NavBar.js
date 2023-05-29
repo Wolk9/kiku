@@ -8,8 +8,8 @@ import {
   MDBNavbarLink,
   MDBNavbarNav,
 } from "mdb-react-ui-kit";
-import { auth } from "./config/firebase";
-import { storage } from "./config/firebase";
+import { auth } from "../config/firebase";
+import { storage } from "../config/firebase";
 import { ref, getDownloadURL } from "firebase/storage";
 
 export const NavBar = (props) => {
@@ -47,7 +47,7 @@ export const NavBar = (props) => {
           </MDBNavbarBrand>
           <MDBNavbarNav className="mr-auto mb-2 mb-md-0">
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current="page" href="#">
+              <MDBNavbarLink active aria-current="page" href="/">
                 Home
               </MDBNavbarLink>
             </MDBNavbarItem>
