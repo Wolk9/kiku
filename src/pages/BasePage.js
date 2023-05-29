@@ -1,7 +1,12 @@
 import React from "react";
 import { NavBar } from "../components/NavBar";
 import EventList from "../components/EventList";
-import { MDBContainer } from "mdb-react-ui-kit";
+import {
+  MDBContainer,
+  MDBCard,
+  MDBCardTitle,
+  MDBCardBody,
+} from "mdb-react-ui-kit";
 
 const BasePage = (props) => {
   const { admin } = props;
@@ -9,8 +14,12 @@ const BasePage = (props) => {
     <div>
       <NavBar admin={admin} />
       <MDBContainer>
-        <h1>Welcome to the Base Page</h1>
-        <p>This page is accessible to all users.</p>
+        <MDBCard>
+          <MDBCardBody>
+            <MDBCardTitle>Welcome to the Base Page</MDBCardTitle>
+            <p>This page is accessible to all users.</p>
+          </MDBCardBody>
+        </MDBCard>
       </MDBContainer>
 
       <EventList />
