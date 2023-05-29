@@ -54,7 +54,7 @@ const App = () => {
         />
         <Route
           path="/users"
-          element={isAdmin ? <UsersPage admin={isAdmin} /> : <Navigate to="/" />}
+          element={<UsersPage admin={isAdmin}/> }
         />
       </Routes>
     </Router>

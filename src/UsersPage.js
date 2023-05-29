@@ -1,8 +1,9 @@
 import React from "react";
+import { NavBar } from "./NavBar";
 
 const UsersPage = (props) => {
   const { admin } = props;
-  return <>userpage</>;
+    return <><NavBar admin={admin} />userpage</>;
 };
 
 export default UsersPage;
