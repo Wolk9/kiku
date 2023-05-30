@@ -1,4 +1,4 @@
-import { collection, doc, setDoc, getDoc } from "firebase/firestore";
+import { collection, doc, setDoc, getDoc, getFirestore, deleteDoc } from "firebase/firestore";
 import { db, auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
 import moment from "moment";
@@ -73,5 +73,20 @@ class UserUtils {
     }
   }
 }
+
+// class LogService {
+//   static async getLogs(
+//     toBeDeletedId,
+//     selectedLog,
+//     userSelection,
+//     eventSelection
+//   ) 
+
+//   static async deleteLog(logId) {
+//     const docRef = doc(getFirestore(), "logs", logId);
+//     await deleteDoc(docRef);
+//   }
+// }
+
 
 export { UserUtils, TimeDifferenceCalculator, DateFormatter };

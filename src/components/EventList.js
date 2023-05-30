@@ -9,6 +9,7 @@ import {
   MDBTableBody,
   MDBTableHead,
 } from "mdb-react-ui-kit";
+import { UserUtils } from "./helpers";
 
 const Timer = () => {
   return <>Timer</>;
@@ -32,6 +33,14 @@ const EventRow = (props) => {
 };
 
 const EventList = (props) => {
+  const { user } = props;
+  let userEvents = [
+    { id: 1, start: 1, date: "12-01-2023" },
+    { id: 2, start: 1, date: "12-01-2023", end: 2 },
+  ];
+
+  console.log(UserUtils.getUserData(user.uid));
+
   return (
     <>
       <MDBContainer breakpoint="lg">
@@ -49,7 +58,14 @@ const EventList = (props) => {
                 </tr>
               </MDBTableHead>
               <MDBTableBody>
-                <EventRow />
+                {userEvents.map((singleEvent) => (
+                  <EventRow
+                    key={singleEvent.id}
+                    date={singleEvent.date}
+                    start={singleEvent.start}
+                    end={singleEvent.end}
+                  />
+                ))}
               </MDBTableBody>
             </MDBTable>
           </MDBCardBody>

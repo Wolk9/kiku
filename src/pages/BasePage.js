@@ -17,6 +17,7 @@ const BasePage = (props) => {
     setPopUpBody,
     popUpTitle,
     setPopUpTitle,
+    user,
   } = props;
 
   console.log("Adminpage admin:", admin);
@@ -33,7 +34,7 @@ const BasePage = (props) => {
         </MDBCard>
       </MDBContainer>
 
-      <EventList />
+      <EventList user={user} />
     </div>
   );
 };

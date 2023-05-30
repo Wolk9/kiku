@@ -31,7 +31,7 @@ const PopUp = (props) => {
       <MDBModalDialog centered>
         <MDBModalContent>
           <MDBModalHeader>
-            <MDBModalTitle>{title ? title : ""}</MDBModalTitle>
+            <MDBModalTitle>{title ? title : "no title"}</MDBModalTitle>
             <MDBBtn
               className="btn-close"
               color="none"
@@ -68,7 +68,7 @@ const App = () => {
     return () => unsubscribe();
   }, []);
 
-  
+  //console.log(user.uid, user.email);
 
   const isAdmin = user && user.email === "martin.de.bes@me.com";
 
@@ -123,6 +123,7 @@ const App = () => {
                   setPopUpTitle={setPopUpTitle}
                 />
                 <BasePage
+                  user={user}
                   admin={isAdmin}
                   showPopUp={showPopUp}
                   setShowPopUp={setShowPopUp}
