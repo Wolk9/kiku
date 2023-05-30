@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavBar } from "../components/NavBar";
 import EventList from "../components/EventList";
 import {
@@ -9,14 +9,25 @@ import {
 } from "mdb-react-ui-kit";
 
 const BasePage = (props) => {
-  const { admin } = props;
+  const {
+    admin,
+    showPopUp,
+    setShowPopUp,
+    popUpBody,
+    setPopUpBody,
+    popUpTitle,
+    setPopUpTitle,
+  } = props;
+
+  console.log("Adminpage admin:", admin);
   return (
     <div>
-      <NavBar admin={admin} />
       <MDBContainer>
         <MDBCard>
           <MDBCardBody>
-            <MDBCardTitle>Welcome to the Base Page</MDBCardTitle>
+            <MDBCardTitle>
+              Welcome to the {admin ? "Admin" : "Base"} Page
+            </MDBCardTitle>
             <p>This page is accessible to all users.</p>
           </MDBCardBody>
         </MDBCard>

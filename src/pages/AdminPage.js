@@ -4,7 +4,7 @@ import { MDBContainer } from "mdb-react-ui-kit";
 
 const AdminPage = (props) => {
   const { admin } = props;
-  console.log("Adminpage admin:", admin);
+ 
   return (
     <div>
       <NavBar admin={admin} />

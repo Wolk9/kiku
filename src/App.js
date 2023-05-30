@@ -7,12 +7,56 @@ import {
 } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import BasePage from "./pages/BasePage";
-import AdminPage from "./pages/AdminPage";
 import UsersPage from "./pages/UsersPage";
 import { auth } from "./config/firebase";
+import { NavBar } from "./components/NavBar";
+import {
+  MDBBtn,
+  MDBModal,
+  MDBModalDialog,
+  MDBModalContent,
+  MDBModalHeader,
+  MDBModalTitle,
+  MDBModalBody,
+  MDBModalFooter,
+} from "mdb-react-ui-kit";
+
+const PopUp = (props) => {
+  const { title, body, showPopUp, setShowPopUp } = props;
+
+  const toggleShowPopUp = () => setShowPopUp(!showPopUp);
+
+  return (
+    <MDBModal tabIndex="-1" show={showPopUp} setShow={setShowPopUp}>
+      <MDBModalDialog centered>
+        <MDBModalContent>
+          <MDBModalHeader>
+            <MDBModalTitle>{title ? title : ""}</MDBModalTitle>
+            <MDBBtn
+              className="btn-close"
+              color="none"
+              onClick={toggleShowPopUp}
+            ></MDBBtn>{" "}
+          </MDBModalHeader>
+          <MDBModalBody>
+            <p>{body ? body : "no body"}</p>
+          </MDBModalBody>
+          <MDBModalFooter>
+            <MDBBtn color="secondary" onClick={toggleShowPopUp}>
+              Close
+            </MDBBtn>
+          </MDBModalFooter>
+        </MDBModalContent>
+      </MDBModalDialog>
+    </MDBModal>
+  );
+};
 
 const App = () => {
   const [user, setUser] = useState(null);
+  const [showPopUp, setShowPopUp] = useState(false);
+  const [popUpBody, setPopUpBody] = useState("");
+  const [popUpTitle, setPopUpTitle] = useState("");
 
   useEffect(() => {
     // Add an observer to check for user authentication state changes
@@ -24,9 +68,14 @@ const App = () => {
     return () => unsubscribe();
   }, []);
 
-  const isAdmin = user && user.email === "martin.de.bes@me.cm";
+  
+
+  const isAdmin = user && user.email === "martin.de.bes@me.com";
 
   console.log(isAdmin);
+  console.log(setShowPopUp);
+  console.log(popUpTitle);
+  console.log(popUpBody);
 
   return (
     <Router>
@@ -37,18 +86,84 @@ const App = () => {
             user ? (
               <Navigate to={isAdmin ? "/admin" : "/base"} />
             ) : (
-              <LoginPage />
+              <>
+                <NavBar logoOnly={true} />
+                <PopUp
+                  showPopUp={showPopUp}
+                  setShowPopUp={setShowPopUp}
+                  popUpBody={popUpBody}
+                  setPopUpBody={setPopUpBody}
+                  popUpTitle={popUpTitle}
+                  setPopUpTitle={setPopUpTitle}
+                />
+                <LoginPage
+                  showPopUp={showPopUp}
+                  setShowPopUp={setShowPopUp}
+                  popUpBody={popUpBody}
+                  setPopUpBody={setPopUpBody}
+                  popUpTitle={popUpTitle}
+                  setPopUpTitle={setPopUpTitle}
+                />
+              </>
             )
           }
         />
         <Route
           path="/base"
-          element={user ? <BasePage admin={isAdmin} /> : <Navigate to="/" />}
+          element={
+            user ? (
+              <>
+                <NavBar admin={isAdmin} />
+                <PopUp
+                  showPopUp={showPopUp}
+                  setShowPopUp={setShowPopUp}
+                  popUpBody={popUpBody}
+                  setPopUpBody={setPopUpBody}
+                  popUpTitle={popUpTitle}
+                  setPopUpTitle={setPopUpTitle}
+                />
+                <BasePage
+                  admin={isAdmin}
+                  showPopUp={showPopUp}
+                  setShowPopUp={setShowPopUp}
+                  popUpBody={popUpBody}
+                  setPopUpBody={setPopUpBody}
+                  popUpTitle={popUpTitle}
+                  setPopUpTitle={setPopUpTitle}
+                />
+              </>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         />
         <Route
           path="/admin"
           element={
-            isAdmin ? <AdminPage admin={isAdmin} /> : <Navigate to="/" />
+            isAdmin ? (
+              <>
+                <NavBar admin={isAdmin} />
+                <PopUp
+                  showPopUp={showPopUp}
+                  setShowPopUp={setShowPopUp}
+                  popUpBody={popUpBody}
+                  setPopUpBody={setPopUpBody}
+                  popUpTitle={popUpTitle}
+                  setPopUpTitle={setPopUpTitle}
+                />
+                <BasePage
+                  admin={isAdmin}
+                  showPopUp={showPopUp}
+                  setShowPopUp={setShowPopUp}
+                  popUpBody={popUpBody}
+                  setPopUpBody={setPopUpBody}
+                  popUpTitle={popUpTitle}
+                  setPopUpTitle={setPopUpTitle}
+                />
+              </>
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
         <Route path="/users" element={<UsersPage admin={isAdmin} />} />

@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  MDBBtn,
   MDBCard,
   MDBCardBody,
   MDBCardTitle,
@@ -8,13 +9,35 @@ import {
   MDBTableBody,
   MDBTableHead,
 } from "mdb-react-ui-kit";
+
+const Timer = () => {
+  return <>Timer</>;
+};
+
+const EventRow = (props) => {
+  const { date, start, end } = props;
+  return (
+    <>
+      <tr>
+        <td>{date}</td>
+        <td>{start}</td>
+        <td>{end ? end : <Timer />}</td>
+        <td>
+          <MDBBtn>Edit</MDBBtn>
+          <MDBBtn color="danger">Delete</MDBBtn>
+        </td>
+      </tr>
+    </>
+  );
+};
+
 const EventList = (props) => {
   return (
     <>
       <MDBContainer breakpoint="lg">
         <MDBCard>
           <MDBCardBody>
-            <MDBCardTitle>Registrations</MDBCardTitle>
+            <MDBCardTitle>Events</MDBCardTitle>
 
             <MDBTable striped small>
               <MDBTableHead>
@@ -25,7 +48,9 @@ const EventList = (props) => {
                   <th scope="col"></th>
                 </tr>
               </MDBTableHead>
-              <MDBTableBody></MDBTableBody>
+              <MDBTableBody>
+                <EventRow />
+              </MDBTableBody>
             </MDBTable>
           </MDBCardBody>
         </MDBCard>

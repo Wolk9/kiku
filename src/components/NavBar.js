@@ -11,16 +11,17 @@ import {
 import { auth } from "../config/firebase";
 import { storage } from "../config/firebase";
 import { ref, getDownloadURL } from "firebase/storage";
+import { UserUtils } from "./helpers";
 
 export const NavBar = (props) => {
-  const { admin } = props;
+  const { admin, logoOnly } = props;
   const [logoURL, setLogoURL] = useState("");
 
   useEffect(() => {
     const logoRef = ref(storage, "images/CICO_Logo.png");
-    const logoURL = getDownloadURL(logoRef).then((result) =>
-      setLogoURL(result)
-    );
+    getDownloadURL(logoRef)
+      .then((result) => setLogoURL(result))
+      .catch((error) => console.log(error));
   }, []);
 
   const handleLogout = async () => {
@@ -47,20 +48,33 @@ export const NavBar = (props) => {
           </MDBNavbarBrand>
           <MDBNavbarNav className="mr-auto mb-2 mb-md-0">
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current="page" href="/">
-                Home
-              </MDBNavbarLink>
+              <MDBNavbarLink
+                active
+                aria-current="page"
+                href="/"
+              ></MDBNavbarLink>
             </MDBNavbarItem>
-            {admin === true ? (
-              <MDBNavbarItem>
-                <MDBNavbarLink href="users">Users</MDBNavbarLink>
-              </MDBNavbarItem>
-            ) : (
+            {logoOnly ? (
               <></>
+            ) : (
+              <>
+                <MDBNavbarItem>
+                  <MDBNavbarLink active aria-current="page" href="/">
+                    Home
+                  </MDBNavbarLink>
+                </MDBNavbarItem>
+                {admin === true ? (
+                  <MDBNavbarItem>
+                    <MDBNavbarLink href="users">Users</MDBNavbarLink>
+                  </MDBNavbarItem>
+                ) : (
+                  <></>
+                )}
+                <MDBBtn color="primary" onClick={UserUtils.signOutUser}>
+                  Log out
+                </MDBBtn>
+              </>
             )}
-            <MDBBtn color="primary" onClick={handleLogout}>
-              Log out
-            </MDBBtn>
           </MDBNavbarNav>
         </MDBContainer>
       </MDBNavbar>
