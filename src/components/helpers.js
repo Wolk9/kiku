@@ -1,4 +1,13 @@
-import { collection, doc, setDoc, getDoc, getFirestore, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  deleteDoc,
+  query,
+  where,
+} from "firebase/firestore";
 import { db, auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
 import moment from "moment";
@@ -74,19 +83,21 @@ class UserUtils {
   }
 }
 
-// class LogService {
-//   static async getLogs(
-//     toBeDeletedId,
-//     selectedLog,
-//     userSelection,
-//     eventSelection
-//   ) 
+class EventUtils {
+  static async getEvents(uid) {
+    const q = query(collection(db, "events"), where("userId", "==", uid));
 
-//   static async deleteLog(logId) {
-//     const docRef = doc(getFirestore(), "logs", logId);
-//     await deleteDoc(docRef);
-//   }
-// }
+    const querySnapshot = await getDocs(q);
 
+    querySnapshot.forEach((doc) => {
+      return doc.data();
+    });
+  }
 
-export { UserUtils, TimeDifferenceCalculator, DateFormatter };
+  //   static async deleteLog(logId) {
+  //     const docRef = doc(getFirestore(), "logs", logId);
+  //     await deleteDoc(docRef);
+  //   }
+}
+
+export { UserUtils, TimeDifferenceCalculator, DateFormatter, EventUtils };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   MDBBtn,
   MDBCard,
@@ -9,14 +9,27 @@ import {
   MDBTableBody,
   MDBTableHead,
 } from "mdb-react-ui-kit";
-import { UserUtils } from "./helpers";
+import { EventUtils } from "./helpers";
+import {
+  QuerySnapshot,
+  collection,
+  getDocs,
+  where,
+  onSnapshot,
+  query,
+  orderBy,
+  serverTimestamp,
+} from "firebase/firestore";
+import { db } from "../config/firebase";
 
 const Timer = () => {
   return <>Timer</>;
 };
 
 const EventRow = (props) => {
-  const { date, start, end } = props;
+  const { start, end } = props;
+  let date = "1-2-2023";
+
   return (
     <>
       <tr>
@@ -34,12 +47,33 @@ const EventRow = (props) => {
 
 const EventList = (props) => {
   const { user } = props;
-  let userEvents = [
-    { id: 1, start: 1, date: "12-01-2023" },
-    { id: 2, start: 1, date: "12-01-2023", end: 2 },
-  ];
+  const [loading, setLoading] = useState(true);
+  const [userEvents, setUserEvents] = useState([]);
 
-  console.log(UserUtils.getUserData(user.uid));
+  //   userEvents = [
+  //     { id: 1, start: 1, date: "12-01-2023" },
+  //     { id: 2, start: 1, date: "12-01-2023", end: 2 },
+  //   ];
+
+  useEffect(() => {
+    const eventRef = collection(db, "events");
+    const q = query(
+      eventRef,
+      where("userId", "==", user.uid),
+      orderBy("eventStart", "desc")
+    );
+    onSnapshot(q, (snapshot) => {
+      let events = [];
+      snapshot.docs.forEach((event) => {
+        events.push({ ...event.data(), id: event.id });
+      });
+      console.log(events);
+      setUserEvents(events);
+      setLoading(false);
+    });
+  }, []);
+
+  console.log(userEvents);
 
   return (
     <>
@@ -58,14 +92,17 @@ const EventList = (props) => {
                 </tr>
               </MDBTableHead>
               <MDBTableBody>
-                {userEvents.map((singleEvent) => (
-                  <EventRow
-                    key={singleEvent.id}
-                    date={singleEvent.date}
-                    start={singleEvent.start}
-                    end={singleEvent.end}
-                  />
-                ))}
+                {userEvents.length > 0 ? (
+                  userEvents.map((singleEvent) => (
+                    <EventRow
+                      key={singleEvent.id}
+                      start={singleEvent.start}
+                      end={singleEvent.end}
+                    />
+                  ))
+                ) : (
+                  <h3>No Events yet</h3>
+                )}
               </MDBTableBody>
             </MDBTable>
           </MDBCardBody>
