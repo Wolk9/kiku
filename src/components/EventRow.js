@@ -8,17 +8,18 @@ const EventRow = (props) => {
 //   const date = "10-10";
   console.log(start);
 
-  const date = DateFormatter.formatDate(start.it.seconds);
-  // const formatedStart = DateFormatter.formatTime(start);
-  // const formatedEnd = DateFormatter.formatTime(end);
+  const date = DateFormatter.formatDate(start);
+  const formatedStart = DateFormatter.formatTime(start);
+  const formatedEnd = DateFormatter.formatTime(end);
 
   return (
     <>
       <tr>
         <td>{date}</td>
-        <td>{start}</td>
         <td>{type}</td>
-        <td>{end ? end : <Timer />}</td>
+        <td>{formatedStart}</td>
+
+        <td>{formatedEnd ? formatedEnd : <Timer />}</td>
         <td>
           <MDBBtn>Edit</MDBBtn>
           <MDBBtn color="danger">Delete</MDBBtn>
