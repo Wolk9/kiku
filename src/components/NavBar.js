@@ -11,7 +11,7 @@ import {
 import { auth } from "../config/firebase";
 import { storage } from "../config/firebase";
 import { ref, getDownloadURL } from "firebase/storage";
-import { UserUtils } from "./helpers";
+import { UserService } from "./helpers";
 
 export const NavBar = (props) => {
   const { admin, logoOnly } = props;
@@ -72,7 +72,7 @@ export const NavBar = (props) => {
                 ) : (
                   <></>
                 )}
-                <MDBBtn color="primary" onClick={UserUtils.signOutUser}>
+                <MDBBtn color="primary" onClick={UserService.signOutUser}>
                   Log out
                 </MDBBtn>
               </>

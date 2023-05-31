@@ -47,7 +47,7 @@ class TimeDifferenceCalculator {
   }
 }
 
-class UserUtils {
+class UserService {
   static async checkUserRole(uid) {
     const usersRef = collection(db, "users");
 
@@ -83,21 +83,15 @@ class UserUtils {
   }
 }
 
-class EventUtils {
-  static async getEvents(uid) {
+class EventService {
+  static async getUserEvents(uid) {
     const q = query(collection(db, "events"), where("userId", "==", uid));
-
     const querySnapshot = await getDocs(q);
-
-    querySnapshot.forEach((doc) => {
-      return doc.data();
-    });
+    return querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
   }
-
-  //   static async deleteLog(logId) {
-  //     const docRef = doc(getFirestore(), "logs", logId);
-  //     await deleteDoc(docRef);
-  //   }
 }
 
-export { UserUtils, TimeDifferenceCalculator, DateFormatter, EventUtils };
+export { UserService, TimeDifferenceCalculator, DateFormatter, EventService };

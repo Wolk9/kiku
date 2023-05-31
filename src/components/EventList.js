@@ -9,69 +9,28 @@ import {
   MDBTableBody,
   MDBTableHead,
 } from "mdb-react-ui-kit";
-import { EventUtils } from "./helpers";
-import {
-  QuerySnapshot,
-  collection,
-  getDocs,
-  where,
-  onSnapshot,
-  query,
-  orderBy,
-  serverTimestamp,
-} from "firebase/firestore";
-import { db } from "../config/firebase";
-
-const Timer = () => {
-  return <>Timer</>;
-};
-
-const EventRow = (props) => {
-  const { start, end } = props;
-  let date = "1-2-2023";
-
-  return (
-    <>
-      <tr>
-        <td>{date}</td>
-        <td>{start}</td>
-        <td>{end ? end : <Timer />}</td>
-        <td>
-          <MDBBtn>Edit</MDBBtn>
-          <MDBBtn color="danger">Delete</MDBBtn>
-        </td>
-      </tr>
-    </>
-  );
-};
+import EventRow from "./EventRow";
+import { EventService } from "./helpers";
 
 const EventList = (props) => {
   const { user } = props;
   const [loading, setLoading] = useState(true);
   const [userEvents, setUserEvents] = useState([]);
 
-  //   userEvents = [
-  //     { id: 1, start: 1, date: "12-01-2023" },
-  //     { id: 2, start: 1, date: "12-01-2023", end: 2 },
-  //   ];
-
   useEffect(() => {
-    const eventRef = collection(db, "events");
-    const q = query(
-      eventRef,
-      where("userId", "==", user.uid),
-      orderBy("eventStart", "desc")
-    );
-    onSnapshot(q, (snapshot) => {
-      let events = [];
-      snapshot.docs.forEach((event) => {
-        events.push({ ...event.data(), id: event.id });
-      });
-      console.log(events);
-      setUserEvents(events);
-      setLoading(false);
-    });
-  }, []);
+    const fetchData = async () => {
+      try {
+        const userEvents = await EventService.getUserEvents(user.uid);
+        setUserEvents(userEvents);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching user events:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [user.uid]);
 
   console.log(userEvents);
 
@@ -86,6 +45,7 @@ const EventList = (props) => {
               <MDBTableHead>
                 <tr>
                   <th scope="col">date</th>
+                  <th scope="col">type</th>
                   <th scope="col">start</th>
                   <th scope="col">end</th>
                   <th scope="col"></th>
@@ -96,8 +56,8 @@ const EventList = (props) => {
                   userEvents.map((singleEvent) => (
                     <EventRow
                       key={singleEvent.id}
-                      start={singleEvent.start}
-                      end={singleEvent.end}
+                      start={singleEvent.eventStart}
+                      end={singleEvent.eventEnd}
                     />
                   ))
                 ) : (
