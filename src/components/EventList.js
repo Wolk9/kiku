@@ -48,6 +48,7 @@ const EventList = (props) => {
                   <th scope="col">type</th>
                   <th scope="col">start</th>
                   <th scope="col">end</th>
+                  <th scope="col">time</th>
                   <th scope="col"></th>
                 </tr>
               </MDBTableHead>
