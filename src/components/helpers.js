@@ -118,6 +118,14 @@ class EventService {
       id: doc.id,
     }));
   }
+
+  static async getEvent(id) {
+    console.log(id);
+    const eventRef = collection(db, "events");
+    const eventDoc = await getDoc(doc(eventRef, id));
+    const eventData = eventDoc.data();
+    return eventData;
+  }
 }
 
 export { UserService, TimeDifferenceCalculator, DateFormatter, EventService };

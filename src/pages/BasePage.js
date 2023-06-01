@@ -35,7 +35,7 @@ useEffect(() => {
       setUserProfile(userProfile);
     })
     .catch((error) => {
-      console.error("Error retrieing user data:", error);
+      console.error("Error retrieving user data:", error);
     });
 }, []);
 
