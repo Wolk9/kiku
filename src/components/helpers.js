@@ -7,6 +7,7 @@ import {
   deleteDoc,
   query,
   where,
+  updateDoc,
 } from "firebase/firestore";
 import { db, auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
@@ -110,6 +111,7 @@ class UserService {
 }
 
 class EventService {
+  
   static async getUserEvents(uid) {
     const q = query(collection(db, "events"), where("userId", "==", uid));
     const querySnapshot = await getDocs(q);
@@ -126,6 +128,22 @@ class EventService {
     const eventData = eventDoc.data();
     return eventData;
   }
+
+  static async deleteEvent(id) {
+    const eventRef = collection(db, "events");
+    await deleteDoc(doc(eventRef, id));
+  }
+
+  static async editEvent(id, updates) {
+    const eventRef = collection(db, "events");
+    await updateDoc(eventRef, { ...doc.data(), updates });
+  }
+
+  static async addEvent() {
+   
+
+  }
 }
+
 
 export { UserService, TimeDifferenceCalculator, DateFormatter, EventService };

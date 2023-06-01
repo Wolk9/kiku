@@ -1,12 +1,13 @@
 import React from "react";
+import "../style/Table.css";
 import Timer from "./Timer";
-import { MDBBtn } from "mdb-react-ui-kit";
-import { DateFormatter, TimeDifferenceCalculator } from "./helpers";
+import { EventService, DateFormatter, TimeDifferenceCalculator } from "./helpers";
+import { BsFillTrashFill, BsFillPenFill } from "react-icons/bs";
 
 const EventRow = (props) => {
-  const { start, end, type, key } = props;
+  const { start, end, type, id } = props;
   //   const date = "10-10";
-  console.log(start);
+  console.log(id);
 
   const date = DateFormatter.formatDate(start);
   const formatedStart = DateFormatter.formatTime(start);
@@ -18,34 +19,48 @@ const EventRow = (props) => {
     console.log(e);
   };
 
-    return (
-      <>
-        <tr>
-          <td>{date}</td>
-          <td>{type}</td>
-          <td>{formatedStart ? formatedStart : <></>}</td>
+  const handleDelete = (e) => {
+      console.log(e);
+      EventService.deleteEvent(e);
+      
+  };
 
-          {formatedEnd ? (
-            <>
-              <td>{formatedEnd}</td>
-              <td>{difference}</td>
-            </>
-          ) : (
-            <>
-              <td></td>
-              <td>
-                <Timer />
-              </td>
-            </>
-          )}
+  return (
+    <>
+      <tr key={id}>
+        <td>{date}</td>
+        <td>{type}</td>
+        <td>{formatedStart ? formatedStart : <></>}</td>
 
-          <td>
-            <MDBBtn onClick={(e) => handleEdit(e)}>Edit</MDBBtn>
-            <MDBBtn color="danger">Delete</MDBBtn>
-          </td>
-        </tr>
-      </>
-    );
+        {formatedEnd ? (
+          <>
+            <td>{formatedEnd}</td>
+            <td>{difference}</td>
+          </>
+        ) : (
+          <>
+            <td></td>
+            <td>
+              <Timer />
+            </td>
+          </>
+        )}
+
+        <td>
+          <span className="actions">
+            <BsFillTrashFill
+              className="delete-btn"
+              onClick={() => handleDelete(id)}
+            />
+            <BsFillPenFill
+              className="edit-btn"
+              onClick={() => handleEdit(id)}
+            />
+          </span>
+        </td>
+      </tr>
+    </>
+  );
 };
 
 export default EventRow;

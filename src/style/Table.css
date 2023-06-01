@@ -1,0 +1,93 @@
+.table-wrapper {
+    width: 100%;
+}
+
+.table {
+    display: block;
+    overflow: hidden;
+    table-layout: fixed;
+    border-collapse: collapse;
+    box-shadow: 0px 10px 10px #ccc;
+    border-radius: 10px;
+    white-space: nowrap;
+    width: 100em;
+    max-width: 80%;
+    margin: auto;
+    overflow-x: auto;
+}
+
+.table thead {
+    background-color: #ccc;
+    color: #222;
+
+
+}
+
+.table th, .table td {
+    padding: 0.8rem;
+}
+
+
+.table td {
+    border-top: 0.5px solid #ddd;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.table tbody tr:hover {
+    background-color: #eee;
+}
+
+.expand {
+    width: 100%;
+}
+
+.label {
+
+}
+
+.actions {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.2rem;
+}
+
+.actions svg {
+    cursor: pointer;
+}
+
+.delete-btn {
+    color: #e10d05;
+    font-size: x-large;
+    padding: 0.2rem;
+}
+
+.edit-btn {
+    color: lightseagreen;
+    font-size: x-large;
+    padding: 0.2rem;
+
+}
+
+.cico-btn-group {
+ width: 80%;
+ height: 200px;
+ font-size: xx-large;
+}
+
+.cico-btn-group .clock-in-btn {
+    border: 0px solid #ccc;
+    border-radius: 10px 0px 0px 10px;
+    height: 200px;
+    background-color: lightgreen;
+    width: 50%;
+}
+
+.cico-btn-group .clock-out-btn {
+    border: 0px solid #ccc;
+    border-radius: 0px 10px 10px 0px;
+    height: 200px;
+    background-color: #e10d05;
+    color: #ddd;
+    width: 50%;
+}

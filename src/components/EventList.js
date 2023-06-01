@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../style/Table.css";
 import {
   MDBBtn,
   MDBCard,
@@ -40,25 +41,25 @@ const EventList = (props) => {
     <>
       <MDBContainer breakpoint="lg">
         <MDBCard>
-          <MDBCardBody>
-            <MDBCardTitle>Events</MDBCardTitle>
-
-            <MDBTable striped small>
-              <MDBTableHead>
+          <MDBCardBody className="table-wrapper">
+            <MDBTable striped small className="table">
+              <thead>
                 <tr>
                   <th scope="col">date</th>
-                  <th scope="col">type</th>
+                  <th className="expand" scope="col">
+                    type
+                  </th>
                   <th scope="col">start</th>
                   <th scope="col">end</th>
                   <th scope="col">time</th>
                   <th scope="col"></th>
                 </tr>
-              </MDBTableHead>
+              </thead>
               <MDBTableBody>
                 {userEvents.length > 0 ? (
                   userEvents.map((singleEvent) => (
                     <EventRow
-                      key={singleEvent.id}
+                      id={singleEvent.id}
                       start={singleEvent.eventStart}
                       end={singleEvent.eventEnd}
                     />
