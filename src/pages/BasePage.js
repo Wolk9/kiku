@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavBar } from "../components/NavBar";
 import EventList from "../components/EventList";
 import {
@@ -20,17 +20,26 @@ const BasePage = (props) => {
     setPopUpTitle,
     user,
   } = props;
+  
+useEffect(() => {
+  const userProfile = UserService.getUserData(user.uid)
+    .then((userProfile) => {
+      console.log("User: ", userProfile);
+      console.log(userProfile.age);
+      console.log(userProfile.contractDate);
+      console.log(userProfile.firstName);
+      console.log(userProfile.hoursPerWeek);
+      console.log(userProfile.lastName);
+      console.log(userProfile.role);
+      return userProfile
+    })
+    .catch((error) => {
+      console.error("Error retrieing user data:", error);
+    });
+}, []);
 
-  const userProfile = UserService.getUserData(user.uid);
+console.log("Adminpage admin:", admin);
 
-  console.log("Adminpage admin:", admin);
-  console.log("User: ", userProfile);
-  console.log(userProfile.age);
-  console.log(userProfile.contractDate);
-  console.log(userProfile.firstName);
-  console.log(userProfile.hoursPerWeek);
-  console.log(userProfile.lastName);
-  console.log(userProfile.role);
   return (
     <div>
       <MDBContainer>
