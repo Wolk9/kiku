@@ -56,6 +56,7 @@ const EventList = (props) => {
                 </tr>
               </thead>
               <MDBTableBody>
+                {loading && <h3>Loading...</h3>}
                 {userEvents.length > 0 ? (
                   userEvents.map((singleEvent) => (
                     <EventRow

@@ -53,11 +53,11 @@ const BasePage = (props) => {
       <MDBContainer>
         <MDBCard>
           <MDBCardBody>
-            <MDBCardTitle>
-              Welcome {userProfile.firstName} to the {admin ? "Admin" : "Base"}{" "}
-              page
-            </MDBCardTitle>
-            <p>This page is accessible to all users.</p>
+            <MDBCardTitle>Welcome {userProfile.firstName}</MDBCardTitle>
+            <p>
+              You are {admin ? "an Admin" : "an User"}
+              <br />Choose your action here
+            </p>
             <span className="cico-btn-group">
               <button className="clock-in-btn" onClick={toggleShow}>
                 Clock in
