@@ -17,6 +17,8 @@ const EventList = (props) => {
   const [loading, setLoading] = useState(true);
   const [userEvents, setUserEvents] = useState([]);
 
+  console.log(user);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,7 +32,7 @@ const EventList = (props) => {
     };
 
     fetchData();
-  }, [user.uid]);
+  }, []);
 
   console.log(userEvents);
 
@@ -62,7 +64,7 @@ const EventList = (props) => {
                     />
                   ))
                 ) : (
-                  <h3>No Events yet</h3>
+                  <></>
                 )}
               </MDBTableBody>
             </MDBTable>

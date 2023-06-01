@@ -13,24 +13,26 @@ const EventRow = (props) => {
   const formatedEnd = DateFormatter.formatTime(end);
 
   const difference = TimeDifferenceCalculator.calculateDifference(start, end);
-
   return (
     <>
       <tr>
         <td>{date}</td>
         <td>{type}</td>
-        <td>{formatedStart}</td>
+        <td>{formatedStart ? formatedStart : <></>}</td>
 
-        
-          {formatedEnd ? (
-            <>
-              <td>{formatedEnd}</td>
-              <td>{difference ? difference : <Timer />}</td>
-            </>
-          ) : (
+        {formatedEnd ? (
+          <>
+            <td>{formatedEnd}</td>
+            <td>{difference}</td>
+          </>
+        ) : (
+          <>
             <td></td>
-          )}
-        
+            <td>
+              <Timer />
+            </td>
+          </>
+        )}
 
         <td>
           <MDBBtn>Edit</MDBBtn>

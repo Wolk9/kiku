@@ -15,35 +15,61 @@ import "moment/locale/nl";
 
 class DateFormatter {
   static formatDate(unixTime) {
-    const { seconds, nanoseconds } = unixTime;
-    const Date = moment
-      .unix(seconds)
-      .add(nanoseconds / 1000000, "milliseconds");
-    return Date.format("ddd DD-MM");
+    if (unixTime === undefined) {
+      return "no date";
+    } else {
+      const { seconds, nanoseconds } = unixTime;
+      const Date = moment
+        .unix(seconds)
+        .add(nanoseconds / 1000000, "milliseconds");
+      return Date.format("ddd DD-MM");
+    }
   }
 
   static formatTime(unixTime) {
-    const { seconds, nanoseconds } = unixTime;
-    const Date = moment
-      .unix(seconds)
-      .add(nanoseconds / 1000000, "milliseconds");
-    return Date.format("HH:mm");
+    if (unixTime === undefined) {
+      return;
+    } else {
+      const { seconds, nanoseconds } = unixTime;
+      const Date = moment
+        .unix(seconds)
+        .add(nanoseconds / 1000000, "milliseconds");
+      return Date.format("HH:mm");
+    }
   }
 }
 
 class TimeDifferenceCalculator {
   static calculateDifference(startUnixTime, endUnixTime) {
-    const startSeconds = startUnixTime.seconds;
-    const startMilliseconds = startUnixTime.nanoseconds / 1000000;
-    const endSeconds = endUnixTime.seconds;
-    const endMilliseconds = endUnixTime.nanoseconds / 1000000;
+    if (startUnixTime === undefined || endUnixTime === undefined) {
+      console.log(
+        "helper do nothing",
+        "start",
+        startUnixTime,
+        "end",
+        endUnixTime
+      );
+      return;
+    } else {
+      console.log(
+        "Helper calculate ",
+        "start",
+        startUnixTime,
+        "end",
+        endUnixTime
+      );
 
-    const diffInMilliseconds =
-      endSeconds * 1000 +
-      endMilliseconds -
-      (startSeconds * 1000 + startMilliseconds);
-    const diffInMinutes = diffInMilliseconds / 60000;
-    return moment.utc(diffInMinutes * 60000).format("HH:mm");
+      const time1 = new Date(startUnixTime * 1000);
+      const time2 = new Date(endUnixTime * 1000);
+
+      const difference = time2.getTime() - time1.getTime();
+
+      console.log("difference", difference);
+
+      const difInMinutes = Math.floor(difference / 1000 / 60);
+
+      return moment.utc(difInMinutes * 60000).format("HH:mm");
+    }
   }
 }
 

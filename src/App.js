@@ -71,11 +71,8 @@ const App = () => {
   //console.log(user.uid, user.email);
 
   const isAdmin = user && user.email === "martin.de.bes@me.com";
-
+  console.log(user);
   console.log(isAdmin);
-  console.log(setShowPopUp);
-  console.log(popUpTitle);
-  console.log(popUpBody);
 
   return (
     <Router>
@@ -153,6 +150,7 @@ const App = () => {
                   setPopUpTitle={setPopUpTitle}
                 />
                 <BasePage
+                  user={user}
                   admin={isAdmin}
                   showPopUp={showPopUp}
                   setShowPopUp={setShowPopUp}

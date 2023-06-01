@@ -7,6 +7,7 @@ import {
   MDBCardTitle,
   MDBCardBody,
 } from "mdb-react-ui-kit";
+import { UserService } from "../components/helpers";
 
 const BasePage = (props) => {
   const {
@@ -20,14 +21,17 @@ const BasePage = (props) => {
     user,
   } = props;
 
+  const userProfile = UserService.getUserData(user.uid);
+
   console.log("Adminpage admin:", admin);
+  console.log("User: ", userProfile);
   return (
     <div>
       <MDBContainer>
         <MDBCard>
           <MDBCardBody>
             <MDBCardTitle>
-              Welcome to the {admin ? "Admin" : "Base"} Page
+              Welcome {userProfile.firstName} to the {admin ? "Admin" : "Base"} page
             </MDBCardTitle>
             <p>This page is accessible to all users.</p>
           </MDBCardBody>
