@@ -25,6 +25,12 @@ const BasePage = (props) => {
 
   console.log("Adminpage admin:", admin);
   console.log("User: ", userProfile);
+  console.log(userProfile.age);
+  console.log(userProfile.contractDate);
+  console.log(userProfile.firstName);
+  console.log(userProfile.hoursPerWeek);
+  console.log(userProfile.lastName);
+  console.log(userProfile.role);
   return (
     <div>
       <MDBContainer>
