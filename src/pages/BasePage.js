@@ -20,6 +20,7 @@ const BasePage = (props) => {
     setPopUpTitle,
     user,
   } = props;
+  const [userProfile, setUserProfile] = useState({});
   
 useEffect(() => {
   const userProfile = UserService.getUserData(user.uid)
@@ -31,7 +32,7 @@ useEffect(() => {
       console.log(userProfile.hoursPerWeek);
       console.log(userProfile.lastName);
       console.log(userProfile.role);
-      return userProfile
+      setUserProfile(userProfile);
     })
     .catch((error) => {
       console.error("Error retrieing user data:", error);
