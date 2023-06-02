@@ -3,11 +3,14 @@ import {
   doc,
   setDoc,
   getDoc,
+  addDoc,
   getDocs,
   deleteDoc,
   query,
   where,
   updateDoc,
+  serverTimestamp,
+  onSnapshot,
 } from "firebase/firestore";
 import { db, auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
@@ -111,14 +114,17 @@ class UserService {
 }
 
 class EventService {
-  
   static async getUserEvents(uid) {
     const q = query(collection(db, "events"), where("userId", "==", uid));
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
+
+    onSnapshot(q, (snapshot) => {
+      const col = [];
+      snapshot.docs.forEach((doc) => {
+        col.push({ ...doc.data(), id: doc.id });
+      });
+      console.log("eventservice getuserevents:", col);
+      return col;
+    });
   }
 
   static async getEvent(id) {
@@ -139,9 +145,9 @@ class EventService {
     await updateDoc(eventRef, { ...doc.data(), updates });
   }
 
-  static async addEvent() {
-   
-
+  static async addEvent(uid, newEvent) {
+    const eventRef = collection(db, "events");
+    await addDoc(eventRef, newEvent);
   }
 }
 

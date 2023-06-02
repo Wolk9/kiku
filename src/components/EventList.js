@@ -14,32 +14,38 @@ import EventRow from "./EventRow";
 import { EventService } from "./helpers";
 
 const EventList = (props) => {
-  const { user } = props;
+  const { user, setUserEvents } = props;
   const [loading, setLoading] = useState(true);
-  const [userEvents, setUserEvents] = useState([]);
 
   console.log(user);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userEvents = await EventService.getUserEvents(user.uid);
-        setUserEvents(userEvents);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching user events:", error);
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const userEvents = await EventService.getUserEvents(user.uid);
+  //       setUserEvents(userEvents);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error("Error fetching user events:", error);
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
+
+  const userEvents = EventService.getUserEvents(user.uid).then(() => {
+    console.log(userEvents);
+  });
+
+  console.log(userEvents);
 
   const handleDeleteEvent = (deletedEventId) => {
     const updatedEvents = userEvents.filter(
       (event) => event.id !== deletedEventId
     );
     setUserEvents(updatedEvents);
+    setLoading(false);
   };
 
   console.log(userEvents);
@@ -72,6 +78,8 @@ const EventList = (props) => {
                       end={singleEvent.eventEnd}
                       type={singleEvent.type}
                       onDelete={handleDeleteEvent}
+                      loading={loading}
+                      setLoading={setLoading}
                     />
                   ))
                 ) : (

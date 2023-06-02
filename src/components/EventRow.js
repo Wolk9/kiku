@@ -1,11 +1,11 @@
 import React from "react";
 import "../style/Table.css";
-import Timer from "./Timer";
+import { Timer } from "./Timer";
 import { EventService, DateFormatter, TimeDifferenceCalculator } from "./helpers";
 import { BsFillTrashFill, BsFillPenFill } from "react-icons/bs";
 
 const EventRow = (props) => {
-  const { start, end, type, id, onDelete} = props;
+  const { start, end, type, id, onDelete, onEdit, loading, setLoading } = props;
   //   const date = "10-10";
   console.log(id);
 
@@ -17,15 +17,16 @@ const EventRow = (props) => {
 
   const handleEdit = (e) => {
     console.log(e);
+    EventService.editEvent(id);
   };
 
   const handleDelete = (e) => {
-      console.log(e);
-      EventService.deleteEvent(e).then(() => {
-          onDelete(id);
-      })
-    ;
-      
+    console.log(e);
+    setLoading(true);
+    EventService.deleteEvent(e).then(() => {
+      onDelete(id);
+      setLoading(false);
+    });
   };
 
   return (

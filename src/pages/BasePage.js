@@ -9,8 +9,10 @@ import {
   MDBCardTitle,
   MDBCardBody,
 } from "mdb-react-ui-kit";
-import { UserService } from "../components/helpers";
+import { UserService, EventService } from "../components/helpers";
 import { Modal } from "../components/Modal";
+import { Timer } from "../components/Timer";
+import { serverTimestamp } from "firebase/firestore";
 
 const BasePage = (props) => {
   const {
@@ -25,6 +27,10 @@ const BasePage = (props) => {
   } = props;
   const [userProfile, setUserProfile] = useState({});
   const [modalShow, setModalShow] = useState(false);
+  const [eventStarted, setEventStarted] = useState(false);
+  // const [userEvents, setUserEvents] = useState([]);
+
+  console.log("user.uid: ", user.uid);
 
   useEffect(() => {
     const userProfile = UserService.getUserData(user.uid)
@@ -45,6 +51,25 @@ const BasePage = (props) => {
 
   const toggleShow = () => setModalShow(!modalShow);
 
+  const addEvent = () => {
+    console.log("addEvent");
+    const newEvent = {
+      userId: user.uid,
+      type: "Rijden",
+      eventStart: serverTimestamp(),
+      eventEnd: "running",
+    };
+    EventService.addEvent(user.uid, newEvent).then(() => {
+      setEventStarted(true);
+      //setUserEvents([...userEvents, newEvent]);
+    });
+  };
+
+  const stopEvent = () => {
+    console.log("stopEvent");
+    setEventStarted(false);
+  };
+
   console.log("Adminpage admin:", admin);
 
   return (
@@ -56,19 +81,34 @@ const BasePage = (props) => {
             <MDBCardTitle>Welcome {userProfile.firstName}</MDBCardTitle>
             <p>
               You are {admin ? "an Admin" : "an User"}
-              <br />Choose your action here
+              <br />
+              Choose your action here
             </p>
             <span className="cico-btn-group">
-              <button className="clock-in-btn" onClick={toggleShow}>
-                Clock in
+              <button
+                className="clock-in-btn"
+                onClick={addEvent}
+                disabled={eventStarted}
+              >
+                {eventStarted ? <Timer /> : "Clock in"}
               </button>
-              <button className="clock-out-btn">Clock out</button>
+              <button
+                className="clock-out-btn"
+                onClick={stopEvent}
+                disabled={!eventStarted}
+              >
+                Clock out
+              </button>
             </span>
           </MDBCardBody>
         </MDBCard>
       </MDBContainer>
 
-      <EventList user={user} />
+      <EventList
+        user={user}
+
+        //setUserEvents={setUserEvents}
+      />
     </div>
   );
 };
