@@ -28,7 +28,7 @@ const BasePage = (props) => {
   const [userProfile, setUserProfile] = useState({});
   const [modalShow, setModalShow] = useState(false);
   const [eventStarted, setEventStarted] = useState(false);
-  // const [userEvents, setUserEvents] = useState([]);
+  const [userEvents, setUserEvents] = useState([]);
 
   console.log("user.uid: ", user.uid);
 
@@ -65,9 +65,18 @@ const BasePage = (props) => {
     });
   };
 
-  const stopEvent = () => {
-    console.log("stopEvent");
-    setEventStarted(false);
+  const stopEvent = (e) => {
+    console.log("stopEvent", e);
+    const openEventId = EventService.getOpenEventDocId(user.uid);
+    console.log(openEventId);
+
+    // const id = e.event.id;
+    // const endTime = {
+    //   eventEnd: serverTimestamp(),
+    // };
+    // EventService.editEvent(id, endTime).then(() => {
+    //   setEventStarted(false);
+    // });
   };
 
   console.log("Adminpage admin:", admin);
@@ -106,8 +115,8 @@ const BasePage = (props) => {
 
       <EventList
         user={user}
-
-        //setUserEvents={setUserEvents}
+        userEvents={userEvents}
+        setUserEvents={setUserEvents}
       />
     </div>
   );

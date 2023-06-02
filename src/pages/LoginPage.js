@@ -73,13 +73,16 @@ const LoginPage = (props) => {
             <MDBCardTitle>Login</MDBCardTitle>
 
             <MDBInput
+              name="email"
               className="mb-4"
               type="email"
               label="Email address"
               value={email}
               onChange={handleEmailChange}
             />
+
             <MDBInput
+              name="password"
               className="mb-4"
               type="password"
               label="Password"

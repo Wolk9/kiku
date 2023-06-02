@@ -19,7 +19,7 @@ import "moment/locale/nl";
 
 class DateFormatter {
   static formatDate(unixTime) {
-    if (unixTime === undefined) {
+    if (unixTime === null || unixTime === "running") {
       return "no date";
     } else {
       const { seconds, nanoseconds } = unixTime;
@@ -31,8 +31,8 @@ class DateFormatter {
   }
 
   static formatTime(unixTime) {
-    if (unixTime === undefined) {
-      return;
+    if (unixTime === null || unixTime === "running") {
+      return "no time";
     } else {
       const { seconds, nanoseconds } = unixTime;
       const Date = moment
@@ -125,6 +125,13 @@ class EventService {
       console.log("eventservice getuserevents:", col);
       return col;
     });
+  }
+
+  static async getOpenEventDocId(uid) {
+    const q = query(collection(db, "events"), where("userId", "==", uid));
+    
+    const eventDoc = await getDoc(doc(q, uid));
+    console.log(eventDoc);
   }
 
   static async getEvent(id) {

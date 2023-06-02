@@ -12,31 +12,28 @@ import {
 } from "mdb-react-ui-kit";
 import EventRow from "./EventRow";
 import { EventService } from "./helpers";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { db } from "../config/firebase";
 
 const EventList = (props) => {
-  const { user, setUserEvents } = props;
+  const { user, userEvents, setUserEvents } = props;
   const [loading, setLoading] = useState(true);
 
   console.log(user);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const userEvents = await EventService.getUserEvents(user.uid);
-  //       setUserEvents(userEvents);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error("Error fetching user events:", error);
-  //       setLoading(false);
-  //     }
-  //   };
+  const q = query(collection(db, "events"), where("userId", "==", user.uid));
 
-  //   fetchData();
-  // }, []);
-
-  const userEvents = EventService.getUserEvents(user.uid).then(() => {
-    console.log(userEvents);
-  });
+  useEffect(() => {
+    onSnapshot(q, (snapshot) => {
+      const col = [];
+      snapshot.docs.forEach((doc) => {
+        col.push({ ...doc.data(), id: doc.id });
+      });
+      console.log("eventservice getuserevents:", col);
+      setLoading(false);
+      setUserEvents(col);
+    });
+  }, []);
 
   console.log(userEvents);
 
@@ -73,6 +70,7 @@ const EventList = (props) => {
                 {userEvents.length > 0 ? (
                   userEvents.map((singleEvent) => (
                     <EventRow
+                      key={singleEvent.id}
                       id={singleEvent.id}
                       start={singleEvent.eventStart}
                       end={singleEvent.eventEnd}

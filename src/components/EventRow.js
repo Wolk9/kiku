@@ -11,13 +11,24 @@ const EventRow = (props) => {
 
   const date = DateFormatter.formatDate(start);
   const formatedStart = DateFormatter.formatTime(start);
-  const formatedEnd = DateFormatter.formatTime(end);
+  const formatedEnd = (end) => {
+    if (end === "running" || end === null || end === undefined) {
+      return <></>
+    } else {
+      return <>{DateFormatter.formatTime(end)}</>;
+    }
+  };
 
-  const difference = TimeDifferenceCalculator.calculateDifference(start, end);
-
+  const difference = (start, end) => {
+    if (end === "running") {
+      return "running";
+    } else {
+      return TimeDifferenceCalculator.calculateDifference(start, end);
+    }
+  };
   const handleEdit = (e) => {
     console.log(e);
-    EventService.editEvent(id);
+    //EventService.editEvent(id);
   };
 
   const handleDelete = (e) => {
@@ -31,7 +42,7 @@ const EventRow = (props) => {
 
   return (
     <>
-      <tr key={id}>
+      <tr onClick={() => handleEdit(id)}>
         <td>{date}</td>
         <td>{type}</td>
         <td>{formatedStart ? formatedStart : <></>}</td>
