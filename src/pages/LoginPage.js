@@ -41,17 +41,22 @@ const LoginPage = (props) => {
   };
 
   const handleEmailChange = (e) => {
+    console.log(e);
     setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
+    console.log(e);
     setPassword(e.target.value);
   };
 
   const handleLogin = async () => {
+    console.log(email, password);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // Login successful, redirect to base page or admin page depending on the user's role
+
+      console.log("Login succesful");
+      //Login successful, redirect to base page or admin page depending on the user's role
     } catch (error) {
       console.log(error);
       setPopUpTitle("Something went wrong");
@@ -66,53 +71,38 @@ const LoginPage = (props) => {
         <MDBCard>
           <MDBCardBody>
             <MDBCardTitle>Login</MDBCardTitle>
-            <input
+
+            <MDBInput
+              className="mb-4"
               type="email"
-              placeholder="Email"
+              label="Email address"
               value={email}
               onChange={handleEmailChange}
             />
-            <input
+            <MDBInput
+              className="mb-4"
               type="password"
-              placeholder="Password"
+              label="Password"
               value={password}
               onChange={handlePasswordChange}
             />
-            <MDBBtn onClick={handleLogin}>Login</MDBBtn>
 
-            <form>
-              <MDBInput
-                className="mb-4"
-                type="email"
-                id="form1Example1"
-                label="Email address"
-                onChange={handleEmailChange}
-              />
-              <MDBInput
-                className="mb-4"
-                type="password"
-                id="form1Example2"
-                label="Password"
-                onChange={handlePasswordChange}
-              />
+            <MDBRow className="mb-4">
+              <MDBCol className="d-flex justify-content-center">
+                <MDBCheckbox
+                  id="login_remember_me"
+                  label="Remember me"
+                  defaultChecked
+                />
+              </MDBCol>
+              <MDBCol>
+                <a href="#!">Forgot password?</a>
+              </MDBCol>
+            </MDBRow>
 
-              <MDBRow className="mb-4">
-                <MDBCol className="d-flex justify-content-center">
-                  <MDBCheckbox
-                    id="form1Example3"
-                    label="Remember me"
-                    defaultChecked
-                  />
-                </MDBCol>
-                <MDBCol>
-                  <a href="#!">Forgot password?</a>
-                </MDBCol>
-              </MDBRow>
-
-              <MDBBtn type="submit" block>
-                Sign in
-              </MDBBtn>
-            </form>
+            <MDBBtn type="submit" onClick={handleLogin} block>
+              Sign in
+            </MDBBtn>
           </MDBCardBody>
         </MDBCard>
       </MDBContainer>

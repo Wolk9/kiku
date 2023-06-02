@@ -73,6 +73,7 @@
  width: 80%;
  height: 200px;
  font-size: xx-large;
+
 }
 
 .cico-btn-group .clock-in-btn {
@@ -81,6 +82,7 @@
     height: 200px;
     background-color: lightgreen;
     width: 50%;
+      box-shadow: 0px 10px 10px #ccc;
 }
 
 .cico-btn-group .clock-out-btn {
@@ -90,4 +92,5 @@
     background-color: #e10d05;
     color: #ddd;
     width: 50%;
+      box-shadow: 0px 10px 10px #ccc;
 }

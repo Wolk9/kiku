@@ -35,6 +35,13 @@ const EventList = (props) => {
     fetchData();
   }, []);
 
+  const handleDeleteEvent = (deletedEventId) => {
+    const updatedEvents = userEvents.filter(
+      (event) => event.id !== deletedEventId
+    );
+    setUserEvents(updatedEvents);
+  };
+
   console.log(userEvents);
 
   return (
@@ -63,6 +70,8 @@ const EventList = (props) => {
                       id={singleEvent.id}
                       start={singleEvent.eventStart}
                       end={singleEvent.eventEnd}
+                      type={singleEvent.type}
+                      onDelete={handleDeleteEvent}
                     />
                   ))
                 ) : (

@@ -5,7 +5,7 @@ import { EventService, DateFormatter, TimeDifferenceCalculator } from "./helpers
 import { BsFillTrashFill, BsFillPenFill } from "react-icons/bs";
 
 const EventRow = (props) => {
-  const { start, end, type, id } = props;
+  const { start, end, type, id, onDelete} = props;
   //   const date = "10-10";
   console.log(id);
 
@@ -21,7 +21,10 @@ const EventRow = (props) => {
 
   const handleDelete = (e) => {
       console.log(e);
-      EventService.deleteEvent(e);
+      EventService.deleteEvent(e).then(() => {
+          onDelete(id);
+      })
+    ;
       
   };
 
