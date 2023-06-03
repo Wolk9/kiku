@@ -42,7 +42,7 @@ const EventRow = (props) => {
 
   return (
     <>
-      <tr onClick={() => handleEdit(id)}>
+      <tr onClick={handleEdit(id)}>
         <td>{date}</td>
         <td>{type}</td>
         <td>{formatedStart ? formatedStart : <></>}</td>
@@ -55,9 +55,7 @@ const EventRow = (props) => {
         ) : (
           <>
             <td></td>
-            <td>
-              <Timer />
-            </td>
+            <td>{<Timer />}</td>
           </>
         )}
 
@@ -65,12 +63,9 @@ const EventRow = (props) => {
           <span className="actions">
             <BsFillTrashFill
               className="delete-btn"
-              onClick={() => handleDelete(id)}
+              onClick={handleDelete(id)}
             />
-            <BsFillPenFill
-              className="edit-btn"
-              onClick={() => handleEdit(id)}
-            />
+            <BsFillPenFill className="edit-btn" onClick={handleEdit(id)} />
           </span>
         </td>
       </tr>

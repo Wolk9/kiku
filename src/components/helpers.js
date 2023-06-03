@@ -117,21 +117,47 @@ class EventService {
   static async getUserEvents(uid) {
     const q = query(collection(db, "events"), where("userId", "==", uid));
 
-    onSnapshot(q, (snapshot) => {
-      const col = [];
-      snapshot.docs.forEach((doc) => {
-        col.push({ ...doc.data(), id: doc.id });
-      });
-      console.log("eventservice getuserevents:", col);
-      return col;
+    return new Promise((resolve, reject) => {
+      onSnapshot(
+        q,
+        (snapshot) => {
+          const col = [];
+          snapshot.docs.forEach((doc) => {
+            col.push({ ...doc.data(), id: doc.id });
+          });
+          console.log("eventservice getuserevents:", col);
+          resolve(col); // Resolve the promise with the collected events
+        },
+        reject
+      ); // Reject the promise if an error occurs
     });
   }
 
   static async getOpenEventDocId(uid) {
-    const q = query(collection(db, "events"), where("userId", "==", uid));
-    
-    const eventDoc = await getDoc(doc(q, uid));
-    console.log(eventDoc);
+    const userEvents = await this.getUserEvents(uid);
+    console.log(userEvents);
+    let sortedEvents = [];
+    if (userEvents?.length > 1) {
+      console.log("userEvents is longer that 1");
+      sortedEvents = userEvents.sort((a, b) =>
+        a.timestamp < b.timestamp ? 1 : -1
+      );
+      const openEvents = sortedEvents.filter(
+        (event) => event.userId === uid && event.endTime === "running"
+      );
+
+      if (openEvents.length > 0) {
+        console.log("openEvents > 0");
+        const lastOpenEvent = openEvents[openEvents.length - 1];
+        return lastOpenEvent.id;
+      } else {
+        console.log("openEents = 0");
+        return null;
+      }
+    } else {
+      console.log("userEvents = 1");
+      return userEvents;
+    }
   }
 
   static async getEvent(id) {
@@ -150,6 +176,14 @@ class EventService {
   static async editEvent(id, updates) {
     const eventRef = collection(db, "events");
     await updateDoc(eventRef, { ...doc.data(), updates });
+  }
+
+  static async setEventEndTime(eventId, newEndTime) {
+    const eventRef = doc(collection(db, "events"), eventId);
+
+    await updateDoc(eventRef, {
+      endTime: newEndTime,
+    });
   }
 
   static async addEvent(uid, newEvent) {

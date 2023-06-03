@@ -15,6 +15,10 @@ import { EventService } from "./helpers";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../config/firebase";
 
+const Loading = () => {
+  return <h3>Loading...</h3>;
+};
+
 const EventList = (props) => {
   const { user, userEvents, setUserEvents } = props;
   const [loading, setLoading] = useState(true);
@@ -65,8 +69,8 @@ const EventList = (props) => {
                   <th scope="col"></th>
                 </tr>
               </thead>
+
               <MDBTableBody>
-                {loading && <h3>Loading...</h3>}
                 {userEvents.length > 0 ? (
                   userEvents.map((singleEvent) => (
                     <EventRow

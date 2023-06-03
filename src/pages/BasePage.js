@@ -65,19 +65,22 @@ const BasePage = (props) => {
     });
   };
 
-  const stopEvent = (e) => {
-    console.log("stopEvent", e);
-    const openEventId = EventService.getOpenEventDocId(user.uid);
-    console.log(openEventId);
+const stopEvent = async (e) => {
+  console.log("stopEvent", e);
+  const openEventId = await EventService.getOpenEventDocId(user.uid);
+  console.log(openEventId);
 
-    // const id = e.event.id;
-    // const endTime = {
-    //   eventEnd: serverTimestamp(),
-    // };
-    // EventService.editEvent(id, endTime).then(() => {
-    //   setEventStarted(false);
-    // });
-  };
+  if (openEventId) {
+    const newEndTime = serverTimestamp();
+    await EventService.setEventEndTime(openEventId, newEndTime);
+    // Do additional actions after updating the endTime field
+    setEventStarted(false);
+  } else {
+    console.log("no open Event found");
+    // Handle the case where no open event was found
+  }
+};
+
 
   console.log("Adminpage admin:", admin);
 
