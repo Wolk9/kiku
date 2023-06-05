@@ -15,6 +15,7 @@ import { Timer } from "../components/Timer";
 import { serverTimestamp } from "firebase/firestore";
 
 const BasePage = (props) => {
+  console.log("render BasePage");
   const {
     admin,
     showPopUp,
@@ -29,19 +30,20 @@ const BasePage = (props) => {
   const [modalShow, setModalShow] = useState(false);
   const [eventStarted, setEventStarted] = useState(false);
   const [userEvents, setUserEvents] = useState([]);
+  const [eventList, setEventList] = useState([]);
 
-  console.log("user.uid: ", user.uid);
+  // []);.log("user.uid: ", user.uid);
 
   useEffect(() => {
     const userProfile = UserService.getUserData(user.uid)
       .then((userProfile) => {
-        console.log("User: ", userProfile);
-        console.log(userProfile.age);
-        console.log(userProfile.contractDate);
-        console.log(userProfile.firstName);
-        console.log(userProfile.hoursPerWeek);
-        console.log(userProfile.lastName);
-        console.log(userProfile.role);
+        // console.log("User: ", userProfile);
+        // console.log(userProfile.age);
+        // console.log(userProfile.contractDate);
+        // console.log(userProfile.firstName);
+        // console.log(userProfile.hoursPerWeek);
+        // console.log(userProfile.lastName);
+        // console.log(userProfile.role);
         setUserProfile(userProfile);
       })
       .catch((error) => {
@@ -52,7 +54,7 @@ const BasePage = (props) => {
   const toggleShow = () => setModalShow(!modalShow);
 
   const addEvent = () => {
-    console.log("addEvent");
+    // console.log("addEvent");
     const newEvent = {
       userId: user.uid,
       type: "Rijden",
@@ -62,27 +64,48 @@ const BasePage = (props) => {
     EventService.addEvent(user.uid, newEvent).then(() => {
       setEventStarted(true);
       //setUserEvents([...userEvents, newEvent]);
+      setUserEvents((prevEvents) => [...prevEvents, newEvent]);
     });
   };
 
-const stopEvent = async (e) => {
-  console.log("stopEvent", e);
-  const openEventId = await EventService.getOpenEventDocId(user.uid);
-  console.log(openEventId);
+  const handleClockIn = async () => {
+    // Handle the Clock In button click event
+    const newEvent = {
+      // Create the new event object
+      userId: user.uid,
+      type: "Rijden",
+      eventStart: serverTimestamp(),
+      eventEnd: "running",
+      // Other event properties
+    };
 
-  if (openEventId) {
-    const newEndTime = serverTimestamp();
-    await EventService.setEventEndTime(openEventId, newEndTime);
-    // Do additional actions after updating the endTime field
-    setEventStarted(false);
-  } else {
-    console.log("no open Event found");
-    // Handle the case where no open event was found
-  }
-};
+    try {
+      // Add the new event
+      const eventId = await EventService.addEvent(user.uid, newEvent);
+      newEvent.id = eventId; // Assign the generated event ID
+      setUserEvents((prevEventList) => [...prevEventList, newEvent]); // Update the event list state
+    } catch (error) {
+      console.log("Error adding event:", error);
+    }
+  };
 
+  const stopEvent = async (e) => {
+    // console.log("stopEvent", e);
+    const openEventId = await EventService.getOpenEventDocId(user.uid);
+    // console.log(openEventId);
 
-  console.log("Adminpage admin:", admin);
+    if (openEventId) {
+      const newEndTime = serverTimestamp();
+      await EventService.setEventEndTime(openEventId, newEndTime);
+      // Do additional actions after updating the endTime field
+      setEventStarted(false);
+    } else {
+      // console.log("no open Event found");
+      // Handle the case where no open event was found
+    }
+  };
+
+  // console.log("Adminpage admin:", admin);
 
   return (
     <div>
@@ -99,7 +122,7 @@ const stopEvent = async (e) => {
             <span className="cico-btn-group">
               <button
                 className="clock-in-btn"
-                onClick={addEvent}
+                onClick={handleClockIn}
                 disabled={eventStarted}
               >
                 {eventStarted ? <Timer /> : "Clock in"}

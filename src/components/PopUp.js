@@ -11,6 +11,7 @@ import {
 } from "mdb-react-ui-kit";
 
 const PopUp = (props) => {
+  console.log("render PopUp")
   const { title, body, showPopUp, setShowPopUp } = props;
 
   const toggleShowPopUp = () => setShowPopUp(!showPopUp);

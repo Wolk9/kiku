@@ -53,6 +53,7 @@ const PopUp = (props) => {
 };
 
 const App = () => {
+  console.log("render App")
   const [user, setUser] = useState(null);
   const [showPopUp, setShowPopUp] = useState(false);
   const [popUpBody, setPopUpBody] = useState("");
@@ -68,11 +69,11 @@ const App = () => {
     return () => unsubscribe();
   }, []);
 
-  //console.log(user.uid, user.email);
+  //// console.log(user.uid, user.email);
 
   const isAdmin = user && user.email === "martin.de.bes@me.com";
-  console.log(user);
-  console.log(isAdmin);
+  // console.log(user);
+  // console.log(isAdmin);
 
   return (
     <Router>

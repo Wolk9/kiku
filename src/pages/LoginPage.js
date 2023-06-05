@@ -14,6 +14,7 @@ import {
 } from "mdb-react-ui-kit";
 
 const LoginPage = (props) => {
+  console.log("render LoginPage")
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const {
@@ -41,24 +42,24 @@ const LoginPage = (props) => {
   };
 
   const handleEmailChange = (e) => {
-    console.log(e);
+    // console.log(e);
     setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
-    console.log(e);
+    // console.log(e);
     setPassword(e.target.value);
   };
 
   const handleLogin = async () => {
-    console.log(email, password);
+    // console.log(email, password);
     try {
       await signInWithEmailAndPassword(auth, email, password);
 
-      console.log("Login succesful");
+      // console.log("Login succesful");
       //Login successful, redirect to base page or admin page depending on the user's role
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setPopUpTitle("Something went wrong");
       setPopUpBody(error);
       setShowPopUp(true);

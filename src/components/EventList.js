@@ -20,26 +20,31 @@ const Loading = () => {
 };
 
 const EventList = (props) => {
+  console.log("render Eventlist");
   const { user, userEvents, setUserEvents } = props;
   const [loading, setLoading] = useState(true);
 
-  console.log(user);
+  // console.log(user);
 
   const q = query(collection(db, "events"), where("userId", "==", user.uid));
 
+  const fetchUserEvents = async (uid) => {
+    try {
+      const col = await EventService.getUserEvents(uid);
+      const newUserEvents = [...col];
+
+      setUserEvents(newUserEvents);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    onSnapshot(q, (snapshot) => {
-      const col = [];
-      snapshot.docs.forEach((doc) => {
-        col.push({ ...doc.data(), id: doc.id });
-      });
-      console.log("eventservice getuserevents:", col);
-      setLoading(false);
-      setUserEvents(col);
-    });
+    fetchUserEvents(user.uid);
+    setLoading(false);
   }, []);
 
-  console.log(userEvents);
+  // console.log(userEvents);
 
   const handleDeleteEvent = (deletedEventId) => {
     const updatedEvents = userEvents.filter(
@@ -49,7 +54,10 @@ const EventList = (props) => {
     setLoading(false);
   };
 
-  console.log(userEvents);
+  if (loading) {
+    return <Loading />; // Render a loading state or placeholder
+  }
+  // console.log(userEvents);
 
   return (
     <>
@@ -85,7 +93,9 @@ const EventList = (props) => {
                     />
                   ))
                 ) : (
-                  <></>
+                  <tr>
+                    <td colSpan="6">No events found</td>
+                  </tr>
                 )}
               </MDBTableBody>
             </MDBTable>

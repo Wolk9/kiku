@@ -68,7 +68,7 @@ class TimeDifferenceCalculator {
 
       const difference = time2.getTime() - time1.getTime();
 
-      console.log("difference", difference);
+      // console.log("difference", difference);
 
       const difInMinutes = Math.floor(difference / 1000 / 60);
 
@@ -85,9 +85,9 @@ class UserService {
     if (userDoc.exists()) {
       const userData = userDoc.data();
       if (userData.role === "admin") {
-        console.log("User has admin role");
+        // console.log("User has admin role");
       } else {
-        console.log("User does not have admin role");
+        // console.log("User does not have admin role");
       }
       return userData;
     } else {
@@ -104,7 +104,7 @@ class UserService {
   }
 
   static async signOutUser() {
-    console.log("signOutUser");
+    // console.log("signOutUser");
     try {
       await signOut(auth);
     } catch (err) {
@@ -125,7 +125,7 @@ class EventService {
           snapshot.docs.forEach((doc) => {
             col.push({ ...doc.data(), id: doc.id });
           });
-          console.log("eventservice getuserevents:", col);
+          // console.log("eventservice getuserevents:", col);
           resolve(col); // Resolve the promise with the collected events
         },
         reject
@@ -135,10 +135,10 @@ class EventService {
 
   static async getOpenEventDocId(uid) {
     const userEvents = await this.getUserEvents(uid);
-    console.log(userEvents);
+    // console.log(userEvents);
     let sortedEvents = [];
     if (userEvents?.length > 1) {
-      console.log("userEvents is longer that 1");
+      // console.log("userEvents is longer that 1");
       sortedEvents = userEvents.sort((a, b) =>
         a.timestamp < b.timestamp ? 1 : -1
       );
@@ -147,35 +147,35 @@ class EventService {
       );
 
       if (openEvents.length > 0) {
-        console.log("openEvents > 0");
+        // console.log("openEvents > 0");
         const lastOpenEvent = openEvents[openEvents.length - 1];
         return lastOpenEvent.id;
       } else {
-        console.log("openEents = 0");
+        // console.log("openEents = 0");
         return null;
       }
     } else {
-      console.log("userEvents = 1");
+      // console.log("userEvents = 1");
       return userEvents;
     }
   }
 
   static async getEvent(id) {
-    console.log(id);
-    const eventRef = collection(db, "events");
-    const eventDoc = await getDoc(doc(eventRef, id));
+    // console.log(id);
+    const eventRef = doc(collection(db, "events"), id);
+    const eventDoc = await getDoc(eventRef);
     const eventData = eventDoc.data();
     return eventData;
   }
 
   static async deleteEvent(id) {
-    const eventRef = collection(db, "events");
-    await deleteDoc(doc(eventRef, id));
+    const eventRef = doc(collection(db, "events"), id);
+    await deleteDoc(eventRef);
   }
 
   static async editEvent(id, updates) {
-    const eventRef = collection(db, "events");
-    await updateDoc(eventRef, { ...doc.data(), updates });
+    const eventRef = doc(collection(db, "events"), id);
+    await updateDoc(eventRef, updates);
   }
 
   static async setEventEndTime(eventId, newEndTime) {
@@ -188,7 +188,10 @@ class EventService {
 
   static async addEvent(uid, newEvent) {
     const eventRef = collection(db, "events");
-    await addDoc(eventRef, newEvent);
+    await addDoc(eventRef, {
+      ...newEvent,
+      eventStart: serverTimestamp(), // Set the eventStart field with server timestamp
+    });
   }
 }
 

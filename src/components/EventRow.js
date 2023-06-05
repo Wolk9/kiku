@@ -5,15 +5,16 @@ import { EventService, DateFormatter, TimeDifferenceCalculator } from "./helpers
 import { BsFillTrashFill, BsFillPenFill } from "react-icons/bs";
 
 const EventRow = (props) => {
+  console.log("render EventRow");
   const { start, end, type, id, onDelete, onEdit, loading, setLoading } = props;
   //   const date = "10-10";
-  console.log(id);
+  // console.log(id);
 
   const date = DateFormatter.formatDate(start);
   const formatedStart = DateFormatter.formatTime(start);
   const formatedEnd = (end) => {
     if (end === "running" || end === null || end === undefined) {
-      return <></>
+      return <></>;
     } else {
       return <>{DateFormatter.formatTime(end)}</>;
     }
@@ -27,16 +28,15 @@ const EventRow = (props) => {
     }
   };
   const handleEdit = (e) => {
-    console.log(e);
+    // console.log(e);
     //EventService.editEvent(id);
   };
 
   const handleDelete = (e) => {
-    console.log(e);
-    setLoading(true);
+    // console.log(e);
+
     EventService.deleteEvent(e).then(() => {
       onDelete(id);
-      setLoading(false);
     });
   };
 
@@ -55,7 +55,9 @@ const EventRow = (props) => {
         ) : (
           <>
             <td></td>
-            <td>{<Timer />}</td>
+            <td>
+              <Timer />
+            </td>
           </>
         )}
 
@@ -63,9 +65,12 @@ const EventRow = (props) => {
           <span className="actions">
             <BsFillTrashFill
               className="delete-btn"
-              onClick={handleDelete(id)}
+              onClick={() => handleDelete(id)}
             />
-            <BsFillPenFill className="edit-btn" onClick={handleEdit(id)} />
+            <BsFillPenFill
+              className="edit-btn"
+              onClick={() => handleEdit(id)}
+            />
           </span>
         </td>
       </tr>
