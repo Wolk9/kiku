@@ -86,7 +86,7 @@ const BasePage = (props) => {
                 onClick={handleClockIn}
                 disabled={eventStarted}
               >
-                {eventStarted ? <Timer /> : "Clock in"}
+                {eventStarted && <Timer />}
               </button>
               <button
                 className="clock-out-btn"
