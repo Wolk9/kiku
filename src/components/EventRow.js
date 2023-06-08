@@ -6,7 +6,8 @@ import { BsFillTrashFill, BsFillPenFill } from "react-icons/bs";
 
 const EventRow = (props) => {
   console.log("render EventRow");
-  const { start, end, type, id, onDelete, onEdit, loading, setLoading } = props;
+  const { start, end, type, id, onDelete, onEdit, loading, setLoading } =
+    props;
   //   const date = "10-10";
   // console.log(id);
 
@@ -14,13 +15,13 @@ const EventRow = (props) => {
   const formatedStart = DateFormatter.formatTime(start);
   const formatedEnd = (end) => {
     if (end === "running" || end === null || end === undefined) {
-      return <></>;
+      return <>Running</>;
     } else {
       return <>{DateFormatter.formatTime(end)}</>;
     }
   };
 
-  const difference = (start, end) => {
+  const getDifference = (start, end) => {
     if (end === "running") {
       return "running";
     } else {
@@ -42,7 +43,7 @@ const EventRow = (props) => {
 
   return (
     <>
-      <tr onClick={() => handleEdit(id)}>
+      <tr key={id}>
         <td>{date}</td>
         <td>{type}</td>
         <td>{formatedStart ? formatedStart : <></>}</td>
@@ -50,7 +51,7 @@ const EventRow = (props) => {
         {formatedEnd ? (
           <>
             <td>{formatedEnd}</td>
-            <td>{difference}</td>
+            <td>{() => getDifference()}</td>
           </>
         ) : (
           <>

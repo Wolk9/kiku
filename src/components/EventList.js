@@ -21,28 +21,23 @@ const Loading = () => {
 
 const EventList = (props) => {
   console.log("render Eventlist");
-  const { user, userEvents, setUserEvents } = props;
+  const { user } = props;
   const [loading, setLoading] = useState(true);
+  const [userEvents, setUserEvents] = useState([]);
 
-  // console.log(user);
+   useEffect(() => {
+     const fetchEvents = async () => {
+       try {
+         const events = await EventService.getUserEvents(user.uid);
+         setUserEvents(events);
+         setLoading(false);
+       } catch (error) {
+         console.error("Error retrieving events:", error);
+       }
+     };
 
-  const q = query(collection(db, "events"), where("userId", "==", user.uid));
-
-  const fetchUserEvents = async (uid) => {
-    try {
-      const col = await EventService.getUserEvents(uid);
-      const newUserEvents = [...col];
-
-      setUserEvents(newUserEvents);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchUserEvents(user.uid);
-    setLoading(false);
-  }, []);
+     fetchEvents();
+   }, [user.uid]);
 
   // console.log(userEvents);
 
@@ -79,20 +74,6 @@ const EventList = (props) => {
               </thead>
 
               <MDBTableBody>
-                {/* {userEvents.some(
-                  (singleEvent) => singleEvent.endTime === "Running"
-                ) && (
-                  <EventRow
-                    key={singleEvent.id}
-                    id={singleEvent.id}
-                    start={singleEvent.eventStart}
-                    end={singleEvent.eventEnd}
-                    type={singleEvent.type}
-                    onDelete={handleDeleteEvent}
-                    loading={loading}
-                    setLoading={setLoading}
-                  />
-                )} */}
                 {userEvents.length > 0 ? (
                   userEvents.map((singleEvent) => (
                     <EventRow
@@ -108,7 +89,9 @@ const EventList = (props) => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="6">No events found</td>
+                    <td colSpan="6">
+                      <h4>No events found</h4>
+                    </td>
                   </tr>
                 )}
               </MDBTableBody>

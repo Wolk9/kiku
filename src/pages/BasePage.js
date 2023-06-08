@@ -53,41 +53,25 @@ const BasePage = (props) => {
 
   const toggleShow = () => setModalShow(!modalShow);
 
-  const addEvent = () => {
-    // console.log("addEvent");
-    const newEvent = {
-      userId: user.uid,
-      type: "Rijden",
-      eventStart: serverTimestamp(),
-      eventEnd: "running",
-    };
-    EventService.addEvent(user.uid, newEvent).then(() => {
-      setEventStarted(true);
-      //setUserEvents([...userEvents, newEvent]);
-      setUserEvents((prevEvents) => [...prevEvents, newEvent]);
-    });
-  };
-
   const handleClockIn = async () => {
-    // Handle the Clock In button click event
-    const newEvent = {
-      // Create the new event object
-      userId: user.uid,
-      type: "Rijden",
-      eventStart: serverTimestamp(),
-      eventEnd: "running",
-      // Other event properties
-    };
-
     try {
-      // Add the new event
-      const eventId = await EventService.addEvent(user.uid, newEvent);
+      const newEvent = {
+        userId: user.uid,
+        type: "Rijden",
+        eventStart: serverTimestamp(),
+        eventEnd: "running",
+      };
+
+      const eventId = await EventService.addEvent(user.uid, newEvent); // Add the new event
       newEvent.id = eventId; // Assign the generated event ID
+
       setUserEvents((prevEventList) => [...prevEventList, newEvent]); // Update the event list state
+      setEventStarted(true); // Set eventStarted to true
     } catch (error) {
       console.log("Error adding event:", error);
     }
   };
+
 
   const stopEvent = async (e) => {
     // console.log("stopEvent", e);
