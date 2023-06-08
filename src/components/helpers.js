@@ -65,7 +65,7 @@ class DateFormatter {
   }
 
   static formatFireStoreTime(unixTime) {
-    if (unixTime === null || unixTime === "running") {
+    if (unixTime === null || unixTime === "running" || unixTime === undefined) {
       return "no time";
     } else {
       const { seconds, nanoseconds } = unixTime;

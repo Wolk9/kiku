@@ -43,11 +43,11 @@ export const NavBar = (props) => {
         light
         style={{ backgroundColor: "#e3f2fd" }}
       >
-        <MDBContainer fluid>
+        <MDBContainer fluid >
           <MDBNavbarBrand href="#" className="mb-0 h1">
             <img src={logoURL} height="60" alt="" loading="lazy" />
           </MDBNavbarBrand>
-          <MDBNavbarNav className="mr-auto mb-2 mb-md-0">
+          <MDBNavbarNav className="mr-auto mb-2 mb-md-0 d-flex justify-content-between">
             <MDBNavbarItem>
               <MDBNavbarLink
                 active
@@ -59,23 +59,27 @@ export const NavBar = (props) => {
               <></>
             ) : (
               <>
-                <MDBNavbarItem>
-                  <MDBNavbarLink active aria-current="page" href="/">
-                    Home
-                  </MDBNavbarLink>
-                </MDBNavbarItem>
-                {admin === true ? (
+                <div className="d-flex justify-content-start">
                   <MDBNavbarItem>
-                    <MDBNavbarLink aria-current="page" href="users">
-                      Users
+                    <MDBNavbarLink active aria-current="page" href="/">
+                      Home
                     </MDBNavbarLink>
                   </MDBNavbarItem>
-                ) : (
-                  <></>
-                )}
-                <MDBBtn color="primary" onClick={UserService.signOutUser}>
-                  Log out
-                </MDBBtn>
+                  {admin === true ? (
+                    <MDBNavbarItem>
+                      <MDBNavbarLink aria-current="page" href="users">
+                        Users
+                      </MDBNavbarLink>
+                    </MDBNavbarItem>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+                <div className="d-flex justify-content-end">
+                  <MDBBtn color="primary" onClick={UserService.signOutUser}>
+                    Log out
+                  </MDBBtn>
+                </div>
               </>
             )}
           </MDBNavbarNav>

@@ -80,7 +80,7 @@ const BasePage = (props) => {
               <br />
               Choose your action here
             </p>
-            <span className="cico-btn-group">
+            <span className="cico-btn-group d-flex justify-content-centerr">
               <button
                 className="clock-in-btn"
                 onClick={handleClockIn}
