@@ -17,6 +17,8 @@ Om dat te ondervangen moet er na de useState registratie ook een doc worden wegg
 
 - Er moet minimaal een gebruiker zijn die andere gebruikers kan modereren. (User management)
 
+- naast inloggen moeten gebruikers zich ook kunnen registeren.
+
 - Events moeten later aanpasbaar zijn om correcties uit te kunnen voeren.
 
 - Er moet een lopende timer zichtbaar zijn die aangeeft hoe lang een event al actief is.
