@@ -76,16 +76,17 @@ const EventList = (props) => {
               <MDBTableBody>
                 {userEvents.length > 0 ? (
                   userEvents.map((singleEvent) => (
-                    <EventRow
-                      key={singleEvent.id}
-                      id={singleEvent.id}
-                      start={singleEvent.eventStart}
-                      end={singleEvent.eventEnd}
-                      type={singleEvent.type}
-                      onDelete={handleDeleteEvent}
-                      loading={loading}
-                      setLoading={setLoading}
-                    />
+                    <tr key={singleEvent.id}>
+                      <EventRow
+                        id={singleEvent.id}
+                        start={singleEvent.eventStart}
+                        end={singleEvent.eventEnd}
+                        type={singleEvent.type}
+                        onDelete={handleDeleteEvent}
+                        loading={loading}
+                        setLoading={setLoading}
+                      />
+                    </tr>
                   ))
                 ) : (
                   <tr>

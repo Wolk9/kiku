@@ -43,7 +43,7 @@ const EventRow = (props) => {
 
   return (
     <>
-      <tr key={id}>
+      
         <td>{date}</td>
         <td>{type}</td>
         <td>{formatedStart ? formatedStart : <></>}</td>
@@ -74,7 +74,7 @@ const EventRow = (props) => {
             />
           </span>
         </td>
-      </tr>
+     
     </>
   );
 };

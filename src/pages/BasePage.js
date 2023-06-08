@@ -29,21 +29,13 @@ const BasePage = (props) => {
   const [userProfile, setUserProfile] = useState({});
   const [modalShow, setModalShow] = useState(false);
   const [eventStarted, setEventStarted] = useState(false);
-  const [userEvents, setUserEvents] = useState([]);
-  const [eventList, setEventList] = useState([]);
+  const [newUserEvent, setNewUserEvent] = useState([]);
 
   // []);.log("user.uid: ", user.uid);
 
   useEffect(() => {
     const userProfile = UserService.getUserData(user.uid)
       .then((userProfile) => {
-        // console.log("User: ", userProfile);
-        // console.log(userProfile.age);
-        // console.log(userProfile.contractDate);
-        // console.log(userProfile.firstName);
-        // console.log(userProfile.hoursPerWeek);
-        // console.log(userProfile.lastName);
-        // console.log(userProfile.role);
         setUserProfile(userProfile);
       })
       .catch((error) => {
@@ -54,38 +46,34 @@ const BasePage = (props) => {
   const toggleShow = () => setModalShow(!modalShow);
 
   const handleClockIn = async () => {
-    try {
-      const newEvent = {
-        userId: user.uid,
-        type: "Rijden",
-        eventStart: serverTimestamp(),
-        eventEnd: "running",
-      };
-
-      const eventId = await EventService.addEvent(user.uid, newEvent); // Add the new event
-      newEvent.id = eventId; // Assign the generated event ID
-
-      setUserEvents((prevEventList) => [...prevEventList, newEvent]); // Update the event list state
-      setEventStarted(true); // Set eventStarted to true
-    } catch (error) {
-      console.log("Error adding event:", error);
-    }
+    const newClockIn = {
+      userId: user.uid,
+      type: "Rijden",
+      eventStart: serverTimestamp(),
+      eventEnd: "running",
+    };
+    setNewUserEvent(newClockIn); // Update the event list state
+    setEventStarted(true); // Set eventStarted to true
   };
 
-
   const stopEvent = async (e) => {
-    // console.log("stopEvent", e);
-    const openEventId = await EventService.getOpenEventDocId(user.uid);
-    // console.log(openEventId);
+    const runningEvent = newUserEvent;
 
-    if (openEventId) {
+    const stoppedEvent = { ...runningEvent, eventEnd: serverTimestamp() };
+
+    try {
       const newEndTime = serverTimestamp();
-      await EventService.setEventEndTime(openEventId, newEndTime);
-      // Do additional actions after updating the endTime field
+
+      await EventService.addEvent(stoppedEvent); // Add the new event
+      // Assign the generated event ID
       setEventStarted(false);
-    } else {
+    } catch (err) {
       // console.log("no open Event found");
+      console.log(err);
       // Handle the case where no open event was found
+    } finally {
+      setEventStarted(false);
+      setNewUserEvent([]);
     }
   };
 
@@ -121,12 +109,18 @@ const BasePage = (props) => {
             </span>
           </MDBCardBody>
         </MDBCard>
+        <MDBCard>
+          <MDBCardBody>
+            
+          </MDBCardBody>
+        </MDBCard>
       </MDBContainer>
+
 
       <EventList
         user={user}
-        userEvents={userEvents}
-        setUserEvents={setUserEvents}
+        newUserEvent={newUserEvent}
+        setNewUserEvent={setNewUserEvent}
       />
     </div>
   );
