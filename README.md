@@ -12,7 +12,7 @@ Het is geschreven in JavaScript React mbv Material Design Bootstrap (MDB) en wat
 ## ToDo's:
 
 - Een running event moet nog gelogd worden in de database zodat bij het verlaten van de app het event gewoon door blijft lopen. Nu is de running event een useState die weer wordt overschreven zodra er een rerender is; bijvoorbeeld bij het herladen.
-Om dat te ondervangen moet er na de useState registratie ook een doc worden weggeschreven in de FireBase Store. Dit houd echter in dat de EvenList een filter moet krijgen die alleen de afgesloten events fetcht, en dat bij terugkomst er eerst in de datastore moet wroden gekeken of er een event open staat en zo ja dat deze de lokae useState weer vult met de informatie. 
+Om dat te ondervangen moet er na de useState registratie ook een doc worden weggeschreven in de FireBase Store. Dit houdt echter in dat de EvenList een filter moet krijgen die alleen de afgesloten events fetcht, en dat bij terugkomst er eerst in de datastore moet wroden gekeken of er een event open staat en zo ja dat deze de lokae useState weer vult met de informatie. 
 - Er moeten meerdere gebruikers gebruik kunnen maken van de app, tegelijkertijd.
 
 - Er moet minimaal een gebruiker zijn die andere gebruikers kan modereren. (User management)
