@@ -27,8 +27,8 @@ class DateFormatter {
 
     if (isJavaScriptDate(date) == true) {
       console.log("JavaScriptDate");
-      const options = { weekday: "long", day: "numeric", month: "numeric" };
-      return date.toLocaleDateString("en-US", options);
+      const options = { weekday: "short", day: "2-digit", month: "2-digit" };
+      return date.toLocaleDateString("nl-NL", options);
     } else {
       console.log("not a JavaScriptDate");
       return this.formatFireStoreDate(date);
@@ -44,7 +44,7 @@ class DateFormatter {
     if (isJavaScriptDate(date) == true) {
       console.log("JavaScriptDate");
       const options = { hour: "2-digit", minute: "2-digit" };
-      return date.toLocaleTimeString("en-US", options);
+      return date.toLocaleTimeString("nl-NL", options);
     } else {
       console.log("not a JavaScriptDate");
       return this.formatFireStoreTime(date);

@@ -20,7 +20,7 @@ const BasePage = (props) => {
   const { admin, user } = props;
   const [userProfile, setUserProfile] = useState({});
   const [modalShow, setModalShow] = useState(false);
-  const [eventStarted, setEventStarted] = useState(false);
+  const [eventStarted, setEventStarted] = useState();
   const [newUserEvent, setNewUserEvent] = useState();
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const BasePage = (props) => {
       eventEnd: "running",
     };
     setNewUserEvent(newClockIn);
-    setEventStarted(true); // Set eventStarted to true
+    setEventStarted(true); 
   };
 
   const stopEvent = async (e) => {
@@ -57,7 +57,7 @@ const BasePage = (props) => {
     console.log(stoppedEvent);
 
     try {
-      await EventService.addEvent(stoppedEvent); // Add the new event
+      await EventService.addEvent(stoppedEvent); 
     } catch (err) {
       console.log(err);
     } finally {
