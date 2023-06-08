@@ -6,28 +6,21 @@ import { BsFillTrashFill, BsFillPenFill } from "react-icons/bs";
 
 const EventRow = (props) => {
   console.log("render EventRow");
-  const { start, end, type, id, onDelete, onEdit, loading, setLoading } =
+  const { start, end, type, id, onDelete, onEdit, loading, setLoading, isNew } =
     props;
-  //   const date = "10-10";
-  // console.log(id);
+
+  console.log("start:", start, end);
 
   const date = DateFormatter.formatDate(start);
   const formatedStart = DateFormatter.formatTime(start);
-  const formatedEnd = (end) => {
-    if (end === "running" || end === null || end === undefined) {
-      return <>Running</>;
-    } else {
-      return <>{DateFormatter.formatTime(end)}</>;
-    }
-  };
+  const formatedEnd = DateFormatter.formatTime(end);
 
   const getDifference = (start, end) => {
-    if (end === "running") {
-      return "running";
-    } else {
-      return TimeDifferenceCalculator.calculateDifference(start, end);
-    }
+    return TimeDifferenceCalculator.calculateDifference(start, end);
   };
+
+  const diff = getDifference(start, end);
+
   const handleEdit = (e) => {
     // console.log(e);
     //EventService.editEvent(id);
@@ -41,17 +34,16 @@ const EventRow = (props) => {
     });
   };
 
-  return (
-    <>
-      
+    return (
+      <>
         <td>{date}</td>
         <td>{type}</td>
-        <td>{formatedStart ? formatedStart : <></>}</td>
+        <td>{formatedStart}</td>
 
-        {formatedEnd ? (
+        {isNew === false ? (
           <>
             <td>{formatedEnd}</td>
-            <td>{() => getDifference()}</td>
+            <td>{diff}</td>
           </>
         ) : (
           <>
@@ -62,21 +54,22 @@ const EventRow = (props) => {
           </>
         )}
 
-        <td>
-          <span className="actions">
-            <BsFillTrashFill
-              className="delete-btn"
-              onClick={() => handleDelete(id)}
-            />
-            <BsFillPenFill
-              className="edit-btn"
-              onClick={() => handleEdit(id)}
-            />
-          </span>
-        </td>
-     
-    </>
-  );
+        {!isNew && (
+          <td>
+            <span className="actions">
+              <BsFillTrashFill
+                className="delete-btn"
+                onClick={() => handleDelete(id)}
+              />
+              <BsFillPenFill
+                className="edit-btn"
+                onClick={() => handleEdit(id)}
+              />
+            </span>
+          </td>
+        )}
+      </>
+    );
 };
 
 export default EventRow;

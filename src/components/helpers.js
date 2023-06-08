@@ -12,13 +12,47 @@ import {
   serverTimestamp,
   onSnapshot,
 } from "firebase/firestore";
+
 import { db, auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
 import moment from "moment";
 import "moment/locale/nl";
 
 class DateFormatter {
-  static formatDate(unixTime) {
+  static formatDate = (date) => {
+    console.log("formatDate:", date);
+    const isJavaScriptDate = (date) => {
+      return date instanceof Date;
+    };
+
+    if (isJavaScriptDate(date) == true) {
+      console.log("JavaScriptDate");
+      const options = { weekday: "long", day: "numeric", month: "numeric" };
+      return date.toLocaleDateString("en-US", options);
+    } else {
+      console.log("not a JavaScriptDate");
+      return this.formatFireStoreDate(date);
+    }
+  };
+
+  static formatTime = (date) => {
+    console.log("formatTime:", date);
+    const isJavaScriptDate = (date) => {
+      return date instanceof Date;
+    };
+
+    if (isJavaScriptDate(date) == true) {
+      console.log("JavaScriptDate");
+      const options = { hour: "2-digit", minute: "2-digit" };
+      return date.toLocaleTimeString("en-US", options);
+    } else {
+      console.log("not a JavaScriptDate");
+      return this.formatFireStoreTime(date);
+    }
+  };
+
+  static formatFireStoreDate(unixTime) {
+    console.log("helper:", unixTime.seconds, unixTime.nanoseconds);
     if (unixTime === null || unixTime === "running") {
       return "no date";
     } else {
@@ -30,7 +64,7 @@ class DateFormatter {
     }
   }
 
-  static formatTime(unixTime) {
+  static formatFireStoreTime(unixTime) {
     if (unixTime === null || unixTime === "running") {
       return "no time";
     } else {
@@ -186,14 +220,11 @@ class EventService {
     });
   }
 
-  static async addEvent(uid, newEvent) {
+  static async addEvent(newEvent) {
+    console.log("addEvent:" ,newEvent)
     const eventRef = collection(db, "events");
-    await addDoc(eventRef, {
-      ...newEvent,
-      eventStart: serverTimestamp(), // Set the eventStart field with server timestamp
-    });
+    await addDoc(eventRef, newEvent);
   }
 }
-
 
 export { UserService, TimeDifferenceCalculator, DateFormatter, EventService };

@@ -13,25 +13,15 @@ import { UserService, EventService } from "../components/helpers";
 import { Modal } from "../components/Modal";
 import { Timer } from "../components/Timer";
 import { serverTimestamp } from "firebase/firestore";
+import { RunningEvent } from "../components/RunningEvent";
 
 const BasePage = (props) => {
   console.log("render BasePage");
-  const {
-    admin,
-    showPopUp,
-    setShowPopUp,
-    popUpBody,
-    setPopUpBody,
-    popUpTitle,
-    setPopUpTitle,
-    user,
-  } = props;
+  const { admin, user } = props;
   const [userProfile, setUserProfile] = useState({});
   const [modalShow, setModalShow] = useState(false);
   const [eventStarted, setEventStarted] = useState(false);
-  const [newUserEvent, setNewUserEvent] = useState([]);
-
-  // []);.log("user.uid: ", user.uid);
+  const [newUserEvent, setNewUserEvent] = useState();
 
   useEffect(() => {
     const userProfile = UserService.getUserData(user.uid)
@@ -46,45 +36,44 @@ const BasePage = (props) => {
   const toggleShow = () => setModalShow(!modalShow);
 
   const handleClockIn = async () => {
+    const start = new Date();
     const newClockIn = {
       userId: user.uid,
       type: "Rijden",
-      eventStart: serverTimestamp(),
+      eventStart: start,
       eventEnd: "running",
     };
-    setNewUserEvent(newClockIn); // Update the event list state
+    setNewUserEvent(newClockIn);
     setEventStarted(true); // Set eventStarted to true
   };
 
   const stopEvent = async (e) => {
+    console.log("stop Event", e);
     const runningEvent = newUserEvent;
+    const end = new Date();
 
-    const stoppedEvent = { ...runningEvent, eventEnd: serverTimestamp() };
+    const stoppedEvent = { ...runningEvent, eventEnd: end };
+
+    console.log(stoppedEvent);
 
     try {
-      const newEndTime = serverTimestamp();
-
       await EventService.addEvent(stoppedEvent); // Add the new event
-      // Assign the generated event ID
-      setEventStarted(false);
     } catch (err) {
-      // console.log("no open Event found");
       console.log(err);
-      // Handle the case where no open event was found
     } finally {
       setEventStarted(false);
-      setNewUserEvent([]);
+      setNewUserEvent();
     }
   };
 
-  // console.log("Adminpage admin:", admin);
+  console.log(newUserEvent);
 
   return (
     <div>
       <Modal show={modalShow} toggleShow={toggleShow} />
-      <MDBContainer>
+      <MDBContainer breakpoint="lg">
         <MDBCard>
-          <MDBCardBody>
+          <MDBCardBody className="table-wrapper">
             <MDBCardTitle>Welcome {userProfile.firstName}</MDBCardTitle>
             <p>
               You are {admin ? "an Admin" : "an User"}
@@ -109,19 +98,23 @@ const BasePage = (props) => {
             </span>
           </MDBCardBody>
         </MDBCard>
-        <MDBCard>
+        <MDBCard className="table-wrapper">
           <MDBCardBody>
-            
+            {newUserEvent && (
+              <RunningEvent user={user} newUserEvent={newUserEvent} />
+            )}
+          </MDBCardBody>
+        </MDBCard>
+        <MDBCard>
+          <MDBCardBody className="table-wrapper">
+            <EventList
+              user={user}
+              newUserEvent={newUserEvent}
+              setNewUserEvent={setNewUserEvent}
+            />
           </MDBCardBody>
         </MDBCard>
       </MDBContainer>
-
-
-      <EventList
-        user={user}
-        newUserEvent={newUserEvent}
-        setNewUserEvent={setNewUserEvent}
-      />
     </div>
   );
 };
