@@ -42,7 +42,7 @@ const EventRow = (props) => {
 
   return (
     <>
-      <tr onClick={handleEdit(id)}>
+      <tr onClick={() => handleEdit(id)}>
         <td>{date}</td>
         <td>{type}</td>
         <td>{formatedStart ? formatedStart : <></>}</td>
