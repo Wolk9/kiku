@@ -20,27 +20,26 @@ const Loading = () => {
 };
 
 const EventList = (props) => {
-  console.log("render Eventlist");
+  // console.log("render Eventlist");
   const { user, newUserEvent } = props;
   const [loading, setLoading] = useState(true);
   const [userEvents, setUserEvents] = useState([]);
 
-   useEffect(() => {
-     const fetchEvents = async () => {
-       setLoading(true)
-       try {
-         const events = await EventService.getUserEvents(user.uid);
-         setUserEvents(events);
-       
-       } catch (error) {
-         console.error("Error retrieving events:", error);
-       } finally {
-          setLoading(false);
-       }
-     };
+  useEffect(() => {
+    const fetchEvents = async () => {
+      setLoading(true);
+      try {
+        const events = await EventService.getUserEvents(user.uid);
+        setUserEvents(events);
+      } catch (error) {
+        console.error("Error retrieving events:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-     fetchEvents();
-   }, [newUserEvent]);
+    fetchEvents();
+  }, [newUserEvent]);
 
   const handleDeleteEvent = (deletedEventId) => {
     const updatedEvents = userEvents.filter(

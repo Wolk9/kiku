@@ -53,7 +53,7 @@ const PopUp = (props) => {
 };
 
 const App = () => {
-  console.log("render App")
+  // console.log("render App")
   const [user, setUser] = useState(null);
   const [showPopUp, setShowPopUp] = useState(false);
   const [popUpBody, setPopUpBody] = useState("");

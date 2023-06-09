@@ -14,7 +14,7 @@ import {
 } from "mdb-react-ui-kit";
 
 const LoginPage = (props) => {
-  console.log("render LoginPage")
+  // console.log("render LoginPage")
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const {

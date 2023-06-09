@@ -20,7 +20,7 @@ import { serverTimestamp } from "firebase/firestore";
 import { RunningEvent } from "../components/RunningEvent";
 
 const BasePage = (props) => {
-  console.log("render BasePage");
+  // console.log("render BasePage");
   const { admin, user } = props;
   const [userProfile, setUserProfile] = useState({});
   const [modalShow, setModalShow] = useState(false);
@@ -28,14 +28,43 @@ const BasePage = (props) => {
   const [newUserEvent, setNewUserEvent] = useState();
 
   useEffect(() => {
-    const userProfile = UserService.getUserData(user.uid)
+    UserService.getUserData(user.uid)
       .then((userProfile) => {
         setUserProfile(userProfile);
       })
       .catch((error) => {
         console.error("Error retrieving user data:", error);
       });
+    RealTimeService.readRunningEvent(user.uid).then((result) => {
+      if (result !== undefined) {
+        const eventStart = result.eventStart;
+        const eventEnd = result.eventEnd;
+        const type = result.type;
+        const userId = result.userId;
+
+        setNewUserEvent({
+          eventStart: eventStart,
+          eventEnd: eventEnd,
+          type: type,
+          userId: userId,
+        });
+        setEventStarted(true);
+      } else {
+        setNewUserEvent();
+      }
+    });
   }, []);
+
+  let runningEvent = async () => {
+    try {
+      let result = RealTimeService.readRunningEvent(user.uid);
+      return result;
+    } catch (err) {
+      console.log(err);
+    } finally {
+    }
+  };
+  console.log("running Event from rtdb:", runningEvent());
 
   const toggleShow = () => setModalShow(!modalShow);
 
@@ -52,7 +81,7 @@ const BasePage = (props) => {
     setNewUserEvent(newClockIn);
     setEventStarted(true);
     try {
-      RealTimeService.writeData(user.uid, newClockIn);
+      RealTimeService.writeRunningEvent(user.uid, newClockIn);
       // await EventService.addEvent(newClockIn)
     } catch (err) {
       console.log(err);
@@ -83,6 +112,7 @@ const BasePage = (props) => {
     } finally {
       setEventStarted(false);
       setNewUserEvent();
+      RealTimeService.deleteRunningEvent(user.uid);
     }
   };
 

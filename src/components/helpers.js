@@ -16,11 +16,11 @@ import { db, rtdb, auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
 import moment from "moment";
 import "moment/locale/nl";
-import { set, ref } from "firebase/database";
+import { set, ref, remove, child, get } from "firebase/database";
 
 class DateFormatter {
   static formatDate = (date) => {
-    console.log("formatDate:", date);
+    // console.log("formatDate:", date);
     const isJavaScriptDate = (date) => {
       return date instanceof Date;
     };
@@ -32,22 +32,22 @@ class DateFormatter {
     };
 
     if (isJavaScriptDate(date) === true) {
-      console.log("JavaScriptDate");
+      // console.log("JavaScriptDate");
       const options = { weekday: "short", day: "2-digit", month: "2-digit" };
       return date.toLocaleDateString("nl-NL", options);
     } else if (isISO8601(date) === true) {
-      console.log("ISO date", date);
+      // console.log("ISO date", date);
       const isoDate = new Date(date);
       const options = { weekday: "short", day: "2-digit", month: "2-digit" };
       return isoDate.toLocaleDateString("nl-NL", options);
     } else {
-      console.log("not a JavaScriptDate");
+      // console.log("not a JavaScriptDate");
       return this.formatFireStoreDate(date);
     }
   };
 
   static formatTime = (date) => {
-    console.log("formatTime:", date);
+    // console.log("formatTime:", date);
     const isJavaScriptDate = (date) => {
       return date instanceof Date;
     };
@@ -59,22 +59,22 @@ class DateFormatter {
     };
 
     if (isJavaScriptDate(date) === true) {
-      console.log("JavaScriptDate");
+      // console.log("JavaScriptDate");
       const options = { hour: "2-digit", minute: "2-digit" };
       return date.toLocaleTimeString("nl-NL", options);
     } else if (isISO8601(date) === true) {
-      console.log("ISO time", date);
+      // console.log("ISO time", date);
       const isoTime = new Date(date);
       const options = { hour: "2-digit", minute: "2-digit" };
       return isoTime.toLocaleTimeString("nl-NL", options);
     } else {
-      console.log("not a JavaScriptDate");
+      // console.log("not a JavaScriptDate");
       return this.formatFireStoreTime(date);
     }
   };
 
   static formatFireStoreDate(unixTime) {
-    console.log("helper:", unixTime.seconds, unixTime.nanoseconds);
+    // console.log("helper:", unixTime.seconds, unixTime.nanoseconds);
     if (unixTime === null || unixTime === "running") {
       return "no date";
     } else {
@@ -157,7 +157,7 @@ class UserService {
       }
       return userData;
     } else {
-      console.log("User not found");
+      // console.log("User not found");
     }
   }
 
@@ -253,18 +253,29 @@ class EventService {
   }
 
   static async addEvent(newEvent) {
-    console.log("addEvent:", newEvent);
+    // console.log("addEvent:", newEvent);
     const eventRef = collection(db, "events");
     await addDoc(eventRef, newEvent);
   }
 }
 
 class RealTimeService {
-  static async writeData(userId, data) {
+  static async writeRunningEvent(userId, data) {
     set(ref(rtdb, `/${userId}`), { data: data });
   }
 
-  static async readData() {}
+  static async readRunningEvent(userId) {
+    const snapshot = await get(ref(rtdb, `/${userId}`));
+    if (snapshot.exists()) {
+      return snapshot.val().data;
+    } else {
+      return undefined; // or any other default value you prefer
+    }
+  }
+
+  static async deleteRunningEvent(userId) {
+    remove(ref(rtdb, `/${userId}`));
+  }
 }
 
 export {

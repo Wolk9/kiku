@@ -14,7 +14,7 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { UserService } from "./helpers";
 
 export const NavBar = (props) => {
-  console.log("render NavBar")
+  // console.log("render NavBar")
   const { admin, logoOnly } = props;
   const [logoURL, setLogoURL] = useState("");
 
@@ -43,7 +43,7 @@ export const NavBar = (props) => {
         light
         style={{ backgroundColor: "#e3f2fd" }}
       >
-        <MDBContainer fluid >
+        <MDBContainer fluid>
           <MDBNavbarBrand href="#" className="mb-0 h1">
             <img src={logoURL} height="60" alt="" loading="lazy" />
           </MDBNavbarBrand>

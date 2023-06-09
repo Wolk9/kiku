@@ -5,7 +5,7 @@ import { EventService, DateFormatter, TimeDifferenceCalculator } from "./helpers
 import { BsFillTrashFill, BsFillPenFill } from "react-icons/bs";
 
 const EventRow = (props) => {
-  console.log("render EventRow");
+  // console.log("render EventRow");
   const { start, end, type, id, onDelete, onEdit, loading, setLoading, isNew } =
     props;
 
@@ -34,42 +34,42 @@ const EventRow = (props) => {
     });
   };
 
-    return (
-      <>
-        <td>{date}</td>
-        <td>{type}</td>
-        <td>{formatedStart}</td>
+  return (
+    <>
+      <td>{date}</td>
+      <td>{type}</td>
+      <td>{formatedStart}</td>
 
-        {isNew === false ? (
-          <>
-            <td>{formatedEnd}</td>
-            <td>{diff}</td>
-          </>
-        ) : (
-          <>
-            <td></td>
-            <td>
-              <Timer />
-            </td>
-          </>
-        )}
-
-        {!isNew && (
+      {isNew === false ? (
+        <>
+          <td>{formatedEnd}</td>
+          <td>{diff}</td>
+        </>
+      ) : (
+        <>
+          <td></td>
           <td>
-            <span className="actions">
-              <BsFillTrashFill
-                className="delete-btn"
-                onClick={() => handleDelete(id)}
-              />
-              <BsFillPenFill
-                className="edit-btn"
-                onClick={() => handleEdit(id)}
-              />
-            </span>
+            <Timer />
           </td>
-        )}
-      </>
-    );
+        </>
+      )}
+
+      {!isNew && (
+        <td>
+          <span className="actions">
+            <BsFillTrashFill
+              className="delete-btn"
+              onClick={() => handleDelete(id)}
+            />
+            <BsFillPenFill
+              className="edit-btn"
+              onClick={() => handleEdit(id)}
+            />
+          </span>
+        </td>
+      )}
+    </>
+  );
 };
 
 export default EventRow;
