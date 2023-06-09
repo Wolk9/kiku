@@ -9,7 +9,7 @@ const EventRow = (props) => {
   const { start, end, type, id, onDelete, onEdit, loading, setLoading, isNew } =
     props;
 
-  console.log("start:", start, end);
+  // console.log("start:", start, end);
 
   const date = DateFormatter.formatDate(start);
   const formatedStart = DateFormatter.formatTime(start);
@@ -22,7 +22,7 @@ const EventRow = (props) => {
   const diff = getDifference(start, end);
 
   const handleEdit = (e) => {
-    // console.log(e);
+    console.log(e);
     //EventService.editEvent(id);
   };
 
@@ -39,21 +39,14 @@ const EventRow = (props) => {
       <td>{date}</td>
       <td>{type}</td>
       <td>{formatedStart}</td>
-
       {isNew === false ? (
         <>
           <td>{formatedEnd}</td>
           <td>{diff}</td>
         </>
       ) : (
-        <>
-          <td></td>
-          <td>
-            <Timer />
-          </td>
-        </>
+        <></>
       )}
-
       {!isNew && (
         <td>
           <span className="actions">

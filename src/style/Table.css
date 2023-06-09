@@ -24,7 +24,7 @@
 }
 
 .table th, .table td {
-    padding: 0.8rem;
+    padding: 0.5rem;
 }
 
 
@@ -44,6 +44,10 @@
 
 .label {
 
+}
+
+.timer {
+    color: black
 }
 
 .actions {
@@ -66,22 +70,21 @@
     color: lightseagreen;
     font-size: x-large;
     padding: 0.2rem;
-
 }
 
 .cico-btn-group {
- width: 80%;
- height: 200px;
+ width: 100%;
+ height: 180px;
  font-size: xx-large;
  align-items: center;
  justify-content: center;
-
 }
 
 .cico-btn-group .clock-in-btn {
     border: 0px solid #ccc;
     border-radius: 10px 0px 0px 10px;
-    height: 200px;
+    padding-top: 0px;
+    height: 180px;
     max-width: 300px;
     background-color: lightgreen;
     width: 50%;
@@ -91,7 +94,8 @@
 .cico-btn-group .clock-out-btn {
     border: 0px solid #ccc;
     border-radius: 0px 10px 10px 0px;
-    height: 200px;
+    padding: 0px;
+    height: 180px;
     max-width: 300px;
     background-color: #e10d05;
     color: #ddd;

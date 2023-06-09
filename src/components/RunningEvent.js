@@ -10,14 +10,10 @@ export const RunningEvent = (props) => {
         <thead>
           <tr>
             <th scope="col">date</th>
-            <th scope="col">type</th>
-            <th scope="col">start</th>
-            <th scope="col"></th>
-
             <th scope="col" className="expand">
-              lopende tijd
+              type
             </th>
-            <th scope="col"></th>
+            <th scope="col">start</th>
           </tr>
         </thead>
 
