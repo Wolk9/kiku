@@ -12,18 +12,28 @@ import {
   MDBCol,
 } from "mdb-react-ui-kit";
 import React, { useEffect, useState } from "react";
+import { DateFormatter } from "./helpers";
 
 export const Modal = (props) => {
   const { title, show, toggleShow, modalType, modalEventToEdit } = props;
   const [form, setForm] = useState({});
 
+  // const date = DateFormatter.formatDate(modalEventToEdit?.eventStart);
+  // const formatedStart = DateFormatter.formatTime(modalEventToEdit?.eventStart);
+  // const formatedEnd = DateFormatter.formatTime(modalEventToEdit?.eventEnd);
+
+  const eventToEdit = {
+    // date: date,
+    // start: formatedStart,
+    // end: formatedEnd,
+    // type: modalEventToEdit?.type,
+  };
+
   let content;
 
   switch (modalType) {
     case "edit":
-      content = (
-        <EditForm form={form} setForm={setForm} event={modalEventToEdit} />
-      );
+      content = <EditForm form={form} setForm={setForm} event={eventToEdit} />;
       break;
     case "error":
       content = <ErrorDisplay />;
@@ -67,6 +77,12 @@ export const Modal = (props) => {
 const EditForm = (props) => {
   const { form, setForm, event } = props;
 
+  console.log(event);
+
+  useEffect(() => {
+    setForm(event);
+  }, []);
+
   useEffect(() => {
     console.log(form);
   }, [form]);
@@ -109,7 +125,7 @@ const EditForm = (props) => {
             name="start"
             type="time"
             id="start"
-            value={event.start}
+            value={event.eventStart}
             onChange={handleChange}
           />
         </div>
@@ -123,7 +139,7 @@ const EditForm = (props) => {
             name="end"
             type="time"
             id="end"
-            value={event.end}
+            value={event.eventEnd}
             onChange={handleChange}
           />
         </div>

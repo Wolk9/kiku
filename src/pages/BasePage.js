@@ -103,7 +103,7 @@ const BasePage = (props) => {
     const runningEvent = newUserEvent;
     const end = new Date();
 
-    const stoppedEvent = { ...runningEvent, eventEnd: end };
+    const stoppedEvent = { ...runningEvent, eventEnd: end.toISOString() };
 
     console.log(stoppedEvent);
 

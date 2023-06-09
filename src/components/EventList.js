@@ -26,40 +26,49 @@ const EventList = (props) => {
   const [loading, setLoading] = useState(true);
   const [userEvents, setUserEvents] = useState([]);
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      setLoading(true);
-      try {
-        const events = await EventService.getUserEvents(user.uid);
-        setUserEvents(events);
-      } catch (error) {
-        console.error("Error retrieving events:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+const [sortingLoading, setSortingLoading] = useState(true);
 
-    fetchEvents();
-  }, [newUserEvent]);
-
-  const handleEditEvent = (editEvent) => {
-    console.log(editEvent);
-    toggleShow();
-    setModalType("edit");
-    setModalEventToEdit(editEvent);
+useEffect(() => {
+  const fetchEvents = async () => {
+    setLoading(true);
+    try {
+      const events = await EventService.getUserEvents(user.uid);
+      setSortingLoading(true); // Start the sorting operation
+      const sortedEvents = events.sort(
+        (a, b) =>
+          new Date(b.eventStart).getTime() - new Date(a.eventStart).getTime()
+      );
+      console.log(sortedEvents);
+      setUserEvents(sortedEvents);
+      setSortingLoading(false); // Sorting operation finished
+    } catch (error) {
+      console.error("Error retrieving events:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleDeleteEvent = (deletedEventId) => {
-    const updatedEvents = userEvents.filter(
-      (event) => event.id !== deletedEventId
-    );
-    setUserEvents(updatedEvents);
-    setLoading(false);
-  };
+  fetchEvents();
+}, [newUserEvent]);
 
-  if (loading) {
-    return <Loading />; // Render a loading state or placeholder
-  }
+const handleEditEvent = (editEvent) => {
+  console.log(editEvent);
+  setModalEventToEdit(editEvent);
+  setModalType("edit");
+  toggleShow();
+};
+
+const handleDeleteEvent = (deletedEventId) => {
+  const updatedEvents = userEvents.filter(
+    (event) => event.id !== deletedEventId
+  );
+  setUserEvents(updatedEvents);
+  setLoading(false);
+};
+
+if (loading || sortingLoading) {
+  return <Loading />; // Render a loading state or placeholder
+}
 
   return (
     <>

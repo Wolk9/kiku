@@ -75,7 +75,7 @@ class DateFormatter {
 
   static formatFireStoreDate(unixTime) {
     // console.log("helper:", unixTime.seconds, unixTime.nanoseconds);
-    if (unixTime === null || unixTime === "running") {
+    if (unixTime === null || unixTime === undefined || unixTime === "running") {
       return "no date";
     } else {
       const { seconds, nanoseconds } = unixTime;
@@ -227,11 +227,16 @@ class EventService {
   }
 
   static async getEvent(id) {
-    // console.log(id);
+    console.log("getEvent: ", id);
     const eventRef = doc(collection(db, "events"), id);
-    const eventDoc = await getDoc(eventRef);
-    const eventData = eventDoc.data();
-    return eventData;
+    try {
+      const eventDoc = await getDoc(eventRef);
+      const eventData = eventDoc.data();
+      console.log("getEvent: ", eventData);
+      return eventData;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   static async deleteEvent(id) {
