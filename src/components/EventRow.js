@@ -23,7 +23,9 @@ const EventRow = (props) => {
 
   const handleEdit = (e) => {
     console.log(e);
-    //EventService.editEvent(id);
+    EventService.getEvent(e).then((result) => {
+      onEdit(result);
+    });
   };
 
   const handleDelete = (e) => {

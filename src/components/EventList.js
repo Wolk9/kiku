@@ -21,7 +21,8 @@ const Loading = () => {
 
 const EventList = (props) => {
   // console.log("render Eventlist");
-  const { user, newUserEvent } = props;
+  const { user, newUserEvent, toggleShow, setModalType, setModalEventToEdit } =
+    props;
   const [loading, setLoading] = useState(true);
   const [userEvents, setUserEvents] = useState([]);
 
@@ -40,6 +41,13 @@ const EventList = (props) => {
 
     fetchEvents();
   }, [newUserEvent]);
+
+  const handleEditEvent = (editEvent) => {
+    console.log(editEvent);
+    toggleShow();
+    setModalType("edit");
+    setModalEventToEdit(editEvent);
+  };
 
   const handleDeleteEvent = (deletedEventId) => {
     const updatedEvents = userEvents.filter(
@@ -60,7 +68,6 @@ const EventList = (props) => {
           <tr>
             {userEvents.length > 0 ? (
               <>
-                {" "}
                 <th scope="col">date</th>
                 <th scope="col">type</th>
                 <th scope="col">start</th>
@@ -82,7 +89,6 @@ const EventList = (props) => {
             )}
           </tr>
         </thead>
-
         <MDBTableBody>
           {userEvents.length > 0 ? (
             userEvents.map((singleEvent) => (
@@ -92,6 +98,7 @@ const EventList = (props) => {
                   start={singleEvent.eventStart}
                   end={singleEvent.eventEnd}
                   type={singleEvent.type}
+                  onEdit={handleEditEvent}
                   onDelete={handleDeleteEvent}
                   loading={loading}
                   setLoading={setLoading}

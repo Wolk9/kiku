@@ -24,8 +24,10 @@ const BasePage = (props) => {
   const { admin, user } = props;
   const [userProfile, setUserProfile] = useState({});
   const [modalShow, setModalShow] = useState(false);
+  const [modalType, setModalType] = useState("");
   const [eventStarted, setEventStarted] = useState();
   const [newUserEvent, setNewUserEvent] = useState();
+  const [modalEventToEdit, setModalEventToEdit] = useState();
 
   useEffect(() => {
     UserService.getUserData(user.uid)
@@ -120,7 +122,12 @@ const BasePage = (props) => {
 
   return (
     <div>
-      <Modal show={modalShow} toggleShow={toggleShow} />
+      <Modal
+        show={modalShow}
+        toggleShow={toggleShow}
+        modalType={modalType}
+        modalEventToEdit={modalEventToEdit}
+      />
       <MDBContainer breakpoint="lg">
         <MDBCard>
           <MDBCardBody className="table-wrapper">
@@ -165,6 +172,9 @@ const BasePage = (props) => {
               user={user}
               newUserEvent={newUserEvent}
               setNewUserEvent={setNewUserEvent}
+              toggleShow={toggleShow}
+              setModalType={setModalType}
+              setModalEventToEdit={setModalEventToEdit}
             />
           </MDBCardBody>
         </MDBCard>
