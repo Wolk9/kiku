@@ -12,11 +12,11 @@ import {
   serverTimestamp,
   onSnapshot,
 } from "firebase/firestore";
-
-import { db, auth } from "../config/firebase";
+import { db, rtdb, auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
 import moment from "moment";
 import "moment/locale/nl";
+import { set, ref } from "firebase/database";
 
 class DateFormatter {
   static formatDate = (date) => {
@@ -24,11 +24,22 @@ class DateFormatter {
     const isJavaScriptDate = (date) => {
       return date instanceof Date;
     };
+    const isISO8601 = (value) => {
+      // Regex pattern to match ISO 8601 format
+      const iso8601Pattern =
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?([+-]\d{2}:\d{2}|Z)$/;
+      return iso8601Pattern.test(value);
+    };
 
-    if (isJavaScriptDate(date) == true) {
+    if (isJavaScriptDate(date) === true) {
       console.log("JavaScriptDate");
       const options = { weekday: "short", day: "2-digit", month: "2-digit" };
       return date.toLocaleDateString("nl-NL", options);
+    } else if (isISO8601(date) === true) {
+      console.log("ISO date", date);
+      const isoDate = new Date(date);
+      const options = { weekday: "short", day: "2-digit", month: "2-digit" };
+      return isoDate.toLocaleDateString("nl-NL", options);
     } else {
       console.log("not a JavaScriptDate");
       return this.formatFireStoreDate(date);
@@ -40,11 +51,22 @@ class DateFormatter {
     const isJavaScriptDate = (date) => {
       return date instanceof Date;
     };
+    const isISO8601 = (value) => {
+      // Regex pattern to match ISO 8601 format
+      const iso8601Pattern =
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?([+-]\d{2}:\d{2}|Z)$/;
+      return iso8601Pattern.test(value);
+    };
 
-    if (isJavaScriptDate(date) == true) {
+    if (isJavaScriptDate(date) === true) {
       console.log("JavaScriptDate");
       const options = { hour: "2-digit", minute: "2-digit" };
       return date.toLocaleTimeString("nl-NL", options);
+    } else if (isISO8601(date) === true) {
+      console.log("ISO time", date);
+      const isoTime = new Date(date);
+      const options = { hour: "2-digit", minute: "2-digit" };
+      return isoTime.toLocaleTimeString("nl-NL", options);
     } else {
       console.log("not a JavaScriptDate");
       return this.formatFireStoreTime(date);
@@ -79,35 +101,45 @@ class DateFormatter {
 
 class TimeDifferenceCalculator {
   static calculateDifference(startUnixTime, endUnixTime) {
-    if (startUnixTime === undefined || endUnixTime === undefined) {
-      console.log(
-        "helper do nothing",
-        "start",
-        startUnixTime,
-        "end",
-        endUnixTime
-      );
-      return;
-    } else {
-      console.log(
-        "Helper calculate ",
-        "start",
-        startUnixTime,
-        "end",
-        endUnixTime
-      );
+    const isJavaScriptDate = (date) => {
+      return date instanceof Date;
+    };
 
-      const time1 = new Date(startUnixTime * 1000);
-      const time2 = new Date(endUnixTime * 1000);
+    const isISO8601 = (date) => {
+      const iso8601Pattern =
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?([+-]\d{2}:\d{2}|Z)$/;
+      return iso8601Pattern.test(date);
+    };
 
-      const difference = time2.getTime() - time1.getTime();
+    const isUnixTime = (date) => {
+      return !isNaN(date) && isFinite(date);
+    };
 
-      // console.log("difference", difference);
+    const convertToJavaScriptDate = (date) => {
+      if (isISO8601(date)) {
+        return new Date(date);
+      }
+      if (isUnixTime(date)) {
+        return new Date(date * 1000);
+      }
+      return date;
+    };
 
-      const difInMinutes = Math.floor(difference / 1000 / 60);
+    let time1 = convertToJavaScriptDate(startUnixTime);
+    let time2 = convertToJavaScriptDate(endUnixTime);
 
-      return moment.utc(difInMinutes * 60000).format("HH:mm");
+    if (!isJavaScriptDate(time1)) {
+      time1 = new Date(time1);
     }
+
+    if (!isJavaScriptDate(time2)) {
+      time2 = new Date(time2);
+    }
+
+    const difference = time2.getTime() - time1.getTime();
+    const difInMinutes = Math.floor(difference / 1000 / 60);
+
+    return moment.utc(difInMinutes * 60000).format("HH:mm");
   }
 }
 
@@ -221,10 +253,24 @@ class EventService {
   }
 
   static async addEvent(newEvent) {
-    console.log("addEvent:" ,newEvent)
+    console.log("addEvent:", newEvent);
     const eventRef = collection(db, "events");
     await addDoc(eventRef, newEvent);
   }
 }
 
-export { UserService, TimeDifferenceCalculator, DateFormatter, EventService };
+class RealTimeService {
+  static async writeData(userId, data) {
+    set(ref(rtdb, `/${userId}`), { data: data });
+  }
+
+  static async readData() {}
+}
+
+export {
+  UserService,
+  TimeDifferenceCalculator,
+  DateFormatter,
+  EventService,
+  RealTimeService,
+};

@@ -9,7 +9,11 @@ import {
   MDBCardTitle,
   MDBCardBody,
 } from "mdb-react-ui-kit";
-import { UserService, EventService } from "../components/helpers";
+import {
+  UserService,
+  EventService,
+  RealTimeService,
+} from "../components/helpers";
 import { Modal } from "../components/Modal";
 import { Timer } from "../components/Timer";
 import { serverTimestamp } from "firebase/firestore";
@@ -35,16 +39,32 @@ const BasePage = (props) => {
 
   const toggleShow = () => setModalShow(!modalShow);
 
-  const handleClockIn = async () => {
+  const handleClockIn = () => {
     const start = new Date();
-    const newClockIn = {
+    let newClockIn = {
       userId: user.uid,
       type: "Rijden",
-      eventStart: start,
+      eventStart: start.toISOString(),
       eventEnd: "running",
     };
+
+    console.log("newClockIn", newClockIn);
     setNewUserEvent(newClockIn);
-    setEventStarted(true); 
+    setEventStarted(true);
+    try {
+      RealTimeService.writeData(user.uid, newClockIn);
+      // await EventService.addEvent(newClockIn)
+    } catch (err) {
+      console.log(err);
+    } finally {
+    }
+  };
+
+  console.log(newUserEvent);
+
+  const writeDataToDatabase = async () => {
+    const data = newUserEvent;
+    console.log(data);
   };
 
   const stopEvent = async (e) => {
@@ -57,7 +77,7 @@ const BasePage = (props) => {
     console.log(stoppedEvent);
 
     try {
-      await EventService.addEvent(stoppedEvent); 
+      await EventService.addEvent(stoppedEvent);
     } catch (err) {
       console.log(err);
     } finally {
@@ -86,7 +106,7 @@ const BasePage = (props) => {
                 onClick={handleClockIn}
                 disabled={eventStarted}
               >
-                {eventStarted && <Timer />}
+                {eventStarted ? <Timer /> : "Clock in"}
               </button>
               <button
                 className="clock-out-btn"
