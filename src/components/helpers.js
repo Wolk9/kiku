@@ -18,71 +18,66 @@ import moment from "moment";
 import "moment/locale/nl";
 import { set, ref, remove, child, get } from "firebase/database";
 
+moment.updateLocale("nl", {
+  weekdaysShort: ["zo", "ma", "di", "wo", "do", "vr", "za"],
+});
 class DateFormatter {
   static formatDate = (date) => {
-    // console.log("formatDate:", date);
-    const isJavaScriptDate = (date) => {
-      return date instanceof Date;
-    };
-    const isISO8601 = (value) => {
-      // Regex pattern to match ISO 8601 format
-      const iso8601Pattern =
-        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?([+-]\d{2}:\d{2}|Z)$/;
-      return iso8601Pattern.test(value);
-    };
+    const offset = moment(date).utcOffset();
+    console.log(offset);
 
-    if (isJavaScriptDate(date) === true) {
-      // console.log("JavaScriptDate");
-      const options = { weekday: "short", day: "2-digit", month: "2-digit" };
-      return date.toLocaleDateString("nl-NL", options);
-    } else if (isISO8601(date) === true) {
-      // console.log("ISO date", date);
-      const isoDate = new Date(date);
-      const options = { weekday: "short", day: "2-digit", month: "2-digit" };
-      return isoDate.toLocaleDateString("nl-NL", options);
+    if (moment.isDate(date)) {
+      const options = {
+        weekday: "short",
+        day: "2-digit",
+        month: "2-digit",
+        timeZone: "Europe/Amsterdam",
+      };
+      return moment(date).format("ddd DD-MM");
+    } else if (moment(date, moment.ISO_8601, true).isValid()) {
+      const isoDate = moment.utc(date);
+      const options = {
+        weekday: "short",
+        day: "2-digit",
+        month: "2-digit",
+        timeZone: "Europe/Amsterdam",
+      };
+      return isoDate.local().format("ddd DD-MM");
     } else {
-      // console.log("not a JavaScriptDate");
       return this.formatFireStoreDate(date);
     }
   };
 
   static formatTime = (date) => {
-    // console.log("formatTime:", date);
-    const isJavaScriptDate = (date) => {
-      return date instanceof Date;
-    };
-    const isISO8601 = (value) => {
-      // Regex pattern to match ISO 8601 format
-      const iso8601Pattern =
-        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?([+-]\d{2}:\d{2}|Z)$/;
-      return iso8601Pattern.test(value);
-    };
-
-    if (isJavaScriptDate(date) === true) {
-      // console.log("JavaScriptDate");
-      const options = { hour: "2-digit", minute: "2-digit" };
-      return date.toLocaleTimeString("nl-NL", options);
-    } else if (isISO8601(date) === true) {
-      // console.log("ISO time", date);
-      const isoTime = new Date(date);
-      const options = { hour: "2-digit", minute: "2-digit" };
-      return isoTime.toLocaleTimeString("nl-NL", options);
+    if (moment.isDate(date)) {
+      const options = {
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone: "Europe/Amsterdam",
+      };
+      return moment(date).format("HH:mm");
+    } else if (moment(date, moment.ISO_8601, true).isValid()) {
+      const isoTime = moment.utc(date);
+      const options = {
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone: "Europe/Amsterdam",
+      };
+      return isoTime.local().format("HH:mm");
     } else {
-      // console.log("not a JavaScriptDate");
       return this.formatFireStoreTime(date);
     }
   };
 
   static formatFireStoreDate(unixTime) {
-    // console.log("helper:", unixTime.seconds, unixTime.nanoseconds);
     if (unixTime === null || unixTime === undefined || unixTime === "running") {
       return "no date";
     } else {
       const { seconds, nanoseconds } = unixTime;
-      const Date = moment
+      const date = moment
         .unix(seconds)
         .add(nanoseconds / 1000000, "milliseconds");
-      return Date.format("ddd DD-MM");
+      return date.format("ddd DD-MM");
     }
   }
 
@@ -91,12 +86,38 @@ class DateFormatter {
       return "no time";
     } else {
       const { seconds, nanoseconds } = unixTime;
-      const Date = moment
+      const time = moment
         .unix(seconds)
         .add(nanoseconds / 1000000, "milliseconds");
-      return Date.format("HH:mm");
+      return time.format("HH:mm");
     }
   }
+
+  static ObjectConverter = (inputObject, userId) => {
+    const { date, start, end, type } = inputObject;
+
+    // Combine date and time strings
+    const eventStart = `${date}T${start}:00.000`;
+    const eventEnd = `${date}T${end}:00.000`;
+
+    // Convert to Moment objects in local timezone
+    const startMoment = moment(eventStart);
+    const endMoment = moment(eventEnd);
+
+    // Convert to UTC
+    const utcStart = startMoment.utc().toISOString();
+    const utcEnd = endMoment.utc().toISOString();
+
+    // Construct the output object
+    const outputObject = {
+      eventStart: utcStart,
+      type,
+      userId,
+      eventEnd: utcEnd,
+    };
+
+    return outputObject;
+  };
 }
 
 class TimeDifferenceCalculator {
@@ -245,6 +266,7 @@ class EventService {
   }
 
   static async editEvent(id, updates) {
+    console.log(id, updates);
     const eventRef = doc(collection(db, "events"), id);
     await updateDoc(eventRef, updates);
   }

@@ -9,7 +9,7 @@ const EventRow = (props) => {
   const { start, end, type, id, onDelete, onEdit, loading, setLoading, isNew } =
     props;
 
-  // console.log("start:", start, end);
+  console.log("start:", start, "end:", end);
 
   const date = DateFormatter.formatDate(start);
   const formatedStart = DateFormatter.formatTime(start);
@@ -24,7 +24,7 @@ const EventRow = (props) => {
   const handleEdit = (e) => {
     console.log(e);
     EventService.getEvent(e).then((result) => {
-      onEdit(result);
+      onEdit(result, e);
     });
   };
 

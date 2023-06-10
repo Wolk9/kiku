@@ -29,41 +29,42 @@ export const Modal = (props) => {
   console.log("modal event: ", modalEventToEdit);
 
   useEffect(() => {
-    // Extract date and time values from ISO 8601 strings
-    const eventDate = new Date(modalEventToEdit?.eventStart).toLocaleDateString(
-      "en-GB"
-    );
-    let selectedDate = eventDate;
-    // Convert the date format from "dd/MM/yyyy" to "yyyy-MM-dd"
-    const [day, month, year] = selectedDate.split("/");
-    const formattedDate = `${year}-${month}-${day}`;
-    let start = formattedDate; // Convert to local date string
-    const startTime = new Date(modalEventToEdit?.eventStart).toLocaleTimeString(
-      "en-GB",
-      {
+    if (modalEventToEdit) {
+      // Extract date and time values from ISO 8601 strings
+      const eventDate = new Date(
+        modalEventToEdit?.eventStart
+      ).toLocaleDateString("en-GB");
+      let selectedDate = eventDate;
+      // Convert the date format from "dd/MM/yyyy" to "yyyy-MM-dd"
+      const [day, month, year] = selectedDate.split("/");
+      const formattedDate = `${year}-${month}-${day}`;
+      let start = formattedDate; // Convert to local date string
+      const startTime = new Date(
+        modalEventToEdit?.eventStart
+      ).toLocaleTimeString("en-GB", {
         hour: "2-digit",
         minute: "2-digit",
-      }
-    ); // Convert to local time string
-    const end = new Date(modalEventToEdit?.eventEnd).toLocaleDateString(
-      "en-GB"
-    );
-    const endTime = new Date(modalEventToEdit?.eventEnd).toLocaleTimeString(
-      "en-GB",
-      {
-        hour: "2-digit",
-        minute: "2-digit",
-      }
-    );
+      }); // Convert to local time string
+      const end = new Date(modalEventToEdit?.eventEnd).toLocaleDateString(
+        "en-GB"
+      );
+      const endTime = new Date(modalEventToEdit?.eventEnd).toLocaleTimeString(
+        "en-GB",
+        {
+          hour: "2-digit",
+          minute: "2-digit",
+        }
+      );
 
-    // Set the extracted values as initial form values
-    setForm((prevEvent) => ({
-      ...prevEvent,
-      date: start,
-      start: startTime,
-      end: endTime,
-    }));
-  }, []); // Empty dependency array to run the effect only once
+      // Set the extracted values as initial form values
+      setForm((prevEvent) => ({
+        ...prevEvent,
+        date: start,
+        start: startTime,
+        end: endTime,
+      }));
+    }
+  }, [modalEventToEdit]); // Empty dependency array to run the effect only once
 
   let content;
 
