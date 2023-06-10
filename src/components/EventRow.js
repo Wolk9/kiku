@@ -6,8 +6,17 @@ import { BsFillTrashFill, BsFillPenFill } from "react-icons/bs";
 
 const EventRow = (props) => {
   // console.log("render EventRow");
-  const { start, end, type, id, onDelete, onEdit, loading, setLoading, isNew } =
-    props;
+  const {
+    start,
+    end,
+    type,
+    id,
+    loading,
+    setLoading,
+    isNew,
+    handleEdit,
+    handleDelete,
+  } = props;
 
   console.log("start:", start, "end:", end);
 
@@ -21,20 +30,9 @@ const EventRow = (props) => {
 
   const diff = getDifference(start, end);
 
-  const handleEdit = (e) => {
-    console.log(e);
-    EventService.getEvent(e).then((result) => {
-      onEdit(result, e);
-    });
-  };
+ 
 
-  const handleDelete = (e) => {
-    // console.log(e);
 
-    EventService.deleteEvent(e).then(() => {
-      onDelete(id);
-    });
-  };
 
   return (
     <>
@@ -52,10 +50,6 @@ const EventRow = (props) => {
       {!isNew && (
         <td>
           <span className="actions">
-            <BsFillTrashFill
-              className="delete-btn"
-              onClick={() => handleDelete(id)}
-            />
             <BsFillPenFill
               className="edit-btn"
               onClick={() => handleEdit(id)}

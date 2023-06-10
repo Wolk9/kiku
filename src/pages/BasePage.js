@@ -131,11 +131,15 @@ const BasePage = (props) => {
       <MDBContainer breakpoint="lg">
         <MDBCard>
           <MDBCardBody className="table-wrapper">
-            <MDBCardTitle>Welcome {userProfile.firstName}</MDBCardTitle>
+            <MDBCardTitle>
+              Welcome{" "}
+              <span className={admin ? "admin" : "user"}>
+                {userProfile.firstName}
+              </span>
+            </MDBCardTitle>
             <p>
-              You are {admin ? "an Admin" : "an User"}
+              
               <br />
-              Choose your action here
             </p>
             <span className="cico-btn-group d-flex justify-content-centerr">
               <button

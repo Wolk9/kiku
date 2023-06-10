@@ -102,3 +102,11 @@
     width: 50%;
       box-shadow: 0px 10px 10px #ccc;
 }
+
+.admin {
+    color: red
+}
+
+.user {
+    color: blue
+}

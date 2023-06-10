@@ -25,6 +25,7 @@ export const EditModal = (props) => {
     modalEventToEdit,
     isSaved,
     setIsSaved,
+    handleDelete,
   } = props;
 
   const initialEvent = {
@@ -202,10 +203,20 @@ export const EditModal = (props) => {
               </div>
             </MDBModalBody>
             <MDBModalFooter>
-              <MDBBtn color="secondary" onClick={toggleShowEditModal}>
-                Close
-              </MDBBtn>
-              <MDBBtn onClick={handleSave}>Save</MDBBtn>
+              <MDBCol>
+                <MDBBtn
+                  color="danger"
+                  onClick={() => handleDelete(modalEventToEdit.eventId)}
+                >
+                  Delete
+                </MDBBtn>
+              </MDBCol>
+              <MDBCol className="d-flex flex-row-reverse">
+                <MDBBtn onClick={handleSave}>Save</MDBBtn>
+                <MDBBtn color="secondary" onClick={toggleShowEditModal}>
+                  Cancel
+                </MDBBtn>
+              </MDBCol>
             </MDBModalFooter>
           </MDBModalContent>
         </MDBModalDialog>

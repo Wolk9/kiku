@@ -74,6 +74,26 @@ const EventList = (props) => {
     setLoading(false);
   };
 
+  const handleEdit = (e) => {
+    console.log(e);
+    EventService.getEvent(e).then((result) => {
+      handleEditEvent(result, e);
+    });
+  };
+  const handleDelete = async (e) => {
+    console.log("Delete", e);
+    // console.log(e);
+    try {
+      EventService.deleteEvent(e);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      handleDeleteEvent(e);
+      toggleShowEditModal();
+      setIsSaved(true);
+    }
+  };
+ 
   if (loading || sortingLoading) {
     return <Loading />; // Render a loading state or placeholder
   }
@@ -89,6 +109,7 @@ const EventList = (props) => {
           toggleShowEditModal={toggleShowEditModal}
           isSaved={isSaved}
           setIsSaved={setIsSaved}
+          handleDelete={handleDelete}
         />
       )}
       <MDBTable striped small className="table">
@@ -120,17 +141,20 @@ const EventList = (props) => {
         <MDBTableBody>
           {userEvents.length > 0 ? (
             userEvents.map((singleEvent) => (
-              <tr key={singleEvent.id}>
+              <tr
+                key={singleEvent.id}
+                onClick={() => handleEdit(singleEvent.id)}
+              >
                 <EventRow
                   id={singleEvent.id}
                   start={singleEvent.eventStart}
                   end={singleEvent.eventEnd}
                   type={singleEvent.type}
-                  onEdit={handleEditEvent}
-                  onDelete={handleDeleteEvent}
                   loading={loading}
                   setLoading={setLoading}
                   isNew={false}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
                 />
               </tr>
             ))
