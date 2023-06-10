@@ -16,24 +16,60 @@ import { DateFormatter } from "./helpers";
 
 export const Modal = (props) => {
   const { title, show, toggleShow, modalType, modalEventToEdit } = props;
-  const [form, setForm] = useState({});
 
-  // const date = DateFormatter.formatDate(modalEventToEdit?.eventStart);
-  // const formatedStart = DateFormatter.formatTime(modalEventToEdit?.eventStart);
-  // const formatedEnd = DateFormatter.formatTime(modalEventToEdit?.eventEnd);
-
-  const eventToEdit = {
-    // date: date,
-    // start: formatedStart,
-    // end: formatedEnd,
-    // type: modalEventToEdit?.type,
+  const initialEvent = {
+    date: "",
+    start: "",
+    end: "",
+    type: "Rijden",
   };
+
+  const [form, setForm] = useState(initialEvent);
+
+  console.log("modal event: ", modalEventToEdit);
+
+  useEffect(() => {
+    // Extract date and time values from ISO 8601 strings
+    const eventDate = new Date(modalEventToEdit?.eventStart).toLocaleDateString(
+      "en-GB"
+    );
+    let selectedDate = eventDate;
+    // Convert the date format from "dd/MM/yyyy" to "yyyy-MM-dd"
+    const [day, month, year] = selectedDate.split("/");
+    const formattedDate = `${year}-${month}-${day}`;
+    let start = formattedDate; // Convert to local date string
+    const startTime = new Date(modalEventToEdit?.eventStart).toLocaleTimeString(
+      "en-GB",
+      {
+        hour: "2-digit",
+        minute: "2-digit",
+      }
+    ); // Convert to local time string
+    const end = new Date(modalEventToEdit?.eventEnd).toLocaleDateString(
+      "en-GB"
+    );
+    const endTime = new Date(modalEventToEdit?.eventEnd).toLocaleTimeString(
+      "en-GB",
+      {
+        hour: "2-digit",
+        minute: "2-digit",
+      }
+    );
+
+    // Set the extracted values as initial form values
+    setForm((prevEvent) => ({
+      ...prevEvent,
+      date: start,
+      start: startTime,
+      end: endTime,
+    }));
+  }, []); // Empty dependency array to run the effect only once
 
   let content;
 
   switch (modalType) {
     case "edit":
-      content = <EditForm form={form} setForm={setForm} event={eventToEdit} />;
+      content = <EditForm form={form} setForm={setForm} />;
       break;
     case "error":
       content = <ErrorDisplay />;
@@ -44,7 +80,9 @@ export const Modal = (props) => {
 
   const handleSave = () => {
     console.log("save");
-    toggleShow();
+    console.log("handeSave: form", form);
+    console.log("handleSave: form", form);
+    // toggleShow();
   };
 
   return (
@@ -75,12 +113,12 @@ export const Modal = (props) => {
 };
 
 const EditForm = (props) => {
-  const { form, setForm, event } = props;
+  const { form, setForm } = props;
 
-  console.log(event);
+  console.log(form);
 
   useEffect(() => {
-    setForm(event);
+    setForm(form);
   }, []);
 
   useEffect(() => {
@@ -88,15 +126,23 @@ const EditForm = (props) => {
   }, [form]);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     let prev = form;
-    switch (e.target.name) {
+    switch (name) {
       case "type":
-        let selectedType = e.target.value;
+        let selectedType = value;
 
         setForm({ ...prev, type: selectedType });
         break;
+      case "date":
+        // let selectedDate = value;
+        // // Convert the date format from "dd/MM/yyyy" to "yyyy-MM-dd"
+        // const [day, month, year] = selectedDate.split("/");
+        // const formattedDate = `${year}-${month}-${day}`;
+        setForm({ ...prev, date: value });
+        break;
       default:
-        setForm({ ...prev, [e.target.name]: e.target.value });
+        setForm({ ...prev, [name]: value });
         break;
     }
   };
@@ -111,7 +157,7 @@ const EditForm = (props) => {
             name="date"
             type="date"
             id="date"
-            value={event.date}
+            value={form.date}
             onChange={handleChange}
           />
         </div>
@@ -125,7 +171,7 @@ const EditForm = (props) => {
             name="start"
             type="time"
             id="start"
-            value={event.eventStart}
+            value={form.start}
             onChange={handleChange}
           />
         </div>
@@ -139,7 +185,7 @@ const EditForm = (props) => {
             name="end"
             type="time"
             id="end"
-            value={event.eventEnd}
+            value={form.end}
             onChange={handleChange}
           />
         </div>
@@ -152,7 +198,7 @@ const EditForm = (props) => {
           <select
             name="type"
             id="type"
-            value={event.type}
+            value={form.type}
             onChange={handleChange}
           >
             <option value="rijden">rijden</option>
