@@ -20,6 +20,7 @@ import {
   MDBModalBody,
   MDBModalFooter,
 } from "mdb-react-ui-kit";
+import Profile from "./pages/Profile";
 
 const PopUp = (props) => {
   const { title, body, showPopUp, setShowPopUp } = props;
@@ -166,7 +167,24 @@ const App = () => {
             )
           }
         />
-        <Route path="/users" element={<UsersPage admin={isAdmin} />} />
+        <Route
+          path="/users"
+          element={
+            <>
+              <NavBar admin={isAdmin} />
+              <UsersPage admin={isAdmin} />
+            </>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <>
+              <NavBar admin={isAdmin} />
+              <Profile admin={isAdmin} />
+            </>
+          }
+        />
       </Routes>
     </Router>
   );

@@ -15,6 +15,7 @@ import React, { useEffect, useState } from "react";
 import { DateFormatter, EventService } from "./helpers";
 import userEvent from "@testing-library/user-event";
 import moment from "moment";
+import "../style/Modal.css";
 
 export const EditModal = (props) => {
   const {
@@ -187,6 +188,7 @@ export const EditModal = (props) => {
                   </div>
                   <div className="col">
                     <select
+                      className="select"
                       name="type"
                       id="type"
                       value={form.type}

@@ -65,6 +65,11 @@ export const NavBar = (props) => {
                       Home
                     </MDBNavbarLink>
                   </MDBNavbarItem>
+                  <MDBNavbarItem>
+                    <MDBNavbarLink aria-current="page" href="profile">
+                      UserProfile
+                    </MDBNavbarLink>
+                  </MDBNavbarItem>
                   {admin === true ? (
                     <MDBNavbarItem>
                       <MDBNavbarLink aria-current="page" href="users">
