@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          export CI = false
+          export CI=false
           npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
