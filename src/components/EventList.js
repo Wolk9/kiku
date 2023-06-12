@@ -1,19 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../style/Table.css";
-import {
-  MDBBtn,
-  MDBCard,
-  MDBCardBody,
-  MDBCardTitle,
-  MDBContainer,
-  MDBTable,
-  MDBTableBody,
-  MDBTableHead,
-} from "mdb-react-ui-kit";
+import { MDBTable, MDBTableBody } from "mdb-react-ui-kit";
 import EventRow from "./EventRow";
 import { EventService } from "./helpers";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "../config/firebase";
 import { EditModal } from "./EditModal";
 
 const Loading = () => {
@@ -22,7 +11,7 @@ const Loading = () => {
 
 const EventList = (props) => {
   // console.log("render Eventlist");
-  const { user, newUserEvent, toggleShow, setModalType } = props;
+  const { user, newUserEvent } = props;
   const [modalEventToEdit, setModalEventToEdit] = useState({});
   const [loading, setLoading] = useState(true);
   const [userEvents, setUserEvents] = useState([]);
@@ -57,6 +46,7 @@ const EventList = (props) => {
     };
 
     fetchEvents();
+    // eslint-disable-next-line
   }, [newUserEvent, isSaved]);
 
   const handleEditEvent = (editEvent, e) => {

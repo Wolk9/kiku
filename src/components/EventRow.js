@@ -1,8 +1,6 @@
-import React from "react";
 import "../style/Table.css";
-import { Timer } from "./Timer";
-import { EventService, DateFormatter, TimeDifferenceCalculator } from "./helpers";
-import { BsFillTrashFill, BsFillPenFill } from "react-icons/bs";
+import { DateFormatter, TimeDifferenceCalculator } from "./helpers";
+import { BsFillPenFill } from "react-icons/bs";
 
 const EventRow = (props) => {
   // console.log("render EventRow");
@@ -11,11 +9,8 @@ const EventRow = (props) => {
     end,
     type,
     id,
-    loading,
-    setLoading,
     isNew,
     handleEdit,
-    handleDelete,
   } = props;
 
   console.log("start:", start, "end:", end);

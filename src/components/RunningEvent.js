@@ -1,9 +1,8 @@
 import { MDBTable, MDBTableBody } from "mdb-react-ui-kit";
-import React from "react";
 import EventRow from "./EventRow";
 
 export const RunningEvent = (props) => {
-  const { user, newUserEvent } = props;
+  const { newUserEvent } = props;
   return (
     <div>
       <MDBTable striped small className="table">

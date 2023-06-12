@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../style/Table.css";
-import { NavBar } from "../components/NavBar";
 import EventList from "../components/EventList";
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBCard,
-  MDBCardTitle,
-  MDBCardBody,
-} from "mdb-react-ui-kit";
+import { MDBContainer, MDBCard, MDBCardTitle, MDBCardBody } from "mdb-react-ui-kit";
 import {
   UserService,
   EventService,
@@ -16,7 +9,6 @@ import {
 } from "../components/helpers";
 import { Modal } from "../components/Modal";
 import { Timer } from "../components/Timer";
-import { serverTimestamp } from "firebase/firestore";
 import { RunningEvent } from "../components/RunningEvent";
 
 const BasePage = (props) => {
@@ -55,6 +47,7 @@ const BasePage = (props) => {
         setNewUserEvent();
       }
     });
+    // eslint-disable-next-line
   }, []);
 
   let runningEvent = async () => {
@@ -92,11 +85,6 @@ const BasePage = (props) => {
   };
 
   console.log(newUserEvent);
-
-  const writeDataToDatabase = async () => {
-    const data = newUserEvent;
-    console.log(data);
-  };
 
   const stopEvent = async (e) => {
     console.log("stop Event", e);

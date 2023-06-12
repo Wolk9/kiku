@@ -1,22 +1,19 @@
 import {
   collection,
   doc,
-  setDoc,
   getDoc,
   addDoc,
-  getDocs,
   deleteDoc,
   query,
   where,
   updateDoc,
-  serverTimestamp,
   onSnapshot,
 } from "firebase/firestore";
 import { db, rtdb, auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
 import moment from "moment";
 import "moment/locale/nl";
-import { set, ref, remove, child, get } from "firebase/database";
+import { set, ref, remove, get } from "firebase/database";
 
 moment.updateLocale("nl", {
   weekdaysShort: ["zo", "ma", "di", "wo", "do", "vr", "za"],
@@ -27,21 +24,9 @@ class DateFormatter {
     console.log(offset);
 
     if (moment.isDate(date)) {
-      const options = {
-        weekday: "short",
-        day: "2-digit",
-        month: "2-digit",
-        timeZone: "Europe/Amsterdam",
-      };
       return moment(date).format("ddd DD-MM");
     } else if (moment(date, moment.ISO_8601, true).isValid()) {
       const isoDate = moment.utc(date);
-      const options = {
-        weekday: "short",
-        day: "2-digit",
-        month: "2-digit",
-        timeZone: "Europe/Amsterdam",
-      };
       return isoDate.local().format("ddd DD-MM");
     } else {
       return this.formatFireStoreDate(date);
@@ -50,19 +35,10 @@ class DateFormatter {
 
   static formatTime = (date) => {
     if (moment.isDate(date)) {
-      const options = {
-        hour: "2-digit",
-        minute: "2-digit",
-        timeZone: "Europe/Amsterdam",
-      };
+
       return moment(date).format("HH:mm");
     } else if (moment(date, moment.ISO_8601, true).isValid()) {
       const isoTime = moment.utc(date);
-      const options = {
-        hour: "2-digit",
-        minute: "2-digit",
-        timeZone: "Europe/Amsterdam",
-      };
       return isoTime.local().format("HH:mm");
     } else {
       return this.formatFireStoreTime(date);

@@ -18,28 +18,10 @@ const LoginPage = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const {
-    showPopUp,
     setShowPopUp,
-    popUpBody,
-    popUpTitle,
     setPopUpBody,
     setPopUpTitle,
   } = props;
-
-  const showErrorPopup = (title, message) => {
-    setPopUpTitle(title);
-    setPopUpBody(message);
-
-    return () => {
-      setPopUpTitle(null);
-      setPopUpBody(null);
-    };
-  };
-
-  const closeErrorPopup = () => {
-    setPopUpBody(null);
-    setPopUpTitle(null);
-  };
 
   const handleEmailChange = (e) => {
     // console.log(e);
