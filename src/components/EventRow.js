@@ -9,11 +9,8 @@ const EventRow = (props) => {
     end,
     type,
     id,
-    loading,
-    setLoading,
     isNew,
     handleEdit,
-    handleDelete,
   } = props;
 
   console.log("start:", start, "end:", end);

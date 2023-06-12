@@ -8,7 +8,6 @@ import {
   MDBNavbarLink,
   MDBNavbarNav,
 } from "mdb-react-ui-kit";
-import { auth } from "../config/firebase";
 import { storage } from "../config/firebase";
 import { ref, getDownloadURL } from "firebase/storage";
 import { UserService } from "./helpers";
@@ -25,15 +24,6 @@ export const NavBar = (props) => {
       .catch((error) => console.log(error));
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await auth.signOut();
-      // Handle any additional logout logic or redirects here
-    } catch (error) {
-      // Handle error
-      // console.log("Error occurred while logging out:", error);
-    }
-  };
 
   return (
     <div>

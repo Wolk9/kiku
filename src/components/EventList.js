@@ -11,7 +11,7 @@ const Loading = () => {
 
 const EventList = (props) => {
   // console.log("render Eventlist");
-  const { user, newUserEvent, toggleShow, setModalType } = props;
+  const { user, newUserEvent } = props;
   const [modalEventToEdit, setModalEventToEdit] = useState({});
   const [loading, setLoading] = useState(true);
   const [userEvents, setUserEvents] = useState([]);
@@ -46,6 +46,7 @@ const EventList = (props) => {
     };
 
     fetchEvents();
+    // eslint-disable-next-line
   }, [newUserEvent, isSaved]);
 
   const handleEditEvent = (editEvent, e) => {

@@ -24,21 +24,9 @@ class DateFormatter {
     console.log(offset);
 
     if (moment.isDate(date)) {
-      const options = {
-        weekday: "short",
-        day: "2-digit",
-        month: "2-digit",
-        timeZone: "Europe/Amsterdam",
-      };
       return moment(date).format("ddd DD-MM");
     } else if (moment(date, moment.ISO_8601, true).isValid()) {
       const isoDate = moment.utc(date);
-      const options = {
-        weekday: "short",
-        day: "2-digit",
-        month: "2-digit",
-        timeZone: "Europe/Amsterdam",
-      };
       return isoDate.local().format("ddd DD-MM");
     } else {
       return this.formatFireStoreDate(date);
@@ -47,19 +35,10 @@ class DateFormatter {
 
   static formatTime = (date) => {
     if (moment.isDate(date)) {
-      const options = {
-        hour: "2-digit",
-        minute: "2-digit",
-        timeZone: "Europe/Amsterdam",
-      };
+
       return moment(date).format("HH:mm");
     } else if (moment(date, moment.ISO_8601, true).isValid()) {
       const isoTime = moment.utc(date);
-      const options = {
-        hour: "2-digit",
-        minute: "2-digit",
-        timeZone: "Europe/Amsterdam",
-      };
       return isoTime.local().format("HH:mm");
     } else {
       return this.formatFireStoreTime(date);

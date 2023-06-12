@@ -41,9 +41,6 @@ export const Modal = (props) => {
         hour: "2-digit",
         minute: "2-digit",
       }); // Convert to local time string
-      const end = new Date(modalEventToEdit?.eventEnd).toLocaleDateString(
-        "en-GB"
-      );
       const endTime = new Date(modalEventToEdit?.eventEnd).toLocaleTimeString(
         "en-GB",
         {
@@ -60,6 +57,7 @@ export const Modal = (props) => {
         end: endTime,
       }));
     }
+    // eslint-disable-next-line
   }, [modalEventToEdit]); // Empty dependency array to run the effect only once
 
   let content;
@@ -116,11 +114,8 @@ const EditForm = (props) => {
 
   useEffect(() => {
     setForm(form);
+    // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    console.log(form);
-  }, [form]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

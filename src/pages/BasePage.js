@@ -47,6 +47,7 @@ const BasePage = (props) => {
         setNewUserEvent();
       }
     });
+    // eslint-disable-next-line
   }, []);
 
   let runningEvent = async () => {
@@ -84,11 +85,6 @@ const BasePage = (props) => {
   };
 
   console.log(newUserEvent);
-
-  const writeDataToDatabase = async () => {
-    const data = newUserEvent;
-    console.log(data);
-  };
 
   const stopEvent = async (e) => {
     console.log("stop Event", e);

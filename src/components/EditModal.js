@@ -21,7 +21,6 @@ export const EditModal = (props) => {
     show,
     toggleShowEditModal,
     modalEventToEdit,
-    isSaved,
     setIsSaved,
     handleDelete,
   } = props;
@@ -58,31 +57,6 @@ export const EditModal = (props) => {
     }
   }, [modalEventToEdit]);
 
-  const ObjectConverter = (inputObject) => {
-    const { date, start, end, type } = inputObject;
-
-    // Combine date and time strings
-    const eventStart = `${date}T${start}:00.000`;
-    const eventEnd = `${date}T${end}:00.000`;
-
-    // Convert to Moment objects in local timezone
-    const startMoment = moment(eventStart);
-    const endMoment = moment(eventEnd);
-
-    // Convert to UTC
-    const utcStart = startMoment.utc().toISOString();
-    const utcEnd = endMoment.utc().toISOString();
-
-    // Construct the output object
-    const outputObject = {
-      eventStart: utcStart,
-      type,
-      userId,
-      eventEnd: utcEnd,
-    };
-
-    return outputObject;
-  };
 
   const handleSave = async () => {
     setIsSaved(false);
