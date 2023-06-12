@@ -1,3 +1,5 @@
+[![Deploy to Firebase Hosting on PR](https://github.com/Wolk9/kiku/actions/workflows/firebase-hosting-pull-request.yml/badge.svg)](https://github.com/Wolk9/kiku/actions/workflows/firebase-hosting-pull-request.yml)
+
 # Kiku
 
 Kiku staat voor Klok In Klok Uit en is ontwikkeld om de uren bij te houden voor Dasko medewerkers die moeten inklokken en uitklokken.
