@@ -1,5 +1,5 @@
-import { auth, googleProvider, db, rtdb, storage, batch } from "./firebase";
-import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
+import { db } from "./firebase";
+import { collection, getDocs, updateDoc } from "firebase/firestore";
 
 // Function to convert a date to ISO 8601 format
 

@@ -1,22 +1,19 @@
 import {
   collection,
   doc,
-  setDoc,
   getDoc,
   addDoc,
-  getDocs,
   deleteDoc,
   query,
   where,
   updateDoc,
-  serverTimestamp,
   onSnapshot,
 } from "firebase/firestore";
 import { db, rtdb, auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
 import moment from "moment";
 import "moment/locale/nl";
-import { set, ref, remove, child, get } from "firebase/database";
+import { set, ref, remove, get } from "firebase/database";
 
 moment.updateLocale("nl", {
   weekdaysShort: ["zo", "ma", "di", "wo", "do", "vr", "za"],

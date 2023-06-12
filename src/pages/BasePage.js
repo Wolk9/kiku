@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../style/Table.css";
-import { NavBar } from "../components/NavBar";
 import EventList from "../components/EventList";
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBCard,
-  MDBCardTitle,
-  MDBCardBody,
-} from "mdb-react-ui-kit";
+import { MDBContainer, MDBCard, MDBCardTitle, MDBCardBody } from "mdb-react-ui-kit";
 import {
   UserService,
   EventService,
@@ -16,7 +9,6 @@ import {
 } from "../components/helpers";
 import { Modal } from "../components/Modal";
 import { Timer } from "../components/Timer";
-import { serverTimestamp } from "firebase/firestore";
 import { RunningEvent } from "../components/RunningEvent";
 
 const BasePage = (props) => {

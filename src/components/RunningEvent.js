@@ -1,5 +1,4 @@
 import { MDBTable, MDBTableBody } from "mdb-react-ui-kit";
-import React from "react";
 import EventRow from "./EventRow";
 
 export const RunningEvent = (props) => {

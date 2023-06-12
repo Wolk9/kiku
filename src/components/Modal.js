@@ -7,12 +7,8 @@ import {
   MDBModalHeader,
   MDBModalTitle,
   MDBBtn,
-  MDBInput,
-  MDBRow,
-  MDBCol,
 } from "mdb-react-ui-kit";
-import React, { useEffect, useState } from "react";
-import { DateFormatter } from "./helpers";
+import { useEffect, useState } from "react";
 
 export const Modal = (props) => {
   const { title, show, toggleShow, modalType, modalEventToEdit } = props;

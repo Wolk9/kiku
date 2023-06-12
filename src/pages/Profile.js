@@ -1,14 +1,4 @@
-import {
-  MDBCard,
-  MDBCardBody,
-  MDBCardFooter,
-  MDBCardHeader,
-  MDBCardTitle,
-  MDBContainer,
-  MDBInput,
-  MDBInputGroup,
-} from "mdb-react-ui-kit";
-import React from "react";
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBContainer, MDBInput, MDBInputGroup } from "mdb-react-ui-kit";
 
 const Profile = () => {
   return (

@@ -7,13 +7,10 @@ import {
   MDBModalHeader,
   MDBModalTitle,
   MDBBtn,
-  MDBInput,
-  MDBRow,
   MDBCol,
 } from "mdb-react-ui-kit";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DateFormatter, EventService } from "./helpers";
-import userEvent from "@testing-library/user-event";
 import moment from "moment";
 import "../style/Modal.css";
 
