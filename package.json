@@ -51,6 +51,7 @@
   },
   "description": "This project was build for Dasko employees",
   "main": "index.js",
+  "homepage": "./",
   "author": "Martin de Bes/Wolk9",
   "license": "ISC"
 }
