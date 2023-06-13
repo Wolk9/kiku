@@ -1,3 +1,15 @@
+$layout-breakpoint-small: 575.98px;
+
+@media (max-width: $layout-breakpoint-small) {
+    .clock-in-btn {
+    font-size: 80%;
+    }
+    
+    .clock-out-btn {
+    font-size: 80%;
+}
+}
+
 .table-wrapper {
     width: 100%;
 }
