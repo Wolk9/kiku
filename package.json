@@ -47,5 +47,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "This project was build for Dasko employees",
+  "main": "index.js",
+  "author": "Martin de Bes/Wolk9",
+  "license": "ISC"
 }
