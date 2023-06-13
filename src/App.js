@@ -22,6 +22,17 @@ import {
 } from "mdb-react-ui-kit";
 import Profile from "./pages/Profile";
 
+const NotFoundPage = () => {
+  return (
+    <>
+      <NavBar />
+      <h1>404 Page Not Found</h1>
+      {/* Include the content of your 404.html page here */}
+    </>
+  );
+};
+
+
 const PopUp = (props) => {
   const { title, body, showPopUp, setShowPopUp } = props;
 
@@ -185,6 +196,7 @@ const App = () => {
             </>
           }
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );
