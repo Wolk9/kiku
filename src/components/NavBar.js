@@ -29,7 +29,7 @@ export const NavBar = (props) => {
     <div>
       <MDBNavbar
         sticky
-        expand="md"
+        expand="sm"
         light
         style={{ backgroundColor: "#e3f2fd" }}
       >
@@ -37,7 +37,8 @@ export const NavBar = (props) => {
           <MDBNavbarBrand href="#" className="mb-0 h1">
             <img src={logoURL} height="60" alt="" loading="lazy" />
           </MDBNavbarBrand>
-          <MDBNavbarNav className="mr-auto mb-2 mb-md-0 d-flex justify-content-between">
+          <MDBNavbarNav className="mr-auto mb-2 mb-lg-0">
+            {/* mr-auto d-flex justify-content-between */}
             <MDBNavbarItem>
               <MDBNavbarLink
                 active
@@ -50,18 +51,18 @@ export const NavBar = (props) => {
             ) : (
               <>
                 <div className="d-flex justify-content-start">
-                  <MDBNavbarItem>
+                  <MDBNavbarItem className="mx-1 my-0">
                     <MDBNavbarLink active aria-current="page" href="/">
                       Home
                     </MDBNavbarLink>
                   </MDBNavbarItem>
-                  <MDBNavbarItem>
+                  <MDBNavbarItem className="mx-1 my-0">
                     <MDBNavbarLink aria-current="page" href="profile">
                       UserProfile
                     </MDBNavbarLink>
                   </MDBNavbarItem>
                   {admin === true ? (
-                    <MDBNavbarItem>
+                    <MDBNavbarItem className="mx-1 my-0">
                       <MDBNavbarLink aria-current="page" href="users">
                         Users
                       </MDBNavbarLink>
@@ -71,7 +72,11 @@ export const NavBar = (props) => {
                   )}
                 </div>
                 <div className="d-flex justify-content-end">
-                  <MDBBtn color="primary" onClick={UserService.signOutUser}>
+                  <MDBBtn
+                    color="primary"
+                    onClick={UserService.signOutUser}
+                    className="mx-1 my-0"
+                  >
                     Log out
                   </MDBBtn>
                 </div>
