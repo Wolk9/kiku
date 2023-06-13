@@ -92,6 +92,7 @@ const App = () => {
       <Routes>
         <Route
           path="/"
+          default
           element={
             user ? (
               <Navigate to={isAdmin ? "/admin" : "/base"} />
@@ -196,7 +197,7 @@ const App = () => {
             </>
           }
         />
-        <Route path="*" element={<NotFoundPage />} />
+        {/* <Route path="*" element={<NotFoundPage />} /> */}
       </Routes>
     </Router>
   );
