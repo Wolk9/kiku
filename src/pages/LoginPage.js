@@ -79,7 +79,7 @@ const LoginDialog = (props) => {
         <MDBCard>
           <MDBCardBody>
             <MDBCardTitle>Login</MDBCardTitle>
-            <div className="d-grid gap-2 col-6 mx-auto">
+            <div className="d-grid gap-2 col-8 mx-auto">
               <MDBInput
                 size="lg"
                 name="email"
@@ -138,7 +138,7 @@ const SignInDialog = (props) => {
   const [registerValue, setRegisterValue] = useState("");
   const [registerFirstName, setRegisterFirstName] = useState("");
   const [registerLastName, setRegisterLastName] = useState("");
-  const [registerAge, setRegisterAge] = useState("");
+  const [registerDob, setRegisterDob] = useState("");
   const [registerHoursPerWeek, setRegisterHoursPerWeek] = useState(24);
   const [registerContractDate, setRegisterContractDate] = useState("");
   const [registerRole, setRegisterRole] = useState("user");
@@ -148,7 +148,7 @@ const SignInDialog = (props) => {
   let log = {
     firstName: registerFirstName || null,
     lastName: registerLastName || null,
-    age: registerAge || null,
+    dob: registerDob || null,
     contractDate: registerContractDate || null,
     hoursPerWeek: registerHoursPerWeek || null,
     role: registerRole || null,
@@ -160,7 +160,7 @@ const SignInDialog = (props) => {
     let newUser = {
       firstName: registerFirstName || null,
       lastName: registerLastName || null,
-      age: registerAge || null,
+      dob: registerDob || null,
       contractDate: registerContractDate || null,
       hoursPerWeek: registerHoursPerWeek || null,
       role: registerRole || null,
@@ -215,66 +215,56 @@ const SignInDialog = (props) => {
         <MDBCard>
           <MDBCardBody>
             <MDBCardTitle>SignUp</MDBCardTitle>
-            <div className="d-grid gap-2 col-6 mx-auto">
-              <hr className="hr" />
+            <div className="d-grid gap-2 col-8 mx-auto">
               <h6>Your login details</h6>
-              <MDBRow>
-                <MDBCol>
-                  <MDBInput
-                    size="lg"
-                    className="mb-4"
-                    type="email"
-                    value={registerEmail}
-                    label="Register Email..."
-                    onChange={(e) => setRegisterEmail(e.target.value)}
-                  />
-                  <MDBInput
-                    size="lg"
-                    className="mb-4"
-                    type="password"
-                    value={registerPassword}
-                    label="Register Password..."
-                    onChange={(e) => setRegisterPassword(e.target.value)}
-                  />
-                </MDBCol>
-              </MDBRow>
+
+              <MDBInput
+                size="lg"
+                className="mb-4"
+                type="email"
+                value={registerEmail}
+                label="Register Email..."
+                onChange={(e) => setRegisterEmail(e.target.value)}
+              />
+              <MDBInput
+                size="lg"
+                className="mb-4"
+                type="password"
+                value={registerPassword}
+                label="Register Password..."
+                onChange={(e) => setRegisterPassword(e.target.value)}
+              />
+
               <hr className="hr" />
               <h6>Your personal details</h6>
-              <MDBRow>
-                <MDBCol>
-                  <MDBInput
-                    size="lg"
-                    className="mb-4"
-                    type="text"
-                    value={registerFirstName}
-                    label="FirstName..."
-                    onChange={(e) => setRegisterFirstName(e.target.value)}
-                  />
-                </MDBCol>
-                <MDBCol>
-                  <MDBInput
-                    size="lg"
-                    className="mb-4"
-                    type="text"
-                    value={registerLastName}
-                    label="LastName..."
-                    onChange={(e) => setRegisterLastName(e.target.value)}
-                  />
-                </MDBCol>
-              </MDBRow>
-              <MDBRow>
-                <MDBCol>
-                  <MDBInput
-                    size="lg"
-                    className="mb-4"
-                    type="date"
-                    value={registerAge}
-                    label="Date of birth"
-                    onChange={(e) => setRegisterAge(e.target.value)}
-                  />
-                </MDBCol>
-                <MDBCol></MDBCol>
-              </MDBRow>
+
+              <MDBInput
+                size="lg"
+                className="mb-4"
+                type="text"
+                value={registerFirstName}
+                label="FirstName..."
+                onChange={(e) => setRegisterFirstName(e.target.value)}
+              />
+
+              <MDBInput
+                size="lg"
+                className="mb-4"
+                type="text"
+                value={registerLastName}
+                label="LastName..."
+                onChange={(e) => setRegisterLastName(e.target.value)}
+              />
+
+              <MDBInput
+                size="lg"
+                className="mb-4"
+                type="date"
+                value={registerDob}
+                label="Date of birth"
+                onChange={(e) => setRegisterDob(e.target.value)}
+              />
+
               <hr className="hr" />
               <h6>Your contract details</h6>
               <MDBRow className="mb-5">
