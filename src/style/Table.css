@@ -110,4 +110,10 @@
 
 .user {
   color: blue;
+}
+
+.plusmin {
+  width: 12px;
+  margin-right: -10px;
+  background-color: red;
 }/*# sourceMappingURL=Table.css.map */

@@ -5,7 +5,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
+import { AuthorizePage } from "./pages/LoginPage";
 import BasePage from "./pages/BasePage";
 import UsersPage from "./pages/UsersPage";
 import { auth } from "./config/firebase";
@@ -21,6 +21,7 @@ import {
   MDBModalFooter,
 } from "mdb-react-ui-kit";
 import Profile from "./pages/Profile";
+import { PopUp } from "./components/PopUp";
 
 const NotFoundPage = () => {
   return (
@@ -32,44 +33,10 @@ const NotFoundPage = () => {
   );
 };
 
-
-const PopUp = (props) => {
-  const { title, body, showPopUp, setShowPopUp } = props;
-
-  const toggleShowPopUp = () => setShowPopUp(!showPopUp);
-
-  return (
-    <MDBModal tabIndex="-1" show={showPopUp} setShow={setShowPopUp}>
-      <MDBModalDialog centered>
-        <MDBModalContent>
-          <MDBModalHeader>
-            <MDBModalTitle>{title ? title : "no title"}</MDBModalTitle>
-            <MDBBtn
-              className="btn-close"
-              color="none"
-              onClick={toggleShowPopUp}
-            ></MDBBtn>{" "}
-          </MDBModalHeader>
-          <MDBModalBody>
-            <p>{body ? body : "no body"}</p>
-          </MDBModalBody>
-          <MDBModalFooter>
-            <MDBBtn color="secondary" onClick={toggleShowPopUp}>
-              Close
-            </MDBBtn>
-          </MDBModalFooter>
-        </MDBModalContent>
-      </MDBModalDialog>
-    </MDBModal>
-  );
-};
-
 const App = () => {
   // console.log("render App")
   const [user, setUser] = useState(null);
-  const [showPopUp, setShowPopUp] = useState(false);
-  const [popUpBody, setPopUpBody] = useState("");
-  const [popUpTitle, setPopUpTitle] = useState("");
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     // Add an observer to check for user authentication state changes
@@ -99,22 +66,8 @@ const App = () => {
             ) : (
               <>
                 <NavBar logoOnly={true} />
-                <PopUp
-                  showPopUp={showPopUp}
-                  setShowPopUp={setShowPopUp}
-                  popUpBody={popUpBody}
-                  setPopUpBody={setPopUpBody}
-                  popUpTitle={popUpTitle}
-                  setPopUpTitle={setPopUpTitle}
-                />
-                <LoginPage
-                  showPopUp={showPopUp}
-                  setShowPopUp={setShowPopUp}
-                  popUpBody={popUpBody}
-                  setPopUpBody={setPopUpBody}
-                  popUpTitle={popUpTitle}
-                  setPopUpTitle={setPopUpTitle}
-                />
+                <PopUp message={message} setMessage={setMessage} />
+                <AuthorizePage message={message} setMessage={setMessage} />
               </>
             )
           }
@@ -125,23 +78,12 @@ const App = () => {
             user ? (
               <>
                 <NavBar admin={isAdmin} />
-                <PopUp
-                  showPopUp={showPopUp}
-                  setShowPopUp={setShowPopUp}
-                  popUpBody={popUpBody}
-                  setPopUpBody={setPopUpBody}
-                  popUpTitle={popUpTitle}
-                  setPopUpTitle={setPopUpTitle}
-                />
+                <PopUp message={message} setMessage={setMessage} />
                 <BasePage
                   user={user}
                   admin={isAdmin}
-                  showPopUp={showPopUp}
-                  setShowPopUp={setShowPopUp}
-                  popUpBody={popUpBody}
-                  setPopUpBody={setPopUpBody}
-                  popUpTitle={popUpTitle}
-                  setPopUpTitle={setPopUpTitle}
+                  message={message}
+                  setMessage={setMessage}
                 />
               </>
             ) : (
@@ -155,23 +97,12 @@ const App = () => {
             isAdmin ? (
               <>
                 <NavBar admin={isAdmin} />
-                <PopUp
-                  showPopUp={showPopUp}
-                  setShowPopUp={setShowPopUp}
-                  popUpBody={popUpBody}
-                  setPopUpBody={setPopUpBody}
-                  popUpTitle={popUpTitle}
-                  setPopUpTitle={setPopUpTitle}
-                />
+                <PopUp message={message} setMessage={setMessage} />
                 <BasePage
                   user={user}
                   admin={isAdmin}
-                  showPopUp={showPopUp}
-                  setShowPopUp={setShowPopUp}
-                  popUpBody={popUpBody}
-                  setPopUpBody={setPopUpBody}
-                  popUpTitle={popUpTitle}
-                  setPopUpTitle={setPopUpTitle}
+                  message={message}
+                  setMessage={setMessage}
                 />
               </>
             ) : (
@@ -184,7 +115,11 @@ const App = () => {
           element={
             <>
               <NavBar admin={isAdmin} />
-              <UsersPage admin={isAdmin} />
+              <UsersPage
+                admin={isAdmin}
+                message={message}
+                setMessage={setMessage}
+              />
             </>
           }
         />
@@ -193,7 +128,11 @@ const App = () => {
           element={
             <>
               <NavBar admin={isAdmin} />
-              <Profile admin={isAdmin} />
+              <Profile
+                admin={isAdmin}
+                message={message}
+                setMessage={setMessage}
+              />
             </>
           }
         />
