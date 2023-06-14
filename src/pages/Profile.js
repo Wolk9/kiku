@@ -8,6 +8,7 @@ import {
   MDBCol,
   MDBRow,
   MDBCheckbox,
+  MDBIcon,
 } from "mdb-react-ui-kit";
 import { useEffect, useState } from "react";
 import { UserService } from "../components/helpers";
@@ -90,21 +91,11 @@ const Profile = (props) => {
         <MDBCard>
           <MDBCardBody>
             <MDBCardTitle>Your Profile Details</MDBCardTitle>
-            <div className="d-grid gap-2 col-8 mx-auto">
+            <div className="d-grid gap-2 col-8 col-sm-12 mx-auto">
               <h6>Your login details</h6>
-
-              <MDBInput
-                size="lg"
-                className="mb-4"
-                type="email"
-                value={userData.email}
-                label="Register Email..."
-                disabled
-              />
-
+              Your login email address is: <strong>{user.email}</strong>
               <hr className="hr" />
               <h6>Your personal details</h6>
-
               <MDBInput
                 size="lg"
                 className="mb-4"
@@ -113,7 +104,6 @@ const Profile = (props) => {
                 label="FirstName..."
                 onChange={(e) => handleChange(e)}
               />
-
               <MDBInput
                 size="lg"
                 className="mb-4"
@@ -122,7 +112,6 @@ const Profile = (props) => {
                 label="LastName..."
                 onChange={(e) => handleChange(e)}
               />
-
               <MDBInput
                 size="lg"
                 className="mb-4"
@@ -131,11 +120,10 @@ const Profile = (props) => {
                 label="Date of birth"
                 onChange={(e) => handleChange(e)}
               />
-
               <hr className="hr" />
               <h6>Your contract details</h6>
               <MDBRow className="mb-5">
-                <MDBCol>
+                <MDBCol className="col-3 col-sm-4">
                   <MDBInput
                     size="lg"
                     className="mb-4"
@@ -145,42 +133,32 @@ const Profile = (props) => {
                     onChange={(e) => handleChange(e)}
                   />
                 </MDBCol>
+                <MDBCol className="col-1 col-sm-2"></MDBCol>
 
                 <MDBCol>
                   <MDBRow className="d-flex">
-                    <MDBCol className="d-flex align-items-center justify-content-end">
-                      <MDBBtn
-                        color="danger"
-                        name="hoursPerWeek"
-                        onClick={(e) => handleChange(e, -4)}
-                      >
-                        -
-                      </MDBBtn>
-                    </MDBCol>
-                    <MDBCol className="d-flex align-items-center justify-content-center">
-                      <MDBInput
-                        size="lg"
-                        className=""
-                        type="number"
-                        name="hoursPerWeek"
-                        value={userData.hoursPerWeek}
-                        label="Hours/week"
-                        disabled
+                    <MDBCol className="d-flex align-items-center justify-content-end col-sm-1">
+                      <MDBIcon
+                        fas
+                        icon="minus-circle"
+                        size="2x"
+                        color="success"
                       />
                     </MDBCol>
-                    <MDBCol className="d-flex align-items-center justify-content-start">
-                      <MDBBtn
-                        color="success"
-                        name="hoursPerWeek"
-                        onClick={(e) => handleChange(e, +4)}
-                      >
-                        +
-                      </MDBBtn>
+                    <MDBCol className="d-flex align-items-center justify-content-around col-4 col-sm-6">
+                      <h6>{userData.hoursPerWeek} hrs/wk</h6>
+                    </MDBCol>
+                    <MDBCol className="d-flex align-items-center justify-content-start col-sm-1">
+                      <MDBIcon
+                        fas
+                        icon="plus-circle"
+                        size="2x"
+                        color="danger"
+                      />
                     </MDBCol>
                   </MDBRow>
                 </MDBCol>
               </MDBRow>
-
               <MDBBtn type="submit" onClick={saveUser} block>
                 Save Changes
               </MDBBtn>

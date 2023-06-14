@@ -64,7 +64,7 @@ const App = () => {
     }
   }, [user]);
 
-  console.log(isAdmin);
+  console.log(user, isAdmin);
 
   return (
     <Router>
