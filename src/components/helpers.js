@@ -141,18 +141,18 @@ class TimeDifferenceCalculator {
 }
 
 class UserService {
-  static async checkUserRole(uid) {
+  static async isUserAdmin(uid) {
     const usersRef = collection(db, "users");
 
     const userDoc = await getDoc(doc(usersRef, uid));
     if (userDoc.exists()) {
       const userData = userDoc.data();
       if (userData.role === "admin") {
-        // console.log("User has admin role");
+     return true
       } else {
-        // console.log("User does not have admin role");
+      return false
       }
-      return userData;
+     
     } else {
       // console.log("User not found");
     }

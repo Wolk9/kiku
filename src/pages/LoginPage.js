@@ -152,6 +152,7 @@ const SignInDialog = (props) => {
     contractDate: registerContractDate || null,
     hoursPerWeek: registerHoursPerWeek || null,
     role: registerRole || null,
+    email: registerEmail || null,
   };
   console.log(log);
 
@@ -164,6 +165,7 @@ const SignInDialog = (props) => {
       contractDate: registerContractDate || null,
       hoursPerWeek: registerHoursPerWeek || null,
       role: registerRole || null,
+      email: registerEmail || null,
     };
     console.log(newUser);
     try {

@@ -22,6 +22,7 @@ import {
 } from "mdb-react-ui-kit";
 import Profile from "./pages/Profile";
 import { PopUp } from "./components/PopUp";
+import { UserService } from "./components/helpers";
 
 const NotFoundPage = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
   // console.log("render App")
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     // Add an observer to check for user authentication state changes
@@ -48,11 +50,21 @@ const App = () => {
     return () => unsubscribe();
   }, []);
 
-  //// console.log(user.uid, user.email);
+  useEffect(() => {
+    if (user) {
+      const isUserAdmin = async () => {
+        try {
+          const result = await UserService.isUserAdmin(user.uid);
+          setIsAdmin(result);
+        } catch (err) {
+          setMessage(err.message);
+        }
+      };
+      isUserAdmin();
+    }
+  }, [user]);
 
-  const isAdmin = user && user.email === "martin.de.bes@me.com";
-  // console.log(user);
-  // console.log(isAdmin);
+  console.log(isAdmin);
 
   return (
     <Router>
@@ -115,7 +127,9 @@ const App = () => {
           element={
             <>
               <NavBar admin={isAdmin} />
+              <PopUp message={message} setMessage={setMessage} />
               <UsersPage
+                user={user}
                 admin={isAdmin}
                 message={message}
                 setMessage={setMessage}
@@ -128,7 +142,9 @@ const App = () => {
           element={
             <>
               <NavBar admin={isAdmin} />
+              <PopUp message={message} setMessage={setMessage} />
               <Profile
+                user={user}
                 admin={isAdmin}
                 message={message}
                 setMessage={setMessage}
