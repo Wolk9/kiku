@@ -12,27 +12,29 @@ import {
 
 const PopUp = (props) => {
   // console.log("render PopUp")
-  const { title, body, showPopUp, setShowPopUp } = props;
-
-  const toggleShowPopUp = () => setShowPopUp(!showPopUp);
+  const { title, message, setMessage } = props;
 
   return (
-    <MDBModal tabIndex="-1" show={showPopUp} setShow={setShowPopUp}>
+    <MDBModal
+      tabIndex="-1"
+      show={message !== null}
+      onHide={() => setMessage(null)}
+    >
       <MDBModalDialog centered>
         <MDBModalContent>
           <MDBModalHeader>
-            <MDBModalTitle>{title ? title : ""}</MDBModalTitle>
+            <MDBModalTitle>{title ? title : "System Message"}</MDBModalTitle>
             <MDBBtn
               className="btn-close"
               color="none"
-              onClick={toggleShowPopUp}
-            ></MDBBtn>{" "}
+              onClick={() => setMessage(null)}
+            ></MDBBtn>
           </MDBModalHeader>
           <MDBModalBody>
-            <p>{body ? body : "no body"}</p>
+            <p>{message}</p>
           </MDBModalBody>
           <MDBModalFooter>
-            <MDBBtn color="secondary" onClick={toggleShowPopUp}>
+            <MDBBtn color="secondary" onClick={() => setMessage(null)}>
               Close
             </MDBBtn>
           </MDBModalFooter>
