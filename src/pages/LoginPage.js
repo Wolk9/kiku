@@ -199,11 +199,17 @@ const SignInDialog = (props) => {
       });
   };
 
-  const handleChangeAge = (value) => {
+  const handleChangeHrsPerWk = (value) => {
     const newValue = registerHoursPerWeek + value;
     if (newValue > 36) {
-      setMessage("You can't have a contract of more than 36 hours per week");
+      setMessage(
+        "At Dasko you can't have a contract of more than 36 hours per week"
+      );
       let newValue = 36;
+      return newValue;
+    } else if (newValue < 0) {
+      setMessage("You can't have a contract of less than 0 hours per week");
+      let newValue = 0;
       return newValue;
     }
     setRegisterHoursPerWeek(newValue);
@@ -284,7 +290,7 @@ const SignInDialog = (props) => {
                     <MDBCol className="d-flex align-items-center justify-content-end">
                       <MDBBtn
                         color="danger"
-                        onClick={() => handleChangeAge(-4)}
+                        onClick={() => handleChangeHrsPerWk(-4)}
                       >
                         -
                       </MDBBtn>
@@ -304,7 +310,7 @@ const SignInDialog = (props) => {
                     <MDBCol className="d-flex align-items-center justify-content-start">
                       <MDBBtn
                         color="success"
-                        onClick={() => handleChangeAge(+4)}
+                        onClick={() => handleChangeHrsPerWk(+4)}
                       >
                         +
                       </MDBBtn>
