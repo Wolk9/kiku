@@ -93,7 +93,7 @@ const Profile = (props) => {
             <MDBCardTitle>Your Profile Details</MDBCardTitle>
             <div className="d-grid gap-2 col-8 col-sm-12 mx-auto">
               <h6>Your login details</h6>
-              Your login email address is: <strong>{user.email}</strong>
+              Your login email address is: <strong>{user?.email}</strong>
               <hr className="hr" />
               <h6>Your personal details</h6>
               <MDBInput
