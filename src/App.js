@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import backgroundImage from "./img/IMG_5775.jpg";
 import {
   BrowserRouter as Router,
   Route,
@@ -70,31 +71,84 @@ const App = () => {
   console.log(user, isAdmin);
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          default
-          element={
-            user ? (
-              <Navigate to={isAdmin ? "/admin" : "/base"} />
-            ) : (
-              <>
-                <NavBar
-                  setMessage={setMessage}
-                  setUser={setUser}
-                  logoOnly={true}
-                />
-                <PopUp message={message} setMessage={setMessage} />
-                <AuthorizePage message={message} setMessage={setMessage} />
-              </>
-            )
-          }
-        />
-        <Route
-          path="/base"
-          element={
-            user ? (
+    <div
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "contain",
+        height:1024,
+      }}
+    >
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            default
+            element={
+              user ? (
+                <Navigate to={isAdmin ? "/admin" : "/base"} />
+              ) : (
+                <>
+                  <NavBar
+                    setMessage={setMessage}
+                    setUser={setUser}
+                    logoOnly={true}
+                  />
+                  <PopUp message={message} setMessage={setMessage} />
+                  <AuthorizePage message={message} setMessage={setMessage} />
+                </>
+              )
+            }
+          />
+          <Route
+            path="/base"
+            element={
+              user ? (
+                <>
+                  <NavBar
+                    setMessage={setMessage}
+                    setUser={setUser}
+                    admin={isAdmin}
+                  />
+                  <PopUp message={message} setMessage={setMessage} />
+                  <BasePage
+                    user={user}
+                    admin={isAdmin}
+                    message={message}
+                    setMessage={setMessage}
+                  />
+                </>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              isAdmin ? (
+                <>
+                  <NavBar
+                    setMessage={setMessage}
+                    setUser={setUser}
+                    admin={isAdmin}
+                  />
+                  <PopUp message={message} setMessage={setMessage} />
+                  <BasePage
+                    user={user}
+                    admin={isAdmin}
+                    message={message}
+                    setMessage={setMessage}
+                  />
+                </>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/users"
+            element={
               <>
                 <NavBar
                   setMessage={setMessage}
@@ -102,22 +156,18 @@ const App = () => {
                   admin={isAdmin}
                 />
                 <PopUp message={message} setMessage={setMessage} />
-                <BasePage
+                <UsersPage
                   user={user}
                   admin={isAdmin}
                   message={message}
                   setMessage={setMessage}
                 />
               </>
-            ) : (
-              <Navigate to="/" />
-            )
-          }
-        />
-        <Route
-          path="/admin"
-          element={
-            isAdmin ? (
+            }
+          />
+          <Route
+            path="/profile"
+            element={
               <>
                 <NavBar
                   setMessage={setMessage}
@@ -125,59 +175,19 @@ const App = () => {
                   admin={isAdmin}
                 />
                 <PopUp message={message} setMessage={setMessage} />
-                <BasePage
+                <Profile
                   user={user}
                   admin={isAdmin}
                   message={message}
                   setMessage={setMessage}
                 />
               </>
-            ) : (
-              <Navigate to="/" />
-            )
-          }
-        />
-        <Route
-          path="/users"
-          element={
-            <>
-              <NavBar
-                setMessage={setMessage}
-                setUser={setUser}
-                admin={isAdmin}
-              />
-              <PopUp message={message} setMessage={setMessage} />
-              <UsersPage
-                user={user}
-                admin={isAdmin}
-                message={message}
-                setMessage={setMessage}
-              />
-            </>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <>
-              <NavBar
-                setMessage={setMessage}
-                setUser={setUser}
-                admin={isAdmin}
-              />
-              <PopUp message={message} setMessage={setMessage} />
-              <Profile
-                user={user}
-                admin={isAdmin}
-                message={message}
-                setMessage={setMessage}
-              />
-            </>
-          }
-        />
-        {/* <Route path="*" element={<NotFoundPage />} /> */}
-      </Routes>
-    </Router>
+            }
+          />
+          {/* <Route path="*" element={<NotFoundPage />} /> */}
+        </Routes>
+      </Router>
+    </div>
   );
 };
 
