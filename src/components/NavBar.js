@@ -14,7 +14,7 @@ import { UserService } from "./helpers";
 
 export const NavBar = (props) => {
   // console.log("render NavBar")
-  const { admin, logoOnly } = props;
+  const { admin, logoOnly, setUser, setMessage } = props;
   const [logoURL, setLogoURL] = useState("");
 
   useEffect(() => {
@@ -24,6 +24,16 @@ export const NavBar = (props) => {
       .catch((error) => console.log(error));
   }, []);
 
+  const onLogOut = () => {
+    console.log("logout clicked");
+    try {
+      UserService.signOutUser();
+    } catch (err) {
+      setMessage(err);
+    } finally {
+      setUser(null);
+    }
+  };
 
   return (
     <div>
@@ -74,7 +84,7 @@ export const NavBar = (props) => {
                 <div className="d-flex justify-content-end">
                   <MDBBtn
                     color="primary"
-                    onClick={UserService.signOutUser}
+                    onClick={onLogOut}
                     className="mx-1 my-0"
                   >
                     Log out

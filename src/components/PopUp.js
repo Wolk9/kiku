@@ -23,7 +23,7 @@ const PopUp = (props) => {
       <MDBModalDialog centered>
         <MDBModalContent>
           <MDBModalHeader>
-            <MDBModalTitle>{title ? title : "System Message"}</MDBModalTitle>
+            <MDBModalTitle>{title ? title : "Note"}</MDBModalTitle>
             <MDBBtn
               className="btn-close"
               color="none"

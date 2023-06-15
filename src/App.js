@@ -24,10 +24,11 @@ import Profile from "./pages/Profile";
 import { PopUp } from "./components/PopUp";
 import { UserService } from "./components/helpers";
 
-const NotFoundPage = () => {
+const NotFoundPage = (props) => {
+  const { setUser, setMessage } = props;
   return (
     <>
-      <NavBar />
+      <NavBar setMessage={setMessage} setUser={setUser} />
       <h1>404 Page Not Found</h1>
       {/* Include the content of your 404.html page here */}
     </>
@@ -61,6 +62,8 @@ const App = () => {
         }
       };
       isUserAdmin();
+    } else {
+      setIsAdmin(false);
     }
   }, [user]);
 
@@ -77,7 +80,11 @@ const App = () => {
               <Navigate to={isAdmin ? "/admin" : "/base"} />
             ) : (
               <>
-                <NavBar logoOnly={true} />
+                <NavBar
+                  setMessage={setMessage}
+                  setUser={setUser}
+                  logoOnly={true}
+                />
                 <PopUp message={message} setMessage={setMessage} />
                 <AuthorizePage message={message} setMessage={setMessage} />
               </>
@@ -89,7 +96,11 @@ const App = () => {
           element={
             user ? (
               <>
-                <NavBar admin={isAdmin} />
+                <NavBar
+                  setMessage={setMessage}
+                  setUser={setUser}
+                  admin={isAdmin}
+                />
                 <PopUp message={message} setMessage={setMessage} />
                 <BasePage
                   user={user}
@@ -108,7 +119,11 @@ const App = () => {
           element={
             isAdmin ? (
               <>
-                <NavBar admin={isAdmin} />
+                <NavBar
+                  setMessage={setMessage}
+                  setUser={setUser}
+                  admin={isAdmin}
+                />
                 <PopUp message={message} setMessage={setMessage} />
                 <BasePage
                   user={user}
@@ -126,7 +141,11 @@ const App = () => {
           path="/users"
           element={
             <>
-              <NavBar admin={isAdmin} />
+              <NavBar
+                setMessage={setMessage}
+                setUser={setUser}
+                admin={isAdmin}
+              />
               <PopUp message={message} setMessage={setMessage} />
               <UsersPage
                 user={user}
@@ -141,7 +160,11 @@ const App = () => {
           path="/profile"
           element={
             <>
-              <NavBar admin={isAdmin} />
+              <NavBar
+                setMessage={setMessage}
+                setUser={setUser}
+                admin={isAdmin}
+              />
               <PopUp message={message} setMessage={setMessage} />
               <Profile
                 user={user}

@@ -148,13 +148,25 @@ class UserService {
     if (userDoc.exists()) {
       const userData = userDoc.data();
       if (userData.role === "admin") {
-     return true
+        return true;
       } else {
-      return false
+        return false;
       }
-     
     } else {
       // console.log("User not found");
+    }
+  }
+
+  static async editUserData(id, update) {
+    const usersRef = collection(db, "users");
+    const userDocRef = doc(usersRef, id);
+
+    try {
+      await updateDoc(userDocRef, update);
+      return true; // Return true if the update was successful
+    } catch (error) {
+      console.error(error);
+      return false; // Return false if an error occurred during the update
     }
   }
 

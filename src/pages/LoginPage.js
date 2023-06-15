@@ -58,6 +58,7 @@ export const AuthorizePage = (props) => {
 };
 
 const LoginDialog = (props) => {
+
   const { setSignUp, message, setMessage } = props;
   // console.log("render LoginDialaog")
   const [email, setEmail] = useState("");
