@@ -75,8 +75,9 @@ const App = () => {
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundRepeat: "no-repeat",
-        backgroundSize: "contain",
-        height:1024,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100vh",
       }}
     >
       <Router>

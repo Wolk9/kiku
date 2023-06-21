@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import "../style/Table.css";
 import { MDBTable, MDBTableBody } from "mdb-react-ui-kit";
 import EventRow from "./EventRow";
-import { EventService } from "./helpers";
+import {
+  DateFormatter,
+  EventService,
+  TimeDifferenceCalculator,
+} from "./helpers";
 import { EditModal } from "./EditModal";
 
 const Loading = () => {
@@ -31,12 +35,98 @@ const EventList = (props) => {
       try {
         const events = await EventService.getUserEvents(user.uid);
         setSortingLoading(true); // Start the sorting operation
-        const sortedEvents = events.sort(
-          (a, b) =>
-            new Date(b.eventStart).getTime() - new Date(a.eventStart).getTime()
-        );
+
+        const sortEvents = (singleEvent) => {
+          singleEvent.sort(function (a, b) {
+            // Extract the date and time components from the event start dates
+            var dateA = a.eventStart.split("T")[0];
+            var timeA = a.eventStart.split("T")[1];
+            var dateB = b.eventStart.split("T")[0];
+            var timeB = b.eventStart.split("T")[1];
+
+            // Compare the event dates
+            if (dateA > dateB) {
+              return -1;
+            }
+            if (dateA < dateB) {
+              return 1;
+            }
+
+            // If the event dates are the same, compare the event times in descending order
+            if (timeA > timeB) {
+              return -1;
+            }
+            if (timeA < timeB) {
+              return 1;
+            }
+
+            // If the event times are also the same, maintain the current order
+            return 0;
+          });
+
+          return events;
+        };
+
+        const sortedEvents = sortEvents(events);
+
         console.log(sortedEvents);
-        setUserEvents(sortedEvents);
+
+        // Calculate subtotal of hours per day
+        let subtotal = 0;
+        let currentDate = null;
+        let totalId = 0;
+        const eventsWithSubtotal = sortedEvents.flatMap((event) => {
+          console.log(event.eventStart);
+          const [date, start] = event.eventStart.split("T");
+          console.log(date, start);
+          if (currentDate === date) {
+            console.log("currentDate not null");
+            const eventDuration =
+              TimeDifferenceCalculator.calculateDurationInHours(
+                event.eventStart,
+                event.eventEnd
+              );
+            
+            subtotal += eventDuration;
+            console.log(eventDuration, subtotal);
+          } else {
+          }
+          currentDate = date;
+          // totalId = totalId + 1;
+          // const eventDate = DateFormatter.formatDate(event.eventStart);
+          // console.log("eventDate:", totalId, eventDate);
+
+          // if (currentDate !== null) {
+          //   console.log("eventDate != null");
+          //   // Create a subtotal row for the previous date
+          //   if (currentDate === eventDate) {
+          //     console.log(currentDate, totalId, "currentDate === eventDate");
+          //     const subtotalRow = {
+          //       userId: "subtotal", // Customize as needed
+          //       eventStart: event.eventStart,
+          //       type: "subtotal", // Customize as needed
+          //       eventEnd: "",
+          //       subtotal: subtotal,
+          //       id: totalId + 1, // Customize as needed
+          //     };
+          //     return [subtotalRow, event];
+          //   }
+          //   //subtotal = 0; // Reset subtotal for the new date
+          // } else {
+          //   const eventDuration =
+          //     TimeDifferenceCalculator.calculateDurationInHours(
+          //       event.eventStart,
+          //       event.eventEnd
+          //     );
+          //   subtotal += eventDuration;
+          // }
+
+          // currentDate = eventDate;
+          return event;
+        });
+
+        console.log(eventsWithSubtotal);
+        setUserEvents(eventsWithSubtotal);
         setSortingLoading(false); // Sorting operation finished
       } catch (error) {
         console.error("Error retrieving events:", error);
@@ -83,10 +173,12 @@ const EventList = (props) => {
       setIsSaved(true);
     }
   };
- 
+
   if (loading || sortingLoading) {
     return <Loading />; // Render a loading state or placeholder
   }
+
+  console.log(userEvents);
 
   return (
     <>
@@ -141,6 +233,7 @@ const EventList = (props) => {
                   end={singleEvent.eventEnd}
                   type={singleEvent.type}
                   loading={loading}
+                  subtotal={singleEvent.subtotal}
                   setLoading={setLoading}
                   isNew={false}
                   handleEdit={handleEdit}

@@ -117,7 +117,7 @@ const BasePage = (props) => {
         modalEventToEdit={modalEventToEdit}
       />
       <MDBContainer breakpoint="lg">
-        <MDBCard>
+        <MDBCard className="mt-5">
           <MDBCardBody className="table-wrapper">
             <MDBCardTitle>
               Welcome{" "}
@@ -126,10 +126,9 @@ const BasePage = (props) => {
               </span>
             </MDBCardTitle>
             <p>
-              
               <br />
             </p>
-            <span className="cico-btn-group d-flex justify-content-centerr">
+            <span className="cico-btn-group d-flex justify-content-center mb-5">
               <button
                 className="clock-in-btn"
                 onClick={handleClockIn}
@@ -151,15 +150,17 @@ const BasePage = (props) => {
             </span>
           </MDBCardBody>
         </MDBCard>
-        <MDBCard className="table-wrapper">
-          <MDBCardBody>
-            {newUserEvent && (
+
+        {newUserEvent && (
+          <MDBCard className="table-wrapper animation">
+            <MDBCardBody>
               <RunningEvent user={user} newUserEvent={newUserEvent} />
-            )}
-          </MDBCardBody>
-        </MDBCard>
-        <MDBCard>
-          <MDBCardBody className="table-wrapper">
+            </MDBCardBody>
+          </MDBCard>
+        )}
+
+        {/* <MDBCard className="mt-5 transparent-card">
+          <MDBCardBody> */}
             <EventList
               user={user}
               newUserEvent={newUserEvent}
@@ -168,8 +169,8 @@ const BasePage = (props) => {
               setModalType={setModalType}
               setModalEventToEdit={setModalEventToEdit}
             />
-          </MDBCardBody>
-        </MDBCard>
+          {/* </MDBCardBody>
+        </MDBCard> */}
       </MDBContainer>
     </div>
   );

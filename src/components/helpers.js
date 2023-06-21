@@ -21,8 +21,6 @@ moment.updateLocale("nl", {
 class DateFormatter {
   static formatDate = (date) => {
     const offset = moment(date).utcOffset();
-    console.log(offset);
-
     if (moment.isDate(date)) {
       return moment(date).format("ddd DD-MM");
     } else if (moment(date, moment.ISO_8601, true).isValid()) {
@@ -35,7 +33,6 @@ class DateFormatter {
 
   static formatTime = (date) => {
     if (moment.isDate(date)) {
-
       return moment(date).format("HH:mm");
     } else if (moment(date, moment.ISO_8601, true).isValid()) {
       const isoTime = moment.utc(date);
@@ -138,6 +135,25 @@ class TimeDifferenceCalculator {
 
     return moment.utc(difInMinutes * 60000).format("HH:mm");
   }
+
+  static calculateDurationInHours = (start, end) => {
+    console.log("Start:", start);
+    console.log("End:", end);
+
+    const startTime = new Date(start);
+    const endTime = new Date(end);
+    const durationInMinutes = (endTime.getTime() - startTime.getTime()) / 60000;
+    return durationInMinutes;
+  };
+
+  static formatHoursMinutes = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    const formattedTime = `${hours
+      .toString()
+      .padStart(2, "0")}:${remainingMinutes.toString().padStart(2, "0")}`;
+    return formattedTime;
+  };
 }
 
 class UserService {
