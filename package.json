@@ -51,7 +51,14 @@
   },
   "description": "This project was build for Dasko employees",
   "main": "index.js",
-  "homepage": "./",
+  "homepage": "http://./",
   "author": "Martin de Bes/Wolk9",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wolk9/kiku.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Wolk9/kiku/issues"
+  }
 }

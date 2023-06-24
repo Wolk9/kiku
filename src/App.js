@@ -11,30 +11,20 @@ import BasePage from "./pages/BasePage";
 import UsersPage from "./pages/UsersPage";
 import { auth } from "./config/firebase";
 import { NavBar } from "./components/NavBar";
-import {
-  MDBBtn,
-  MDBModal,
-  MDBModalDialog,
-  MDBModalContent,
-  MDBModalHeader,
-  MDBModalTitle,
-  MDBModalBody,
-  MDBModalFooter,
-} from "mdb-react-ui-kit";
 import Profile from "./pages/Profile";
 import { PopUp } from "./components/PopUp";
 import { UserService } from "./components/helpers";
 
-const NotFoundPage = (props) => {
-  const { setUser, setMessage } = props;
-  return (
-    <>
-      <NavBar setMessage={setMessage} setUser={setUser} />
-      <h1>404 Page Not Found</h1>
-      {/* Include the content of your 404.html page here */}
-    </>
-  );
-};
+// const NotFoundPage = (props) => {
+//   const { setUser, setMessage } = props;
+//   return (
+//     <>
+//       <NavBar setMessage={setMessage} setUser={setUser} />
+//       <h1>404 Page Not Found</h1>
+//       {/* Include the content of your 404.html page here */}
+//     </>
+//   );
+// };
 
 const App = () => {
   // console.log("render App")
