@@ -13,7 +13,7 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { UserService } from "./helpers";
 
 export const NavBar = (props) => {
-  // console.log("render NavBar")
+  // console.log("render NavBar");
   const { admin, logoOnly, setUser, setMessage } = props;
   const [logoURL, setLogoURL] = useState("");
 
@@ -25,7 +25,7 @@ export const NavBar = (props) => {
   }, []);
 
   const onLogOut = () => {
-    console.log("logout clicked");
+    // console.log("logout clicked");
     try {
       UserService.signOutUser();
     } catch (err) {

@@ -55,11 +55,11 @@ const BasePage = (props) => {
       let result = RealTimeService.readRunningEvent(user.uid);
       return result;
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     } finally {
     }
   };
-  console.log("running Event from rtdb:", runningEvent());
+  // console.log("running Event from rtdb:", runningEvent());
 
   const toggleShow = () => setModalShow(!modalShow);
 
@@ -72,33 +72,33 @@ const BasePage = (props) => {
       eventEnd: "running",
     };
 
-    console.log("newClockIn", newClockIn);
+    // console.log("newClockIn", newClockIn);
     setNewUserEvent(newClockIn);
     setEventStarted(true);
     try {
       RealTimeService.writeRunningEvent(user.uid, newClockIn);
       // await EventService.addEvent(newClockIn)
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     } finally {
     }
   };
 
-  console.log(newUserEvent);
+  // console.log(newUserEvent);
 
   const stopEvent = async (e) => {
-    console.log("stop Event", e);
+    // console.log("stop Event", e);
     const runningEvent = newUserEvent;
     const end = new Date();
 
     const stoppedEvent = { ...runningEvent, eventEnd: end.toISOString() };
 
-    console.log(stoppedEvent);
+    // console.log(stoppedEvent);
 
     try {
       await EventService.addEvent(stoppedEvent);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     } finally {
       setEventStarted(false);
       setNewUserEvent();
@@ -106,7 +106,11 @@ const BasePage = (props) => {
     }
   };
 
-  console.log(newUserEvent);
+  const editEvent = async () => {
+    console.log("edit clicked");
+  };
+
+  // console.log(newUserEvent);
 
   return (
     <div>
@@ -154,22 +158,26 @@ const BasePage = (props) => {
         {newUserEvent && (
           <MDBCard className="table-wrapper animation">
             <MDBCardBody>
-              <RunningEvent user={user} newUserEvent={newUserEvent} />
+              <RunningEvent
+                user={user}
+                newUserEvent={newUserEvent}
+                editEvent={editEvent}
+              />
             </MDBCardBody>
           </MDBCard>
         )}
 
         {/* <MDBCard className="mt-5 transparent-card">
           <MDBCardBody> */}
-            <EventList
-              user={user}
-              newUserEvent={newUserEvent}
-              setNewUserEvent={setNewUserEvent}
-              toggleShow={toggleShow}
-              setModalType={setModalType}
-              setModalEventToEdit={setModalEventToEdit}
-            />
-          {/* </MDBCardBody>
+        <EventList
+          user={user}
+          newUserEvent={newUserEvent}
+          setNewUserEvent={setNewUserEvent}
+          toggleShow={toggleShow}
+          setModalType={setModalType}
+          setModalEventToEdit={setModalEventToEdit}
+        />
+        {/* </MDBCardBody>
         </MDBCard> */}
       </MDBContainer>
     </div>

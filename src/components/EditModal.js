@@ -34,7 +34,7 @@ export const EditModal = (props) => {
 
   const [form, setForm] = useState(initialEvent);
 
-  console.log("Edit Modal event: ", modalEventToEdit);
+  // console.log("Edit Modal event: ", modalEventToEdit);
 
   useEffect(() => {
     if (modalEventToEdit) {
@@ -57,12 +57,11 @@ export const EditModal = (props) => {
     }
   }, [modalEventToEdit]);
 
-
   const handleSave = async () => {
     setIsSaved(false);
-    console.log("handleSave: form", form);
+    // console.log("handleSave: form", form);
     const convertedObject = DateFormatter.ObjectConverter(form, userId);
-    console.log("converted Object: ", convertedObject);
+    // console.log("converted Object: ", convertedObject);
     try {
       EventService.editEvent(modalEventToEdit.eventId, convertedObject);
     } catch (err) {

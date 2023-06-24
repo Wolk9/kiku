@@ -27,7 +27,7 @@ import { UserService } from "./components/helpers";
 // };
 
 const App = () => {
-  // console.log("render App")
+  // console.log("render App");
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -58,13 +58,13 @@ const App = () => {
     }
   }, [user]);
 
-  console.log(user, isAdmin);
+  // console.log(user, isAdmin);
 
   return (
     <div
       style={{
         backgroundImage: `url(${backgroundImage})`,
-        backgroundRepeat: "no-repeat",
+        backgroundRepeat: "repeat-x",
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: "100vh",

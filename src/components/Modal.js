@@ -22,7 +22,7 @@ export const Modal = (props) => {
 
   const [form, setForm] = useState(initialEvent);
 
-  console.log("modal event: ", modalEventToEdit);
+  // console.log("modal event: ", modalEventToEdit);
 
   useEffect(() => {
     if (modalEventToEdit) {
@@ -74,9 +74,9 @@ export const Modal = (props) => {
   }
 
   const handleSave = () => {
-    console.log("save");
-    console.log("handeSave: form", form);
-    console.log("handleSave: form", form);
+    // console.log("save");
+    // console.log("handeSave: form", form);
+    // console.log("handleSave: form", form);
     // toggleShow();
   };
 
@@ -110,7 +110,7 @@ export const Modal = (props) => {
 const EditForm = (props) => {
   const { form, setForm } = props;
 
-  console.log(form);
+  // console.log(form);
 
   useEffect(() => {
     setForm(form);

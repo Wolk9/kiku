@@ -137,8 +137,8 @@ class TimeDifferenceCalculator {
   }
 
   static calculateDurationInHours = (start, end) => {
-    console.log("Start:", start);
-    console.log("End:", end);
+    // console.log("Start:", start);
+    // console.log("End:", end);
 
     const startTime = new Date(start);
     const endTime = new Date(end);
@@ -252,12 +252,12 @@ class EventService {
   }
 
   static async getEvent(id) {
-    console.log("getEvent: ", id);
+    // console.log("getEvent: ", id);
     const eventRef = doc(collection(db, "events"), id);
     try {
       const eventDoc = await getDoc(eventRef);
       const eventData = eventDoc.data();
-      console.log("getEvent: ", eventData);
+      // console.log("getEvent: ", eventData);
       return eventData;
     } catch (error) {
       console.error(error);
@@ -270,7 +270,7 @@ class EventService {
   }
 
   static async editEvent(id, updates) {
-    console.log(id, updates);
+    // console.log(id, updates);
     const eventRef = doc(collection(db, "events"), id);
     await updateDoc(eventRef, updates);
   }

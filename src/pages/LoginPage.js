@@ -58,16 +58,15 @@ export const AuthorizePage = (props) => {
 };
 
 const LoginDialog = (props) => {
-
   const { setSignUp, message, setMessage } = props;
-  // console.log("render LoginDialaog")
+  // console.log("render LoginDialaog");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const signInUser = async () => {
-    console.log("signInUser");
+    // console.log("signInUser");
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
-      console.log(user);
+      // console.log(user);
     } catch (err) {
       setMessage(err.message);
       console.error(err);
@@ -155,10 +154,10 @@ const SignInDialog = (props) => {
     role: registerRole || null,
     email: registerEmail || null,
   };
-  console.log(log);
+  // console.log(log);
 
   const createUser = async (uid) => {
-    console.log(uid);
+    // console.log(uid);
     let newUser = {
       firstName: registerFirstName || null,
       lastName: registerLastName || null,
@@ -168,26 +167,26 @@ const SignInDialog = (props) => {
       role: registerRole || null,
       email: registerEmail || null,
     };
-    console.log(newUser);
+    // console.log(newUser);
     try {
       await setDoc(doc(usersRef, uid), newUser);
-      console.log("createUser:", newUser);
+      // console.log("createUser:", newUser);
     } catch (err) {
       console.error(err);
     }
   };
 
   const registerUser = () => {
-    console.log("registerUser");
+    // console.log("registerUser");
 
     createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
+        // console.log(user);
         createUser(user.uid);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         const errorCode = error.code;
         const errorMessage = error.message;
         if (error.code == "auth/invalid-email") {

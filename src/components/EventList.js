@@ -24,7 +24,7 @@ const EventList = (props) => {
   const [isSaved, setIsSaved] = useState(false);
 
   const toggleShowEditModal = () => {
-    console.log("toggle show Edit Modal");
+    // console.log("toggle show Edit Modal");
     setShowEditModal(!showEditModal);
   };
 
@@ -69,26 +69,26 @@ const EventList = (props) => {
 
         const sortedEvents = sortEvents(events);
 
-        console.log(sortedEvents);
+        // console.log(sortedEvents);
 
         // Calculate subtotal of hours per day
         let subtotal = 0;
         let currentDate = null;
         let totalId = 0;
         const eventsWithSubtotal = sortedEvents.flatMap((event) => {
-          console.log(event.eventStart);
+          // console.log(event.eventStart);
           const [date, start] = event.eventStart.split("T");
-          console.log(date, start);
+          // console.log(date, start);
           if (currentDate === date) {
-            console.log("currentDate not null");
+            // console.log("currentDate not null");
             const eventDuration =
               TimeDifferenceCalculator.calculateDurationInHours(
                 event.eventStart,
                 event.eventEnd
               );
-            
+
             subtotal += eventDuration;
-            console.log(eventDuration, subtotal);
+            // console.log(eventDuration, subtotal);
           } else {
           }
           currentDate = date;
@@ -97,10 +97,10 @@ const EventList = (props) => {
           // console.log("eventDate:", totalId, eventDate);
 
           // if (currentDate !== null) {
-          //   console.log("eventDate != null");
+          //   // console.log("eventDate != null");
           //   // Create a subtotal row for the previous date
           //   if (currentDate === eventDate) {
-          //     console.log(currentDate, totalId, "currentDate === eventDate");
+          //     // console.log(currentDate, totalId, "currentDate === eventDate");
           //     const subtotalRow = {
           //       userId: "subtotal", // Customize as needed
           //       eventStart: event.eventStart,
@@ -125,7 +125,7 @@ const EventList = (props) => {
           return event;
         });
 
-        console.log(eventsWithSubtotal);
+        // console.log(eventsWithSubtotal);
         setUserEvents(eventsWithSubtotal);
         setSortingLoading(false); // Sorting operation finished
       } catch (error) {
@@ -141,7 +141,7 @@ const EventList = (props) => {
 
   const handleEditEvent = (editEvent, e) => {
     const eventId = e;
-    console.log(editEvent, eventId);
+    // console.log(editEvent, eventId);
     setModalEventToEdit({ eventId: eventId, ...editEvent });
     toggleShowEditModal();
   };
@@ -155,18 +155,18 @@ const EventList = (props) => {
   };
 
   const handleEdit = (e) => {
-    console.log(e);
+    // console.log(e);
     EventService.getEvent(e).then((result) => {
       handleEditEvent(result, e);
     });
   };
   const handleDelete = async (e) => {
-    console.log("Delete", e);
+    // console.log("Delete", e);
     // console.log(e);
     try {
       EventService.deleteEvent(e);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     } finally {
       handleDeleteEvent(e);
       toggleShowEditModal();
@@ -178,7 +178,7 @@ const EventList = (props) => {
     return <Loading />; // Render a loading state or placeholder
   }
 
-  console.log(userEvents);
+  // console.log(userEvents);
 
   return (
     <>

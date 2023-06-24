@@ -6,7 +6,7 @@ const EventRow = (props) => {
   // console.log("render EventRow");
   const { start, end, type, id, isNew, handleEdit, subtotal } = props;
 
-  console.log("start:", start, "end:", end);
+  // console.log("start:", start, "end:", end);
 
   let date = type !== "subtotal" ? DateFormatter.formatDate(start) : "";
   let formatedStart =

@@ -11,7 +11,7 @@ import {
 } from "mdb-react-ui-kit";
 
 const PopUp = (props) => {
-  // console.log("render PopUp")
+  // console.log("render PopUp");
   const { title, message, setMessage } = props;
 
   return (

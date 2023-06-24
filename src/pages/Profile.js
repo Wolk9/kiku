@@ -34,10 +34,10 @@ const Profile = (props) => {
           const result = await UserService.getUserData(user.uid);
           setUserData(result);
         } catch (err) {
-          console.log(err);
+          // console.log(err);
           setMessage(err);
         } finally {
-          console.log(userData);
+          // console.log(userData);
         }
       }
     };
@@ -45,12 +45,12 @@ const Profile = (props) => {
   }, [user]);
 
   const handleChange = (e) => {
-    console.log(e.target.name);
+    // console.log(e.target.name);
     const { name, value } = e.target;
-    console.log(name, value);
+    // console.log(name, value);
     switch (name) {
       case "hoursPerWeek":
-        console.log("case hoursPerWeek");
+        // console.log("case hoursPerWeek");
         let result = handleChangeHrsPerWk(value);
         setUserData({ ...userData, [name]: result });
         break;
@@ -61,7 +61,7 @@ const Profile = (props) => {
   };
 
   const saveUser = async () => {
-    console.log("saveUser");
+    // console.log("saveUser");
     try {
       const uid = user.uid; // Assuming you have access to the user's UID
       await UserService.editUserData(uid, userData);
@@ -71,15 +71,15 @@ const Profile = (props) => {
     }
   };
 
-  console.log(userData);
+  // console.log(userData);
 
   const handleChangeHrsPerWk = (value) => {
     value == "minus" ? (value = -4) : (value = +4);
-    console.log(value);
+    // console.log(value);
     const newValue = userData.hoursPerWeek + value;
-    console.log("handleChangeHrsPerWk newValue:", newValue);
+    // console.log("handleChangeHrsPerWk newValue:", newValue);
     if (newValue > 32) {
-      console.log("newValue is higher than 36");
+      // console.log("newValue is higher than 36");
       setMessage(
         "At Dasko you can't have a contract of more than 36 hours per week"
       );

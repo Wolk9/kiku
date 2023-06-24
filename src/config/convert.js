@@ -32,8 +32,8 @@ export const updateDocumentsWithISO8601 = async () => {
       // Convert eventStart and eventEnd to ISO 8601 format
       const convertedStart = convertToISO8601(eventStart);
       const convertedEnd = convertToISO8601(eventEnd);
-      console.log("Converted", data.eventStart, "to", convertedStart);
-      console.log("Converted", data.eventEnd, "to", convertedEnd);
+      // console.log("Converted", data.eventStart, "to", convertedStart);
+      // console.log("Converted", data.eventEnd, "to", convertedEnd);
 
       // Update the document with the converted values
       await updateDoc(doc.ref, {
@@ -42,7 +42,7 @@ export const updateDocumentsWithISO8601 = async () => {
       });
     });
 
-    console.log("Documents updated successfully.");
+    // console.log("Documents updated successfully.");
   } catch (error) {
     console.error("Error updating documents:", error);
   }
