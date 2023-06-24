@@ -304,6 +304,18 @@ class RealTimeService {
     }
   }
 
+  static async editRunningEvent(userId, updatedData) {
+    const snapshot = await get(ref(rtdb, `/${userId}`));
+    if (snapshot.exists()) {
+      const currentData = snapshot.val().data;
+      const newData = { ...currentData, ...updatedData };
+      set(ref(rtdb, `/${userId}`), { data: newData });
+      return newData;
+    } else {
+      return undefined; // or any other default value you prefer
+    }
+  }
+
   static async deleteRunningEvent(userId) {
     remove(ref(rtdb, `/${userId}`));
   }

@@ -10,16 +10,20 @@ import {
 import { Modal } from "../components/Modal";
 import { Timer } from "../components/Timer";
 import { RunningEvent } from "../components/RunningEvent";
+import { EditRunningEventModal } from "../components/EditRunningEventModal";
 
 const BasePage = (props) => {
   // console.log("render BasePage");
   const { admin, user } = props;
   const [userProfile, setUserProfile] = useState({});
   const [modalShow, setModalShow] = useState(false);
+  const [showEditRunningEventModal, setShowEditRunningEventModal] =
+    useState(false);
   const [modalType, setModalType] = useState("");
   const [eventStarted, setEventStarted] = useState();
   const [newUserEvent, setNewUserEvent] = useState();
   const [modalEventToEdit, setModalEventToEdit] = useState();
+  const [isSaved, setIsSaved] = useState(true);
 
   useEffect(() => {
     UserService.getUserData(user.uid)
@@ -29,26 +33,32 @@ const BasePage = (props) => {
       .catch((error) => {
         console.error("Error retrieving user data:", error);
       });
-    RealTimeService.readRunningEvent(user.uid).then((result) => {
-      if (result !== undefined) {
-        const eventStart = result.eventStart;
-        const eventEnd = result.eventEnd;
-        const type = result.type;
-        const userId = result.userId;
+    const readRunningEvent = async () => {
+      RealTimeService.readRunningEvent(user.uid).then((result) => {
+        console.log("fetching running event");
+        if (result !== undefined) {
+          console.log("there is a running event, fill NewUserEvent");
+          const eventStart = result.eventStart;
+          const eventEnd = result.eventEnd;
+          const type = result.type;
+          const userId = result.userId;
 
-        setNewUserEvent({
-          eventStart: eventStart,
-          eventEnd: eventEnd,
-          type: type,
-          userId: userId,
-        });
-        setEventStarted(true);
-      } else {
-        setNewUserEvent();
-      }
-    });
+          setNewUserEvent({
+            eventStart: eventStart,
+            eventEnd: eventEnd,
+            type: type,
+            userId: userId,
+          });
+          setEventStarted(true);
+        } else {
+          setNewUserEvent();
+        }
+      });
+    };
+
+    readRunningEvent();
     // eslint-disable-next-line
-  }, []);
+  }, [isSaved]);
 
   let runningEvent = async () => {
     try {
@@ -62,6 +72,10 @@ const BasePage = (props) => {
   // console.log("running Event from rtdb:", runningEvent());
 
   const toggleShow = () => setModalShow(!modalShow);
+  const toggleEditRunningEventShow = () => {
+    setIsSaved(!isSaved);
+    setShowEditRunningEventModal(!showEditRunningEventModal);
+  };
 
   const handleClockIn = () => {
     const start = new Date();
@@ -77,9 +91,8 @@ const BasePage = (props) => {
     setEventStarted(true);
     try {
       RealTimeService.writeRunningEvent(user.uid, newClockIn);
-      // await EventService.addEvent(newClockIn)
     } catch (err) {
-      // console.log(err);
+      console.log(err);
     } finally {
     }
   };
@@ -108,12 +121,21 @@ const BasePage = (props) => {
 
   const editEvent = async () => {
     console.log("edit clicked");
+    console.log(newUserEvent);
+    toggleEditRunningEventShow();
   };
 
   // console.log(newUserEvent);
 
   return (
     <div>
+      <EditRunningEventModal
+        show={showEditRunningEventModal}
+        toggleEditRunningEventShow={toggleEditRunningEventShow}
+        modalEventToEdit={newUserEvent}
+        isSaved={isSaved}
+        setIsSaved={setIsSaved}
+      />
       <Modal
         show={modalShow}
         toggleShow={toggleShow}

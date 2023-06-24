@@ -10,17 +10,18 @@ import {
   MDBCol,
 } from "mdb-react-ui-kit";
 import { useEffect, useState } from "react";
-import { DateFormatter, EventService } from "./helpers";
+import { DateFormatter, EventService, RealTimeService } from "./helpers";
 import moment from "moment";
 import "../style/Modal.css";
 
-export const EditModal = (props) => {
+export const EditRunningEventModal = (props) => {
   const {
     userId,
     title,
     show,
-    toggleShowEditModal,
+    toggleEditRunningEventShow,
     modalEventToEdit,
+    isSaved,
     setIsSaved,
     handleDelete,
   } = props;
@@ -40,36 +41,35 @@ export const EditModal = (props) => {
     if (modalEventToEdit) {
       // Extract date and time values using Moment.js
       const eventStart = moment(modalEventToEdit.eventStart);
-      const eventEnd = moment(modalEventToEdit.eventEnd);
 
       // Format the date and time values
       const formattedDate = eventStart.format("YYYY-MM-DD");
       const formattedStartTime = eventStart.format("HH:mm");
-      const formattedEndTime = eventEnd.format("HH:mm");
-
       // Set the formatted values as initial form values
       setForm((prevEvent) => ({
         ...prevEvent,
         date: formattedDate,
         start: formattedStartTime,
-        end: formattedEndTime,
+        end: "",
       }));
     }
   }, [modalEventToEdit]);
 
   const handleSave = async () => {
-    setIsSaved(false);
-    // console.log("handleSave: form", form);
-    const convertedObject = DateFormatter.ObjectConverter(form, userId);
+    console.log("handleSave: form", form);
+    setIsSaved(!isSaved);
+    // const convertedObject = DateFormatter.ObjectConverter(form, userId);
     // console.log("converted Object: ", convertedObject);
     try {
-      EventService.editEvent(modalEventToEdit.eventId, convertedObject);
+      console.log("writing running event")
+      RealTimeService.editRunningEvent(userId, form);
+      //EventService.editEvent(modalEventToEdit.eventId, convertedObject);
     } catch (err) {
       console.error(err);
     } finally {
-      setIsSaved(true);
-      toggleShowEditModal();
-      setForm(initialEvent);
+      setIsSaved(!isSaved);
+      toggleEditRunningEventShow();
+      setForm(form);
     }
   };
 
@@ -105,7 +105,7 @@ export const EditModal = (props) => {
               <MDBBtn
                 className="btn-close"
                 color="none"
-                onClick={toggleShowEditModal}
+                onClick={toggleEditRunningEventShow}
               ></MDBBtn>
             </MDBModalHeader>
             <MDBModalBody>
@@ -186,7 +186,7 @@ export const EditModal = (props) => {
               </MDBCol>
               <MDBCol className="d-flex flex-row-reverse">
                 <MDBBtn onClick={handleSave}>Save</MDBBtn>
-                <MDBBtn color="secondary" onClick={toggleShowEditModal}>
+                <MDBBtn color="secondary" onClick={toggleEditRunningEventShow}>
                   Cancel
                 </MDBBtn>
               </MDBCol>
